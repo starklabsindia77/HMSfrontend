@@ -48,7 +48,7 @@ export default function GeneralAppPage() {
 
       <Container maxWidth={themeStretch ? false : 'xl'}>
         <Grid container spacing={3}>
-          <Grid item xs={12} md={8}>
+          <Grid item xs={12} md={12}>
             <AppWelcome
               title={`Welcome back! \n ${user?.displayName}`}
               description="If you are going to use a passage of Lorem Ipsum, you need to be sure there isn't anything."
@@ -65,13 +65,13 @@ export default function GeneralAppPage() {
             />
           </Grid>
 
-          <Grid item xs={12} md={4}>
+          {/* <Grid item xs={12} md={4}>
             <AppFeatured list={_appFeatured} />
-          </Grid>
+          </Grid> */}
 
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={3}>
             <AppWidgetSummary
-              title="Total Active Users"
+              title="Total Users"
               percent={2.6}
               total={18765}
               chart={{
@@ -81,9 +81,9 @@ export default function GeneralAppPage() {
             />
           </Grid>
 
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={3}>
             <AppWidgetSummary
-              title="Total Installed"
+              title="Total Invoice"
               percent={0.2}
               total={4876}
               chart={{
@@ -93,9 +93,20 @@ export default function GeneralAppPage() {
             />
           </Grid>
 
-          <Grid item xs={12} md={4}>
+          <Grid item xs={12} md={3}>
             <AppWidgetSummary
-              title="Total Downloads"
+              title="Completed Invoice"
+              percent={-0.1}
+              total={678}
+              chart={{
+                colors: [theme.palette.warning.main],
+                series: [8, 9, 31, 8, 16, 37, 8, 33, 46, 31],
+              }}
+            />
+          </Grid>
+          <Grid item xs={12} md={3}>
+            <AppWidgetSummary
+              title="Active Invoice"
               percent={-0.1}
               total={678}
               chart={{
@@ -105,7 +116,7 @@ export default function GeneralAppPage() {
             />
           </Grid>
 
-          <Grid item xs={12} md={6} lg={4}>
+          {/* <Grid item xs={12} md={6} lg={4}>
             <AppCurrentDownload
               title="Current Download"
               chart={{
@@ -198,7 +209,7 @@ export default function GeneralAppPage() {
                 }}
               />
             </Stack>
-          </Grid>
+          </Grid> */}
         </Grid>
       </Container>
     </>

@@ -45,11 +45,11 @@ export default function Header({ isOffset }) {
       >
         <Logo />
 
-        <NextLink href={PATH_PAGE.faqs} passHref>
+        {/* <NextLink href={PATH_PAGE.faqs} passHref>
           <Link variant="subtitle2" color="inherit">
             Need Help?
           </Link>
-        </NextLink>
+        </NextLink> */}
       </Toolbar>
 
       {isOffset && <Shadow />}

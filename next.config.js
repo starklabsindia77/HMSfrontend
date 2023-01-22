@@ -11,11 +11,13 @@ const withTM = require('next-transpile-modules')([
 module.exports = withTM({
   swcMinify: false,
   trailingSlash: true,
+
   env: {
     // HOST
     HOST_API_KEY: 'https://api-dev-minimal-v4.vercel.app',
     // MAPBOX
     MAPBOX_API: '',
+    MONGO_URI:'mongodb+srv://Admin:Noki@lumi@52@hms.89rftxr.mongodb.net/?retryWrites=true&w=majority',
     // FIREBASE
     FIREBASE_API_KEY: '',
     FIREBASE_AUTH_DOMAIN: '',
@@ -30,5 +32,15 @@ module.exports = withTM({
     // AUTH0
     AUTH0_DOMAIN: '',
     AUTH0_CLIENT_ID: '',
+  },
+  async redirects() {
+    return [
+      {
+        source: '/',
+        destination:'/auth/login',
+        permanent: true,
+        basePath:false
+      },
+    ]
   },
 });
