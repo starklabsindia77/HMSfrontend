@@ -28,15 +28,16 @@ export default function LoginLayout({ children, illustration, title }) {
       />
 
       <StyledSection>
-        <Typography variant="h3" sx={{ mb: 10, maxWidth: 480, textAlign: 'center' }}>
+        {/* <Typography variant="h3" sx={{ mb: 10, maxWidth: 480, textAlign: 'center' }}>
           {title || 'Hi, Welcome back'}
-        </Typography>
+        </Typography> */}
 
         <Image
           disabledEffect
           visibleByDefault
           alt="auth"
-          src={illustration || '/assets/illustrations/illustration_dashboard.png'}
+           //src={illustration || '/assets/illustrations/illustration_dashboard.png'}
+           src={illustration || 'https://www.swanforlife.com/images/bg-travel.png'}
           sx={{ maxWidth: 720 }}
         />
 
