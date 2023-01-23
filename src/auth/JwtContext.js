@@ -2,6 +2,7 @@ import PropTypes from 'prop-types';
 import { createContext, useEffect, useReducer, useCallback } from 'react';
 // utils
 import axios from '../utils/axios';
+import { HOST_API_KEY } from '../config';
 //
 import { isValidToken, setSession } from './utils';
 
@@ -78,7 +79,7 @@ export function AuthProvider({ children }) {
         };
         
         // const response = await axios.get('/api/account/my-account',);
-        const response = await axios.get('http://localhost:3031/api/auth/myAccount', config);
+        const response = await axios.get(HOST_API_KEY + '/api/auth/myAccount', config);
         console.log("user response", response);
         const { user } = response.data;
 
@@ -121,10 +122,13 @@ export function AuthProvider({ children }) {
     //   email,
     //   password,
     // });
-    const response = await axios.post('http://localhost:3031/api/auth/login', {
+    const URL = HOST_API_KEY + '/api/auth/login'
+    console.log(URL)
+    const response = await axios.post(HOST_API_KEY + '/api/auth/login', {
       email,
       password,
     });
+    
     
     const { accessToken, user } = response.data;
     // console.log("user value ", user, " access token ", accessToken);

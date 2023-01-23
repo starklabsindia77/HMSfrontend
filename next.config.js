@@ -14,7 +14,8 @@ module.exports = withTM({
 
   env: {
     // HOST
-    HOST_API_KEY: 'https://api-dev-minimal-v4.vercel.app',
+    HOST_API_KEY: 'https://hmsfrontend.vercel.app',
+    // HOST_API_KEY: 'http://localhost:3031',
     // MAPBOX
     MAPBOX_API: '',
     MONGO_URI:"mongodb+srv://Admin:Noki@lumi@52@hms.89rftxr.mongodb.net/Travel?retryWrites=true&w=majority",
