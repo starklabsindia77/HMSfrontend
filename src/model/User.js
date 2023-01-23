@@ -36,14 +36,12 @@ const userSchema = mongoose.Schema({
         default: Date.now
     },
     createdBy: {
-        type: String,
-        max: 255,
-        min: 10
+        type: Object,
+
     },
     updatedBy: {
-        type: String,
-        max: 255,
-        min: 10
+        type: Object,
+
     },
     country: {
         type: String,
@@ -79,15 +77,15 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: true
     },
-    isVerified :{
+    isVerified: {
         type: Boolean,
         default: true
     },
-    status:{
+    status: {
         type: String,
         max: 255,
         min: 6,
-        default:'active'
+        default: 'active'
     },
     photoURL: {
         type: String,

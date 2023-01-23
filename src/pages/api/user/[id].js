@@ -29,6 +29,10 @@ export default async (req, res) => {
             break;
         case 'PUT':
             try {
+                const userEmail = await User.findOne({ email: req.decoded });
+                if (!userEmail) return res.status(400).send('Email or Password is wrong');
+                
+                req.body={updatedBy:userEmail, ...req.body}
                 const user = await User.findByIdAndUpdate(id, req.body, {
                     new: true,
                     runValidators: true

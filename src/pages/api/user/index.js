@@ -39,7 +39,9 @@ export default async (req, res) => {
                     state: req.body.state,
                     city: req.body.city,
                     zipCode: req.body.zipCode, 
-                    about: req.body.about,                   
+                    about: req.body.about,
+                    createdBy:userEmail,
+                    updatedBy:userEmail,                   
                 });
             
                 const savedUser = await user.save();

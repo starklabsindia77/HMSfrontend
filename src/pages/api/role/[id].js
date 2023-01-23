@@ -1,6 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import dbConnect from "../../../utils/dbConnect";
 import Role from "../../../model/Role";
+import User from "../../../model/User";
 import verifyTokens from "../middlewares/verify-tokens";
 
 
@@ -29,6 +30,10 @@ export default async (req, res) => {
             break;
         case 'PUT':
             try {
+                const userEmail = await User.findOne({ email: req.decoded });
+                if (!userEmail) return res.status(400).send('Email or Password is wrong');
+                
+                req.body={updatedBy:userEmail, ...req.body}
                 const role = await Role.findByIdAndUpdate(id, req.body, {
                     new: true,
                     runValidators: true

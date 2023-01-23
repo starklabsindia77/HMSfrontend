@@ -123,7 +123,7 @@ export function AuthProvider({ children }) {
     //   password,
     // });
     const URL = HOST_API_KEY + '/api/auth/login'
-    console.log(URL)
+    // console.log(URL)
     const response = await axios.post(HOST_API_KEY + '/api/auth/login', {
       email,
       password,

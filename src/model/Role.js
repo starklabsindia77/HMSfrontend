@@ -20,14 +20,12 @@ const roleSchema = mongoose.Schema({
         default: Date.now
     },
     createdBy: {
-        type: String,
-        max: 255,
-        min: 10
+        type: Object,
+        
     },
     updatedBy: {
-        type: String,
-        max: 255,
-        min: 10
+        type: Object,
+       
     }
 
 });

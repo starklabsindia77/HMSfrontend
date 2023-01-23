@@ -6,7 +6,7 @@ import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { HOST_API_KEY } from '../../../config';
-import { getUserList } from '../../../functions';
+import { getRoleList } from '../../../functions';
 import axios from '../../../utils/axios';
 // @mui
 import {
@@ -45,7 +45,8 @@ import {
   TablePaginationCustom,
 } from '../../../components/table';
 // sections
-import { UserTableToolbar, UserTableRow } from '../../../sections/@dashboard/user/list';
+import { RoleTableToolbar, RoleTableRow } from '../../../sections/@dashboard/role/list';
+import {deleteRole} from '../../../functions';
 
 // ----------------------------------------------------------------------
 
@@ -65,21 +66,19 @@ const ROLE_OPTIONS = [
 ];
 
 const TABLE_HEAD = [
-  { id: 'name', label: 'Name', align: 'left' },
-  { id: 'email', label: 'Email', align: 'left' },
-  { id: 'role', label: 'Role', align: 'left' },
-  { id: 'isVerified', label: 'Verified', align: 'center' },
-  { id: 'status', label: 'Status', align: 'left' },
+  { id: 'roleName', label: 'Role Name', align: 'left' },
+  { id: 'createdBy', label: 'Created By', align: 'left' },
+  { id: 'createdAt', label: 'created At', align: 'left' },
   { id: '' },
 ];
 
 // ----------------------------------------------------------------------
 
-UserListPage.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
+RoleListPage.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 // ----------------------------------------------------------------------
 
-export default function UserListPage() {
+export default function RoleListPage() {
   const {
     dense,
     page,
@@ -103,23 +102,10 @@ export default function UserListPage() {
 
   const { push } = useRouter();
   const [tableData, setTableData] = useState([]);
-  // const getUserList = async () =>{
-  //   const accessToken = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : '';
-  //   const config = {
-  //     headers: {
-  //       Authorization : `Bearer ${accessToken}`
-  //       }
-  //   };
-    
-  //   // const response = await axios.get('/api/account/my-account',);
-  //   const response = await axios.get(HOST_API_KEY + '/api/user', config);
-  //   console.log("response User", response.data.data)
-  //   setTableData(response.data.data)
-  //   // const { user } = response.data;
-  // }
+  
   useEffect(() => {
     async function userinfo() {
-      let userData = await getUserList();
+      let userData = await getRoleList();
       setTableData(userData);  
     };
     userinfo();
@@ -177,7 +163,8 @@ export default function UserListPage() {
     setFilterRole(event.target.value);
   };
 
-  const handleDeleteRow = (id) => {
+  const handleDeleteRow = async (id) => {
+    await deleteRole(id)
     const deleteRow = tableData.filter((row) => row._id !== id);
     setSelected([]);
     setTableData(deleteRow);
@@ -190,6 +177,7 @@ export default function UserListPage() {
   };
 
   const handleDeleteRows = (selected) => {
+    selected.map(async (item) => await deleteRole(item))
     const deleteRows = tableData.filter((row) => !selected.includes(row._id));
     setSelected([]);
     setTableData(deleteRows);
@@ -207,7 +195,7 @@ export default function UserListPage() {
   };
 
   const handleEditRow = (id) => {
-    push(PATH_DASHBOARD.user.edit(paramCase(id)));
+    push(PATH_DASHBOARD.role.edit(paramCase(id)));
   };
 
   const handleResetFilter = () => {
@@ -219,28 +207,28 @@ export default function UserListPage() {
   return (
     <>
       <Head>
-        <title> User List</title>
+        <title> Role List</title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>
         <CustomBreadcrumbs
-          heading="User List"
+          heading="Role List"
           links={[
             { name: 'Dashboard', href: PATH_DASHBOARD.root },
-            { name: 'User', href: PATH_DASHBOARD.user.root },
+            { name: 'Role', href: PATH_DASHBOARD.role.root },
             { name: 'List' },
           ]}
           action={
-            <NextLink href={PATH_DASHBOARD.user.new} passHref>
+            <NextLink href={PATH_DASHBOARD.role.new} passHref>
               <Button variant="contained" startIcon={<Iconify icon="eva:plus-fill" />}>
-                New User
+                New Role
               </Button>
             </NextLink>
           }
         />
 
         <Card>
-          <Tabs
+          {/* <Tabs
             value={filterStatus}
             onChange={handleFilterStatus}
             sx={{
@@ -251,11 +239,11 @@ export default function UserListPage() {
             {STATUS_OPTIONS.map((tab) => (
               <Tab key={tab} label={tab} value={tab} />
             ))}
-          </Tabs>
+          </Tabs> */}
 
-          <Divider />
+          {/* <Divider />*/}
 
-          <UserTableToolbar
+          <RoleTableToolbar
             isFiltered={isFiltered}
             filterName={filterName}
             filterRole={filterRole}
@@ -263,7 +251,7 @@ export default function UserListPage() {
             onFilterName={handleFilterName}
             onFilterRole={handleFilterRole}
             onResetFilter={handleResetFilter}
-          />
+          /> 
 
           <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
             <TableSelectedAction
@@ -273,7 +261,7 @@ export default function UserListPage() {
               onSelectAllRows={(checked) =>
                 onSelectAllRows(
                   checked,
-                  tableData.map((row) => row.id)
+                  tableData.map((row) => row._id)
                 )
               }
               action={
@@ -297,20 +285,20 @@ export default function UserListPage() {
                   onSelectAllRows={(checked) =>
                     onSelectAllRows(
                       checked,
-                      tableData.map((row) => row.id)
+                      tableData.map((row) => row._id)
                     )
                   }
                 />
 
                 <TableBody>
                   {dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
-                    <UserTableRow
+                    <RoleTableRow
                       key={row._id}
                       row={row}
                       selected={selected.includes(row._id)}
                       onSelectRow={() => onSelectRow(row._id)}
                       onDeleteRow={() => handleDeleteRow(row._id)}
-                      onEditRow={() => handleEditRow(row.displayName)}
+                      onEditRow={() => handleEditRow(row._id)}
                     />
                   ))}
 

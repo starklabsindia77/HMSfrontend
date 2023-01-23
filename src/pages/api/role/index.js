@@ -26,7 +26,9 @@ export default async (req, res) => {
 
                 const role = new Role({
                     roleName: req.body.roleName,
-                    access:req.body.access,                                       
+                    access:req.body.access, 
+                    createdBy:user,
+                    updatedBy:user,                                      
                 });
                 const roleSaved = await role.save();
 

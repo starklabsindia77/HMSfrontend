@@ -67,6 +67,11 @@ const navConfig = [
         //   // { title: 'account', path: PATH_DASHBOARD.user.account },
         // ],
       },
+      {
+        title: 'role',
+        path: PATH_DASHBOARD.role.list,
+        icon: ICONS.lock,
+      },
       // {
       //   title: 'user',
       //   path: PATH_DASHBOARD.user.root,
