@@ -36,9 +36,11 @@ const OPTIONS = [
 export default function AccountPopover() {
   const { replace, push } = useRouter();
 
-  const { user, logout } = useAuthContext();
+  const {user, logout } = useAuthContext();
+  // const user = JSON.parse(localStorage.getItem('user'));
 
   const { enqueueSnackbar } = useSnackbar();
+  // console.log("user info", user)
 
   const [openPopover, setOpenPopover] = useState(null);
 

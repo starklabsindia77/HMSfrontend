@@ -27,6 +27,7 @@ const StyledRoot = styled('div')(({ theme }) => ({
 
 export default function NavAccount() {
   const { user } = useAuthContext();
+  //const user = JSON.parse(localStorage.getItem('user'));
 
   return (
     <NextLink href={PATH_DASHBOARD.user.account} passHref>
@@ -40,7 +41,7 @@ export default function NavAccount() {
             </Typography>
 
             <Typography variant="body2" noWrap sx={{ color: 'text.secondary' }}>
-              {user?.role}
+              {user?.role?.roleName}
             </Typography>
           </Box>
         </StyledRoot>

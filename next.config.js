@@ -17,7 +17,8 @@ module.exports = withTM({
     HOST_API_KEY: 'https://api-dev-minimal-v4.vercel.app',
     // MAPBOX
     MAPBOX_API: '',
-    MONGO_URI:'mongodb+srv://Admin:Noki@lumi@52@hms.89rftxr.mongodb.net/?retryWrites=true&w=majority',
+    MONGO_URI:"mongodb+srv://Admin:Noki@lumi@52@hms.89rftxr.mongodb.net/Travel?retryWrites=true&w=majority",
+    SECRET: "Noki@lumi@52",
     // FIREBASE
     FIREBASE_API_KEY: '',
     FIREBASE_AUTH_DOMAIN: '',

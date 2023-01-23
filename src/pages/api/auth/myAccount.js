@@ -1,6 +1,7 @@
 /* eslint-disable import/no-anonymous-default-export */
 import dbConnect from "../../../utils/dbConnect";
 import User from "../../../model/User";
+import verifyTokens from "../middlewares/verify-tokens";
 // import jwt from "jsonwebtoken";
 
 import bcrypt from "bcryptjs";
@@ -8,20 +9,18 @@ import bcrypt from "bcryptjs";
 const jwt = require('jsonwebtoken');
 export default async (req, res) => {
     const { method } = req;
+    await verifyTokens(req, res);
     await dbConnect();
 
+
     switch (method) {
-        case 'POST':
+        case 'GET':
             try {
-                const user = await User.findOne({ email: req.body.email });
+               
+                const user = await User.findOne({ email: req.decoded });
                 if (!user) return res.status(400).send('Email or Password is wrong');
                 // password check
-                const validPass = await bcrypt.compare(req.body.password, user.password);
-                if (!validPass) return res.status(400).send('Invalid Password')
-                
-                
-                const token = await jwt.sign(user.email, process.env.SECRET);
-                res.status(200).send({accessToken: token, user:user});
+                res.status(200).send({data:{user:user}});
 
             } catch (error) {
                 res.status(400).send(error);

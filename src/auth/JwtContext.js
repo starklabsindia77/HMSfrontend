@@ -64,16 +64,22 @@ AuthProvider.propTypes = {
 
 export function AuthProvider({ children }) {
   const [state, dispatch] = useReducer(reducer, initialState);
-
+  
   const initialize = useCallback(async () => {
     try {
       const accessToken = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : '';
 
       if (accessToken && isValidToken(accessToken)) {
         setSession(accessToken);
-
-        const response = await axios.get('/api/account/my-account');
-
+        const config = {
+          headers: {
+            Authorization : `Bearer ${accessToken}`
+            }
+        };
+        
+        // const response = await axios.get('/api/account/my-account',);
+        const response = await axios.get('http://localhost:3031/api/auth/myAccount', config);
+        console.log("user response", response);
         const { user } = response.data;
 
         dispatch({
@@ -110,13 +116,21 @@ export function AuthProvider({ children }) {
 
   // LOGIN
   const login = async (email, password) => {
-    const response = await axios.post('/api/account/login', {
+
+    // const response = await axios.post('/api/account/login', {
+    //   email,
+    //   password,
+    // });
+    const response = await axios.post('http://localhost:3031/api/auth/login', {
       email,
       password,
     });
+    
     const { accessToken, user } = response.data;
-
-    setSession(accessToken);
+    // console.log("user value ", user, " access token ", accessToken);
+    localStorage.setItem('user', JSON.stringify(user));
+    localStorage.setItem('accessToken', accessToken);
+    // setSession(accessToken);
 
     dispatch({
       type: 'LOGIN',
