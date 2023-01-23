@@ -6,7 +6,7 @@ import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
 import { HOST_API_KEY } from '../../../config';
-import { getUserList } from '../../../functions';
+
 import axios from '../../../utils/axios';
 // @mui
 import {
@@ -46,23 +46,12 @@ import {
 } from '../../../components/table';
 // sections
 import { UserTableToolbar, UserTableRow } from '../../../sections/@dashboard/user/list';
-import {deleteUser} from '../../../functions';
+import {deleteUser, getRoleList, getUserList} from '../../../functions';
 // ----------------------------------------------------------------------
 
 const STATUS_OPTIONS = ['all', 'active', 'banned'];
 
-const ROLE_OPTIONS = [
-  'all',
-  'ux designer',
-  'full stack designer',
-  'backend developer',
-  'project manager',
-  'leader',
-  'ui designer',
-  'ui/ux designer',
-  'front end developer',
-  'full stack developer',
-];
+
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', align: 'left' },
@@ -80,6 +69,19 @@ UserListPage.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 // ----------------------------------------------------------------------
 
 export default function UserListPage() {
+  // const [ROLE_OPTIONS, setRoleOptions] = useState([
+  //   'all',
+  //   'ux designer',
+  //   'full stack designer',
+  //   'backend developer',
+  //   'project manager',
+  //   'leader',
+  //   'ui designer',
+  //   'ui/ux designer',
+  //   'front end developer',
+  //   'full stack developer',
+  // ]);
+  const [ROLE_OPTIONS, setRoleOptions] = useState([]);
   const {
     dense,
     page,
@@ -120,7 +122,9 @@ export default function UserListPage() {
   useEffect(() => {
     async function userinfo() {
       let userData = await getUserList();
-      setTableData(userData);  
+      setTableData(userData); 
+      let roleList = await getRoleList();
+      setRoleOptions(roleList);
     };
     userinfo();
   },[])
@@ -377,7 +381,7 @@ function applyFilter({ inputData, comparator, filterName, filterStatus, filterRo
   inputData = stabilizedThis.map((el) => el[0]);
 
   if (filterName) {
-    inputData = inputData.filter((user) => user.name.toLowerCase().indexOf(filterName.toLowerCase()) !== -1);
+    inputData = inputData.filter((user) => user.displayName.toLowerCase().indexOf(filterName.toLowerCase()) !== -1);
   }
 
   if (filterStatus !== 'all') {
@@ -385,7 +389,7 @@ function applyFilter({ inputData, comparator, filterName, filterStatus, filterRo
   }
 
   if (filterRole !== 'all') {
-    inputData = inputData.filter((user) => user.role === filterRole);
+    inputData = inputData.filter((user) => user.role.roleName === filterRole);
   }
 
   return inputData;

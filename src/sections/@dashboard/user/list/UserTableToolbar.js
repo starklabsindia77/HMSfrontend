@@ -54,11 +54,10 @@ export default function UserTableToolbar({
           maxWidth: { sm: 240 },
           textTransform: 'capitalize',
         }}
-      >
-        {optionsRole.map((option) => (
-          <MenuItem
-            key={option}
-            value={option}
+      > 
+       <MenuItem
+            key={'all'}
+            value={'all'}
             sx={{
               mx: 1,
               my: 0.5,
@@ -69,7 +68,23 @@ export default function UserTableToolbar({
               '&:last-of-type': { mb: 0 },
             }}
           >
-            {option}
+            {'all'}
+          </MenuItem>
+        {optionsRole.map((option) => (
+          <MenuItem
+            key={option.roleName}
+            value={option.roleName}
+            sx={{
+              mx: 1,
+              my: 0.5,
+              borderRadius: 0.75,
+              typography: 'body2',
+              textTransform: 'capitalize',
+              '&:first-of-type': { mt: 0 },
+              '&:last-of-type': { mb: 0 },
+            }}
+          >
+            {option.roleName}
           </MenuItem>
         ))}
       </TextField>
