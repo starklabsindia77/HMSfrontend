@@ -1,9 +1,11 @@
 import { paramCase } from 'change-case';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 // next
 import Head from 'next/head';
 import NextLink from 'next/link';
 import { useRouter } from 'next/router';
+import { HOST_API_KEY } from '../../../config';
+import axios from '../../../utils/axios';
 // @mui
 import {
   Tab,
@@ -62,7 +64,7 @@ const ROLE_OPTIONS = [
 
 const TABLE_HEAD = [
   { id: 'name', label: 'Name', align: 'left' },
-  { id: 'company', label: 'Company', align: 'left' },
+  { id: 'email', label: 'Email', align: 'left' },
   { id: 'role', label: 'Role', align: 'left' },
   { id: 'isVerified', label: 'Verified', align: 'center' },
   { id: 'status', label: 'Status', align: 'left' },
@@ -98,8 +100,26 @@ export default function UserListPage() {
   const { themeStretch } = useSettingsContext();
 
   const { push } = useRouter();
+  const [tableData, setTableData] = useState([]);
+  const getUserList = async () =>{
+    const accessToken = typeof window !== 'undefined' ? localStorage.getItem('accessToken') : '';
+    const config = {
+      headers: {
+        Authorization : `Bearer ${accessToken}`
+        }
+    };
+    
+    // const response = await axios.get('/api/account/my-account',);
+    const response = await axios.get(HOST_API_KEY + '/api/user', config);
+    console.log("response User", response.data.data)
+    setTableData(response.data.data)
+    // const { user } = response.data;
+  }
+  useEffect(() => {
+    getUserList();
+  },[])
 
-  const [tableData, setTableData] = useState(_userList);
+  
 
   const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -152,7 +172,7 @@ export default function UserListPage() {
   };
 
   const handleDeleteRow = (id) => {
-    const deleteRow = tableData.filter((row) => row.id !== id);
+    const deleteRow = tableData.filter((row) => row._id !== id);
     setSelected([]);
     setTableData(deleteRow);
 
@@ -164,7 +184,7 @@ export default function UserListPage() {
   };
 
   const handleDeleteRows = (selected) => {
-    const deleteRows = tableData.filter((row) => !selected.includes(row.id));
+    const deleteRows = tableData.filter((row) => !selected.includes(row._id));
     setSelected([]);
     setTableData(deleteRows);
 
@@ -193,7 +213,7 @@ export default function UserListPage() {
   return (
     <>
       <Head>
-        <title> User: List | Minimal UI</title>
+        <title> User List</title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'lg'}>
@@ -281,10 +301,10 @@ export default function UserListPage() {
                     <UserTableRow
                       key={row.id}
                       row={row}
-                      selected={selected.includes(row.id)}
-                      onSelectRow={() => onSelectRow(row.id)}
-                      onDeleteRow={() => handleDeleteRow(row.id)}
-                      onEditRow={() => handleEditRow(row.name)}
+                      selected={selected.includes(row._id)}
+                      onSelectRow={() => onSelectRow(row._id)}
+                      onDeleteRow={() => handleDeleteRow(row._id)}
+                      onEditRow={() => handleEditRow(row.displayName)}
                     />
                   ))}
 

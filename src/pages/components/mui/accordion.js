@@ -41,7 +41,7 @@ export default function MUIAccordionPage() {
   return (
     <>
       <Head>
-        <title> MUI Components: Accordion | Minimal UI</title>
+        <title> MUI Components: Accordion </title>
       </Head>
 
       <Box

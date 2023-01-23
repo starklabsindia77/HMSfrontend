@@ -135,7 +135,7 @@ export default function GeneralFilePage() {
   return (
     <>
       <Head>
-        <title> General: File | Minimal UI</title>
+        <title> General: File </title>
       </Head>
 
       <Container maxWidth={themeStretch ? false : 'xl'}>

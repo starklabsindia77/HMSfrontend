@@ -56,7 +56,7 @@ export default function HomePage() {
   return (
     <>
       <Head>
-        <title> The starting point for your next project | Minimal UI</title>
+        <title> The starting point for your next project </title>
       </Head>
 
       {progress}

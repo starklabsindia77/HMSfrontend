@@ -79,6 +79,16 @@ const userSchema = mongoose.Schema({
         type: Boolean,
         default: true
     },
+    isVerified :{
+        type: Boolean,
+        default: true
+    },
+    status:{
+        type: String,
+        max: 255,
+        min: 6,
+        default:'active'
+    },
     photoURL: {
         type: String,
         default: "https://api-dev-minimal-v4.vercel.app/assets/images/avatars/avatar_default.jpg",

@@ -89,7 +89,7 @@ export default function MUIMenuPage() {
   return (
     <>
       <Head>
-        <title> MUI Components: Menu | Minimal UI</title>
+        <title> MUI Components: Menu </title>
       </Head>
 
       <Box
