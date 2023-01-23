@@ -46,7 +46,7 @@ import {
 } from '../../../components/table';
 // sections
 import { UserTableToolbar, UserTableRow } from '../../../sections/@dashboard/user/list';
-
+import {deleteUser} from '../../../functions';
 // ----------------------------------------------------------------------
 
 const STATUS_OPTIONS = ['all', 'active', 'banned'];
@@ -177,7 +177,8 @@ export default function UserListPage() {
     setFilterRole(event.target.value);
   };
 
-  const handleDeleteRow = (id) => {
+  const handleDeleteRow = async (id) => {
+    await deleteUser(id)
     const deleteRow = tableData.filter((row) => row._id !== id);
     setSelected([]);
     setTableData(deleteRow);
@@ -190,6 +191,7 @@ export default function UserListPage() {
   };
 
   const handleDeleteRows = (selected) => {
+    selected.map(async (item) => await deleteUser(item))
     const deleteRows = tableData.filter((row) => !selected.includes(row._id));
     setSelected([]);
     setTableData(deleteRows);
@@ -310,7 +312,7 @@ export default function UserListPage() {
                       selected={selected.includes(row._id)}
                       onSelectRow={() => onSelectRow(row._id)}
                       onDeleteRow={() => handleDeleteRow(row._id)}
-                      onEditRow={() => handleEditRow(row.displayName)}
+                      onEditRow={() => handleEditRow(row._id)}
                     />
                   ))}
 

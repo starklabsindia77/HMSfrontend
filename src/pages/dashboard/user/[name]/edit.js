@@ -1,4 +1,5 @@
 import { paramCase } from 'change-case';
+import { useState, useEffect } from 'react';
 // next
 import Head from 'next/head';
 import { useRouter } from 'next/router';
@@ -15,6 +16,7 @@ import { useSettingsContext } from '../../../../components/settings';
 import CustomBreadcrumbs from '../../../../components/custom-breadcrumbs';
 // sections
 import UserNewEditForm from '../../../../sections/@dashboard/user/UserNewEditForm';
+import { getUserSingle } from '../../../../functions';
 
 // ----------------------------------------------------------------------
 
@@ -24,12 +26,20 @@ UserEditPage.getLayout = (page) => <DashboardLayout>{page}</DashboardLayout>;
 
 export default function UserEditPage() {
   const { themeStretch } = useSettingsContext();
+  const [ currentUser , setCurrentUser] = useState([])
 
   const {
     query: { name },
   } = useRouter();
+  useEffect(() => {
+    async function userinfo() {
+      let userData = await getUserSingle(name);
+      setCurrentUser(userData);  
+    };
+    userinfo();
+  },[]);
 
-  const currentUser = _userList.find((user) => paramCase(user.name) === name);
+  // const currentUser = _userList.find((user) => paramCase(user.name) === name);
 
   return (
     <>
