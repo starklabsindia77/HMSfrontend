@@ -20,15 +20,15 @@ export default function Login() {
   return (
     <LoginLayout>
       <Stack spacing={2} sx={{ mb: 5, position: 'relative' }}>
-        <Typography variant="h4">Sign in to Minimal</Typography>
+        <Typography variant="h4">Sign in to HMS Travel</Typography>
 
-        {/* <Stack direction="row" spacing={0.5}>
+        <Stack direction="row" spacing={0.5}>
           <Typography variant="body2">New user?</Typography>
 
-          <NextLink href={PATH_AUTH.register} passHref>
+          <NextLink href={"#"} passHref>
             <Link variant="subtitle2">Create an account</Link>
           </NextLink>
-        </Stack> */}
+        </Stack>
 
         <Tooltip title={method} placement="left">
           <Box
