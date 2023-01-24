@@ -4,7 +4,7 @@ import { useFormContext, Controller } from 'react-hook-form';
 import { DatePicker } from '@mui/x-date-pickers';
 import { Stack, TextField, MenuItem } from '@mui/material';
 // components
-import { RHFSelect, RHFTextField } from '../../../../components/hook-form';
+import { RHFSelect, RHFTextField, RHFDateInput } from '../../../../components/hook-form';
 
 // ----------------------------------------------------------------------
 
@@ -55,8 +55,12 @@ export default function InvoiceNewEditStatusDate() {
           </MenuItem>
         ))}
       </RHFSelect>
-
-      <Controller
+      
+      <RHFDateInput
+        name="createDate"
+        label="Date create"
+      />
+      {/* <Controller
         name="createDate"
         control={control}
         render={({ field, fieldState: { error } }) => (
@@ -71,7 +75,7 @@ export default function InvoiceNewEditStatusDate() {
             )}
           />
         )}
-      />
+      /> */}
 
       <Controller
         name="dueDate"

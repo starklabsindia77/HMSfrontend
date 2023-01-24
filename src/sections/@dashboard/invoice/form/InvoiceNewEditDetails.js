@@ -8,7 +8,7 @@ import { Box, Stack, Button, Divider, Typography, InputAdornment, MenuItem } fro
 import { fNumber, fCurrency } from '../../../../utils/formatNumber';
 // components
 import Iconify from '../../../../components/iconify';
-import { RHFSelect, RHFTextField } from '../../../../components/hook-form';
+import { RHFSelect, RHFTextField, RHFInput } from '../../../../components/hook-form';
 
 // ----------------------------------------------------------------------
 
@@ -98,7 +98,7 @@ export default function InvoiceNewEditDetails() {
         {fields.map((item, index) => (
           <Stack key={item.id} alignItems="flex-end" spacing={1.5}>
             <Stack direction={{ xs: 'column', md: 'row' }} spacing={2} sx={{ width: 1 }}>
-              <RHFTextField
+              <RHFInput
                 size="small"
                 name={`items[${index}].title`}
                 label="Title"
