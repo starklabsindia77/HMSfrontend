@@ -212,7 +212,13 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
 
   return (
     <FormProvider methods={methods}>
-      <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ mb: 3 }}>
+      <Card>
+        <InvoiceTop/>
+        <InvoiceNewEditStatusDate />
+        <InvoicePassenger />
+        <InvoiceBilling />
+      </Card>
+      <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ mt: 3 }}>
         <LoadingButton
           color="inherit"
           size="large"
@@ -232,12 +238,6 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
           {isEdit ? 'Update' : 'Create'} & Send
         </LoadingButton>
       </Stack>
-      <Card>
-        <InvoiceTop/>
-        <InvoiceNewEditStatusDate />
-        <InvoicePassenger />
-        <InvoiceBilling />
-      </Card>      
     </FormProvider>
   );
 }

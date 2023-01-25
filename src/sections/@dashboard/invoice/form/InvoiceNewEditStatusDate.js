@@ -25,14 +25,35 @@ export default function InvoiceNewEditStatusDate() {
     >
       <RHFTextField
         disabled
+        size="small"
         name="invoiceNumber"
-        label="Invoice number"
-        value={`INV-${values.invoiceNumber}`}
+        label="Booking Number"
+        value={`BN-${values.invoiceNumber}`}
       />
 
+      
+      
+     
+      <Controller
+        name="createDate"
+        control={control}
+        render={({ field, fieldState: { error } }) => (
+          <DatePicker
+            label="Booked On"
+            value={field.value}
+            onChange={(newValue) => {
+              field.onChange(newValue);
+            }}
+            renderInput={(params) => (
+              <TextField {...params} fullWidth size="small" error={!!error} helperText={error?.message} />
+            )}
+          />
+        )}
+      />
       <RHFSelect
         fullWidth
         name="status"
+        size="small"
         label="Status"
         InputLabelProps={{ shrink: true }}
         SelectProps={{ native: false, sx: { textTransform: 'capitalize' } }}
@@ -55,26 +76,8 @@ export default function InvoiceNewEditStatusDate() {
           </MenuItem>
         ))}
       </RHFSelect>
-      
-     
-      <Controller
-        name="createDate"
-        control={control}
-        render={({ field, fieldState: { error } }) => (
-          <DatePicker
-            label="Date create"
-            value={field.value}
-            onChange={(newValue) => {
-              field.onChange(newValue);
-            }}
-            renderInput={(params) => (
-              <TextField {...params} fullWidth error={!!error} helperText={error?.message} />
-            )}
-          />
-        )}
-      />
 
-      <Controller
+      {/* <Controller
         name="dueDate"
         control={control}
         render={({ field, fieldState: { error } }) => (
@@ -89,7 +92,7 @@ export default function InvoiceNewEditStatusDate() {
             )}
           />
         )}
-      />
+      /> */}
     </Stack>
   );
 }

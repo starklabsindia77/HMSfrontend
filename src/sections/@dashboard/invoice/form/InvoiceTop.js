@@ -26,9 +26,9 @@ export default function InvoiceTop() {
   const values = watch();
 
   return (
-    <Box sx={{ p: 3 }}>
+    <Box sx={{ p: 3, marginBotto:"20px" }}>
       <Box className="flex justify-between items-center pb-8">
-        <Box>
+        {/* <Box>
           <Typography variant="inherit" fontSize={40} className="font-semibold" sx={{marginBottom:"20px"}}>
             E-Ticket
           </Typography>
@@ -40,7 +40,7 @@ export default function InvoiceTop() {
             Booked On :
             <RHFDateInput autoFocus name="Booked On" className="ml-2" />
           </Typography>
-        </Box>
+        </Box> */}
         <img src="https://www.hms-travel.com/images/logo.png" className="w-42  rounded-lg h-16" />
       </Box>
     </Box>

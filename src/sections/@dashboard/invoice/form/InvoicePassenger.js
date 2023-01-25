@@ -51,8 +51,11 @@ export default function InvoicePassenger() {
 
   return (
     <Box sx={{ p: 3 }}>
-      <Typography variant="h6" sx={{ color: 'text.disabled', mb: 3 }}>
+      <Typography variant="h6" sx={{ color: 'text.disabled', mb:1 }}>
         Passenger Details:
+      </Typography>
+      <Typography variant="inherit" sx={{ color: 'text.disabled', mb: 3 }} fontSize={13}>
+        No of Passenger: {fields.length}
       </Typography>
 
       <Stack divider={<Divider flexItem sx={{ borderStyle: 'dashed' }} />} spacing={3}>

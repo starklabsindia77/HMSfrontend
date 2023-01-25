@@ -9,7 +9,7 @@ import { Box, Stack, Button, Divider, Typography, InputAdornment, MenuItem } fro
 import { fNumber, fCurrency } from '../../../../utils/formatNumber';
 // components
 import Iconify from '../../../../components/iconify';
-import { RHFSelect, RHFTextField, RHFInput } from '../../../../components/hook-form';
+import { RHFSelect, RHFTextField } from '../../../../components/hook-form';
 
 // ----------------------------------------------------------------------
 
@@ -39,16 +39,16 @@ export default function InvoiceBilling() {
         justifyContent="center"
       >
         <Typography variant="inherit" className="flex items-center font-medium">
-          <RHFInput autoFocus className="ml-2" name="Name" placeholder="Name" />
+          <RHFTextField autoFocus size="small"  className="ml-2" name="Name" label="Name" />
         </Typography>
         <Typography variant="inherit" className="flex items-center font-medium">
-          <RHFInput autoFocus className="ml-2" name="Email" placeholder="Email" />
+          <RHFTextField autoFocus size="small"  className="ml-2" name="Email" label="Email" />
         </Typography>
         <Typography variant="inherit" className="flex items-center font-medium">
-          <RHFInput autoFocus className="ml-2" name="Mobile" placeholder=" Mobile No" />
+          <RHFTextField autoFocus size="small"  className="ml-2" name="Mobile" label=" Mobile No" />
         </Typography>
         <Typography variant="inherit" className=" flex items-center font-medium">
-          <RHFInput autoFocus className="ml-2 " name="Card" placeholder="Card No" />
+          <RHFTextField autoFocus size="small"  className="ml-2 " name="Card" label="Card No" />
         </Typography>
       </Stack>
 
@@ -60,7 +60,7 @@ export default function InvoiceBilling() {
             </Typography>
           </Box>            
           <Box>         
-            <RHFInput autoFocus className="ml-2" name="AdtFare" placeholder="Adt Fare" />
+            <RHFTextField autoFocus size="small"  className="ml-2" name="AdtFare" label="Adt Fare" />
           </Box> 
         </Box>
         {/* <Divider sx={{ my: 3, borderStyle: 'solid', borderColor: "rgb(75 85 99)"}} /> */}
@@ -71,7 +71,7 @@ export default function InvoiceBilling() {
             </Typography>
           </Box>
           <Box>
-            <RHFInput autoFocus className="ml-2" name="taxes" placeholder="Taxes" />
+            <RHFTextField autoFocus size="small"  className="ml-2" name="taxes" label="Taxes" />
           </Box>
         </Box>
         {/* <Divider sx={{ my: 3, borderStyle: 'solid', borderColor: "rgb(75 85 99)"}} /> */}
@@ -82,7 +82,7 @@ export default function InvoiceBilling() {
             </Typography>
           </Box>
           <Box>
-            <RHFInput autoFocus className="ml-2" name="subTotal" placeholder="Sub Total" />
+            <RHFTextField autoFocus size="small"  className="ml-2" name="subTotal" label="Sub Total" />
           </Box>
         </Box>
         {/* <Divider sx={{ my: 3, borderStyle: 'solid', borderColor: "rgb(75 85 99)"}} /> */}
@@ -93,7 +93,7 @@ export default function InvoiceBilling() {
             </Typography>
           </Box>
           <Box>
-            <RHFInput autoFocus className="ml-2" name="travellerAssist" placeholder="Traveller Assist"/>
+            <RHFTextField autoFocus size="small"  className="ml-2" name="travellerAssist" label="Traveller Assist"/>
           </Box>
         </Box>
         {/* <Divider sx={{ my: 3, borderStyle: 'solid', borderColor: "rgb(75 85 99)"}} /> */}
@@ -104,7 +104,7 @@ export default function InvoiceBilling() {
             </Typography>
           </Box>
           <Box>
-            <RHFInput autoFocus className="ml-2" name="flightMonitor" placeholder="Flight Monitor"/>
+            <RHFTextField autoFocus size="small"  className="ml-2" name="flightMonitor" label="Flight Monitor"/>
           </Box>
         </Box>
         {/* <Divider sx={{ my: 3, borderStyle: 'solid', borderColor: "rgb(75 85 99)"}} /> */}
@@ -115,7 +115,7 @@ export default function InvoiceBilling() {
             </Typography>
           </Box>
           <Box>
-            <RHFInput autoFocus className="ml-2" name="GrandTotal" placeholder="Grand Total" />
+            <RHFTextField autoFocus size="small"  className="ml-2" name="GrandTotal" label="Grand Total" />
           </Box>
         </Box>
         {/* <Divider sx={{ my: 3, borderStyle: 'solid', borderColor: "rgb(75 85 99)"}} /> */}

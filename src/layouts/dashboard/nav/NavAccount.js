@@ -30,7 +30,7 @@ export default function NavAccount() {
   //const user = JSON.parse(localStorage.getItem('user'));
 
   return (
-    <NextLink href={PATH_DASHBOARD.user.account} passHref>
+    <NextLink href={"#"} passHref>
       <Link underline="none" color="inherit">
         <StyledRoot>
           <CustomAvatar src={user?.photoURL} alt={user?.displayName} name={user?.displayName} />
