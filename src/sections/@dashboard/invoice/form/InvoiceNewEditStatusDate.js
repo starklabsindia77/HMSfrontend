@@ -56,11 +56,8 @@ export default function InvoiceNewEditStatusDate() {
         ))}
       </RHFSelect>
       
-      <RHFDateInput
-        name="createDate"
-        label="Date create"
-      />
-      {/* <Controller
+     
+      <Controller
         name="createDate"
         control={control}
         render={({ field, fieldState: { error } }) => (
@@ -75,7 +72,7 @@ export default function InvoiceNewEditStatusDate() {
             )}
           />
         )}
-      /> */}
+      />
 
       <Controller
         name="dueDate"

@@ -36,6 +36,8 @@ import InvoiceNewEditAddress from './InvoiceNewEditAddress';
 import InvoiceNewEditStatusDate from './InvoiceNewEditStatusDate';
 import InvoiceTerms from './InvoiceTerms';
 import InvoiceBilling from './InvoiceBilling';
+import InvoiceTop from './InvoiceTop';
+import InvoicePassenger from './InvoicePassenger';
 
 
 // ----------------------------------------------------------------------
@@ -69,6 +71,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
       invoiceFrom: currentInvoice?.invoiceFrom || _invoiceAddressFrom[0],
       invoiceTo: currentInvoice?.invoiceTo || null,
       items: currentInvoice?.items || [{ title: '', description: '', service: '', quantity: 1, price: 0, total: 0 }],
+      passenger: currentInvoice?.passenger || [{ name: '', dob: '', gender: ''}],
       totalPrice: currentInvoice?.totalPrice || 0,
     }),
     [currentInvoice]
@@ -229,14 +232,12 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
           {isEdit ? 'Update' : 'Create'} & Send
         </LoadingButton>
       </Stack>
-      <Card>        
-        <InvoiceNewEditAddress />
+      <Card>
+        <InvoiceTop/>
         <InvoiceNewEditStatusDate />
+        <InvoicePassenger />
         <InvoiceBilling />
-        <InvoiceTerms />
-      </Card>
-
-      
+      </Card>      
     </FormProvider>
   );
 }

@@ -1,5 +1,6 @@
 // i18n
 import '../locales/i18n';
+import '../sections/@dashboard/invoice/form/invoice.css'
 
 // scroll bar
 import 'simplebar/src/simplebar.css';

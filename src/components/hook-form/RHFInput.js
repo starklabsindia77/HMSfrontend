@@ -20,7 +20,6 @@ export default function RHFInput({ name, ...other }) {
       render={({ field, fieldState: { error } }) => (
         <Input
           {...field}
-          fullWidth
           inputProps={ariaLabel}
           value={typeof field.value === 'number' && field.value === 0 ? '' : field.value}
           error={!!error}

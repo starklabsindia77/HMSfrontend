@@ -26,7 +26,7 @@ export default function RHFDateInput({ name, ...other }) {
                 field.onChange(newValue);
             }}
             renderInput={(params) => (
-                <TextField {...params} fullWidth error={!!error} helperText={error?.message} />
+                <Input {...params} type="date" error={!!error} helperText={error?.message} />
             )}
         />        
         )}
