@@ -30,6 +30,7 @@ import { PATH_DASHBOARD } from '../../../../routes/paths';
 import { _invoiceAddressFrom } from '../../../../_mock/arrays';
 // components
 import FormProvider from '../../../../components/hook-form';
+import { useSnackbar } from '../../../../components/snackbar';
 //
 import InvoiceNewEditDetails from './InvoiceNewEditDetails';
 import InvoiceNewEditAddress from './InvoiceNewEditAddress';
@@ -38,6 +39,8 @@ import InvoiceTerms from './InvoiceTerms';
 import InvoiceBilling from './InvoiceBilling';
 import InvoiceTop from './InvoiceTop';
 import InvoicePassenger from './InvoicePassenger';
+import InvoiceAirline from './InvoiceAirline';
+import { insertInvoice, updateInvoice } from '../../../../functions';
 
 
 // ----------------------------------------------------------------------
@@ -49,118 +52,64 @@ InvoiceNewEditForm.propTypes = {
 
 export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
   const { push } = useRouter();
-
+  const { enqueueSnackbar } = useSnackbar();
   const [loadingSave, setLoadingSave] = useState(false);
 
   const [loadingSend, setLoadingSend] = useState(false);
 
   const NewUserSchema = Yup.object().shape({
-    createDate: Yup.string().nullable().required('Create date is required'),
-    dueDate: Yup.string().nullable().required('Due date is required'),
-    invoiceTo: Yup.mixed().nullable().required('Invoice to is required'),
+    // createDate: Yup.string().nullable().required('Create date is required'),
+    // dueDate: Yup.string().nullable().required('Due date is required'),
+    // invoiceTo: Yup.mixed().nullable().required('Invoice to is required'),
   });
 
   const defaultValues = useMemo(
     () => ({
       invoiceNumber: currentInvoice?.invoiceNumber || '17099',
-      createDate: currentInvoice?.createDate || new Date(),
-      dueDate: currentInvoice?.dueDate || null,
-      taxes: currentInvoice?.taxes || 0,
+      BookedOn: currentInvoice?.BookedOn || new Date(),  
       status: currentInvoice?.status || 'draft',
-      discount: currentInvoice?.discount || 0,
-      invoiceFrom: currentInvoice?.invoiceFrom || _invoiceAddressFrom[0],
-      invoiceTo: currentInvoice?.invoiceTo || null,
-      items: currentInvoice?.items || [{ title: '', description: '', service: '', quantity: 1, price: 0, total: 0 }],
+      tripType: currentInvoice?.tripType || '',
+      airline: currentInvoice?.airline || [
+        { 
+          airlineName:"",
+          airlineCode:"", 
+          flightType: "",
+          Onward_Flight_start: "",
+          Onward_Flight_start_Code: "",
+          Onward_Flight_end: "",
+          Onward_Flight_end_Code: "",
+          Onward_Flight_start_time: "",         
+          Onward_Flight_end_time: "",
+          Onward_Flight_start_address: "",
+          Onward_Flight_end_address: "",
+          travel_time: "",
+          flightNo: "",
+          flight_class: "", 
+          layover_status:false, 
+          layover_time:""
+        }
+      ],
       passenger: currentInvoice?.passenger || [{ name: '', dob: '', gender: ''}],
-      totalPrice: currentInvoice?.totalPrice || 0,
+      Name:currentInvoice?.Name || '',
+      Email:currentInvoice?.Email || '',
+      Mobile: currentInvoice?.Mobile ||'',
+      Card: currentInvoice?.Card || '',
+      AdtFare: currentInvoice?.AdtFare || '',
+      taxes: currentInvoice?.taxes || '',
+      subTotal: currentInvoice?.subTotal || '',
+      travellerAssist: currentInvoice?.travellerAssist || '',
+      flightMonitor: currentInvoice?.flightMonitor || '',
+      GrandTotal: currentInvoice?.GrandTotal || '',
+      userStatus: false,
     }),
     [currentInvoice]
   );
 
-  // const [numberOfForm, setnumberOfForm] = useState(1);
-  // const [numberOfPassager, setnumberOfPassager] = useState(1);
-  // const [OpenFormStatus, setOpenFormStatus] = useState(false);
-  // const [OpenPassangerStatus, setOpenPassangerStatus] = useState(false);
-  // const [status, setStatus] = useState({
-  //   filghtNo:false,
-  //   bookingId: false,
-  //   bookingTime: false,
-  //   pnv: false,
-  //   Onward_Flight: false,
-  //   Onward_Flight_start: false,
-  //   Onward_Flight_start_code: false,
-  //   Onward_Flight_end: false,
-  //   Onward_Flight_end_code: false,
-  //   Onward_Flight_start_time: false,
-  //   Onward_Flight_start_time_2: false,
-  //   Onward_Flight_end_time: false,
-  //   Onward_Flight_end_time_2: false,
-  //   Onward_Flight_start_address: false,
-  //   Onward_Flight_end_address: false,
-  //   awaiting_time: false,
-  //   flight_class: false,
-  //   AdtFare: false,
-  //   taxes: false,
-  //   subTotal: false,
-  //   travellerAssist: false,
-  //   flightMonitor: false,
-  //   GrandTotal: false,
-  //   name: false,
-  //   mobile: false,
-  //   email: false,
-  //   card:false,
-
-  // });
-  // const [bookingInfo, setBookingInfo] = useState({
-  //   bookingId: "",
-  //   bookingTime: "",
-  // })
-  // const [travelInfoStatus, setTravelInfoStatus] = useState([{
-  //   name: false,
-  //   dob: false,
-  //   gender: false,
-  // }])
-  // const [travelInfo, setTravelInfo] = useState([{
-  //   name: "",
-  //   dob: "",
-  //   gender: "",
-  // }])
-  // const [billingInfo, setBillingInfo] = useState({
-  //   name: "",
-  //   mobile: "",
-  //   email: "",
-  //   card:"",
-  //   AdtFare: "",
-  //   taxes: "",
-  //   subTotal: "",
-  //   travellerAssist: "",
-  //   flightMonitor: "",
-  //   GrandTotal: "",
-  // })
-  // const [data, setData] = useState([
-  //   {
-
-  //     pnv: "",
-  //     filghtNo:"",
-  //     Onward_Flight: "",
-  //     Onward_Flight_start: "",
-  //     Onward_Flight_start_Code: "",
-  //     Onward_Flight_end: "",
-  //     Onward_Flight_end_Code: "",
-  //     Onward_Flight_start_time: "",
-  //     Onward_Flight_start_time_2: "",
-  //     Onward_Flight_end_time: "",
-  //     Onward_Flight_end_time_2: "",
-  //     Onward_Flight_start_address: "",
-  //     Onward_Flight_end_address: "",
-  //     awaiting_time: "",
-  //     flight_class: "",
-  //   },
-  // ]);
+ 
 
 
   const methods = useForm({
-    resolver: yupResolver(NewUserSchema),
+    // resolver: yupResolver(NewUserSchema),
     defaultValues,
   });
 
@@ -182,11 +131,14 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
 
   const handleSaveAsDraft = async (data) => {
     setLoadingSave(true);
-
+    // console.log('invoice data', JSON.stringify(data));
+    data.status = 'draft';
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      // await new Promise((resolve) => setTimeout(resolve, 500));
+      !isEdit ? await insertInvoice(data) : await updateInvoice(data, currentInvoice?._id)
       reset();
       setLoadingSave(false);
+      enqueueSnackbar('Save Invoice Draft Success!');
       push(PATH_DASHBOARD.invoice.list);
       console.log('DATA', JSON.stringify(data, null, 2));
     } catch (error) {
@@ -199,9 +151,11 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
     setLoadingSend(true);
 
     try {
-      await new Promise((resolve) => setTimeout(resolve, 500));
+      !isEdit ? await insertInvoice(data) : await updateInvoice(data, currentInvoice?._id)
+      // await new Promise((resolve) => setTimeout(resolve, 500));
       reset();
       setLoadingSend(false);
+      enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
       push(PATH_DASHBOARD.invoice.list);
       console.log('DATA', JSON.stringify(data, null, 2));
     } catch (error) {
@@ -213,8 +167,8 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
   return (
     <FormProvider methods={methods}>
       <Card>
-        <InvoiceTop/>
         <InvoiceNewEditStatusDate />
+        <InvoiceAirline />
         <InvoicePassenger />
         <InvoiceBilling />
       </Card>

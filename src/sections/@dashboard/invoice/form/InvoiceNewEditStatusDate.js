@@ -9,6 +9,7 @@ import { RHFSelect, RHFTextField, RHFDateInput } from '../../../../components/ho
 // ----------------------------------------------------------------------
 
 const STATUS_OPTIONS = ['paid', 'unpaid', 'overdue', 'draft'];
+const TRIP_OPTIONS = ['one way', 'round', 'multi city'];
 
 // ----------------------------------------------------------------------
 
@@ -21,10 +22,9 @@ export default function InvoiceNewEditStatusDate() {
     <Stack
       spacing={2}
       direction={{ xs: 'column', sm: 'row' }}
-      sx={{ p: 3, bgcolor: 'background.neutral' }}
+      sx={{ p: 3, bgcolor: 'background.neutral', marginTop:"20px" }}
     >
       <RHFTextField
-        disabled
         size="small"
         name="invoiceNumber"
         label="Booking Number"
@@ -35,7 +35,7 @@ export default function InvoiceNewEditStatusDate() {
       
      
       <Controller
-        name="createDate"
+        name="BookedOn"
         control={control}
         render={({ field, fieldState: { error } }) => (
           <DatePicker
@@ -50,6 +50,32 @@ export default function InvoiceNewEditStatusDate() {
           />
         )}
       />
+       <RHFSelect
+        fullWidth
+        name="tripType"
+        size="small"
+        label="Trip Type"
+        InputLabelProps={{ shrink: true }}
+        SelectProps={{ native: false, sx: { textTransform: 'capitalize' } }}
+      >
+        {TRIP_OPTIONS.map((option) => (
+          <MenuItem
+            key={option}
+            value={option}
+            sx={{
+              mx: 1,
+              my: 0.5,
+              borderRadius: 0.75,
+              typography: 'body2',
+              textTransform: 'capitalize',
+              '&:first-of-type': { mt: 0 },
+              '&:last-of-type': { mb: 0 },
+            }}
+          >
+            {option}
+          </MenuItem>
+        ))}
+      </RHFSelect>
       <RHFSelect
         fullWidth
         name="status"

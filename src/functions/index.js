@@ -51,3 +51,26 @@ export const deleteRole = async (data, id) =>{
     const response = await axios.put(HOST_API_KEY + '/api/role/'+ id, config);
     return response.data;
 }
+
+
+// Invoice Function
+export const getInvoiceList = async () =>{    
+    const response = await axios.get(HOST_API_KEY + '/api/invoice', config);
+    return response.data.data;
+}
+export const getInvoiceSingle = async (id) =>{    
+    const response = await axios.get(HOST_API_KEY + '/api/invoice/'+ id, config);
+    return response.data.data;
+}
+export const insertInvoice = async (data) =>{    
+    const response = await axios.post(HOST_API_KEY + '/api/invoice', data, config);
+    return response.data;
+}
+export const updateInvoice = async (data, id) =>{    
+    const response = await axios.put(HOST_API_KEY + '/api/invoice/'+ id, data, config);
+    return response.data;
+}
+export const deleteInvoice = async (data, id) =>{    
+    const response = await axios.put(HOST_API_KEY + '/api/invoice/'+ id, config);
+    return response.data;
+}
