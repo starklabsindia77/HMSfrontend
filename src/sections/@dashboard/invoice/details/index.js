@@ -103,6 +103,13 @@ export default function InvoiceDetails({ invoice }) {
           </Box>
           {[...Array(invoice.airline.length)].map((item, i) => (
             <>
+              {invoice.airline[i].layover_status && 
+                <Box className="flex justify-center font-medium">
+                  <Typography variant="inherit" className="font-normal text-slate-400" fontSize={20}>
+                    Layover Time: <span className="text-slate-400 font-medium mr-2">{invoice.airline[i].layover_time}</span>
+                  </Typography>
+                </Box>
+              }         
               <Box className="flex justify-between items-center border-b-2 py-2 my-10 border-indigo-600">
                 <Box className="flex justify-center items-center">
                   <FlightTakeoffOutlinedIcon fontSize="large" className="mr-5 text-gray-500" />
@@ -131,7 +138,7 @@ export default function InvoiceDetails({ invoice }) {
                   </Box>
                   {/* <Chip label="Partially refundable" variant="outlined" /> */}
                 </Box>
-                <Box className="flex justify-between items-center border-b-2 pb-10">
+                <Box className="flex justify-between items-center border-b-2 pt-2 pb-10">
                   <Box>
                     <Box>
                       <Typography variant="inherit" className=" text-slate-400 font-medium py-1">
