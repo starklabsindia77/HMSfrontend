@@ -254,7 +254,9 @@
 .text-end {
   text-align: end;
 }
-
+.rounded-lg	{
+  border-radius: 0.5rem; /* 8px */
+}
 .uppercase {
   text-transform: uppercase;
 }

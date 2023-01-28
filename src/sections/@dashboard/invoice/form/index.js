@@ -35,7 +35,6 @@ import { useSnackbar } from '../../../../components/snackbar';
 import InvoiceNewEditDetails from './InvoiceNewEditDetails';
 import InvoiceNewEditAddress from './InvoiceNewEditAddress';
 import InvoiceNewEditStatusDate from './InvoiceNewEditStatusDate';
-import InvoiceTerms from './InvoiceTerms';
 import InvoiceBilling from './InvoiceBilling';
 import InvoiceTop from './InvoiceTop';
 import InvoicePassenger from './InvoicePassenger';

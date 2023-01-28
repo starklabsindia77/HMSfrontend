@@ -1,6 +1,8 @@
 import PropTypes from 'prop-types';
 import { useState } from 'react';
 import { PDFDownloadLink, PDFViewer } from '@react-pdf/renderer';
+import html2canvas from 'html2canvas';
+import jsPDF from 'jspdf';
 // next
 import { useRouter } from 'next/router';
 // @mui
@@ -11,12 +13,15 @@ import { PATH_DASHBOARD } from '../../../../routes/paths';
 import Iconify from '../../../../components/iconify';
 //
 import InvoicePDF from './InvoicePDF';
+import moment from 'moment';
 
 // ----------------------------------------------------------------------
 
 InvoiceToolbar.propTypes = {
   invoice: PropTypes.object,
 };
+
+
 
 export default function InvoiceToolbar({ invoice }) {
   const { push } = useRouter();
@@ -33,6 +38,31 @@ export default function InvoiceToolbar({ invoice }) {
 
   const handleEdit = () => {
     push(PATH_DASHBOARD.invoice.edit(invoice.id));
+  };
+  const print = () => { 
+   //setpdfgenerateDate(moment().format('YYYY-MM-DD'));
+   const input = document.getElementById('page'); 
+   input.style.display = "block"; 
+   html2canvas(input).then((canvas) => { 
+    var imgData = canvas.toDataURL('image/png');
+    var imgWidth = 180; 
+    var pageHeight = 500; 
+    var imgHeight = (canvas.height * imgWidth) / canvas.width;
+    //var imgHeight = (canvas.height * imgWidth) / canvas.width; 
+    var heightLeft = imgHeight; 
+    var doc = new jsPDF('p', 'mm'); 
+    var position = 10;
+    doc.addImage(imgData, 'PNG', 15, position, imgWidth, imgHeight); 
+    heightLeft -= pageHeight; 
+    console.log("heightLeft",heightLeft)
+    console.log("imgHeight",imgHeight) 
+    while (heightLeft >= 0) { 
+      position = heightLeft - imgHeight; 
+      doc.addPage(); doc.addImage(imgData, 'PNG', 15, position, imgWidth, imgHeight); 
+      heightLeft -= pageHeight;
+    }
+    doc.save(`${invoice.Name}` + moment().format('MM/DD/YYYY') + '.pdf'); });
+    //input.style.display = "none"
   };
 
   return (
@@ -51,9 +81,9 @@ export default function InvoiceToolbar({ invoice }) {
             </IconButton>
           </Tooltip>
 
-          <Tooltip title="View">
-            <IconButton onClick={handleOpen}>
-              <Iconify icon="eva:eye-fill" />
+          <Tooltip title="Download">
+            <IconButton onClick={print}>
+              <Iconify icon="eva:download-fill" />
             </IconButton>
           </Tooltip>
 
@@ -71,11 +101,11 @@ export default function InvoiceToolbar({ invoice }) {
             )}
           </PDFDownloadLink> */}
 
-          <Tooltip title="Print">
+          {/* <Tooltip title="Print">
             <IconButton>
               <Iconify icon="eva:printer-fill" />
             </IconButton>
-          </Tooltip>
+          </Tooltip> */}
 
           <Tooltip title="Send">
             <IconButton>
@@ -83,11 +113,11 @@ export default function InvoiceToolbar({ invoice }) {
             </IconButton>
           </Tooltip>
 
-          <Tooltip title="Share">
+          {/* <Tooltip title="Share">
             <IconButton>
               <Iconify icon="eva:share-fill" />
             </IconButton>
-          </Tooltip>
+          </Tooltip> */}
         </Stack>
 
         <Button
@@ -116,9 +146,9 @@ export default function InvoiceToolbar({ invoice }) {
             </Tooltip>
           </DialogActions>
           <Box sx={{ flexGrow: 1, height: '100%', overflow: 'hidden' }}>
-            {/* <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
+            <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
               <InvoicePDF invoice={invoice} />
-            </PDFViewer> */}
+            </PDFViewer>
           </Box>
         </Box>
       </Dialog>

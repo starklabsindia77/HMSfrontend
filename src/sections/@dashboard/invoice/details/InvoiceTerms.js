@@ -1,21 +1,15 @@
 // form
-import { useFormContext, Controller } from 'react-hook-form';
-// @mui
-import { DatePicker } from '@mui/x-date-pickers';
+
 import { Stack, TextField, MenuItem, Box, Typography } from '@mui/material';
 // components
-import { RHFSelect, RHFTextField, RHFDateInput } from '../../../../components/hook-form';
 
-// ----------------------------------------------------------------------
 
-const STATUS_OPTIONS = ['paid', 'unpaid', 'overdue', 'draft'];
+
 
 // ----------------------------------------------------------------------
 
 export default function InvoiceTerms() {
-    const { control, watch } = useFormContext();
-
-    const values = watch();
+    
 
     return (
         <Stack
