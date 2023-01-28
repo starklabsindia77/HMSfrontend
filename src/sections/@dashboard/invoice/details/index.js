@@ -14,15 +14,20 @@ import {
   Typography,
   TableContainer,
 } from '@mui/material';
+import FlightTakeoffOutlinedIcon from '@mui/icons-material/FlightTakeoffOutlined';
+import AirplaneTicketOutlinedIcon from '@mui/icons-material/AirplaneTicketOutlined';
+import HistoryToggleOffOutlinedIcon from '@mui/icons-material/HistoryToggleOffOutlined';
 // utils
 import { fDate } from '../../../../utils/formatTime';
 import { fCurrency } from '../../../../utils/formatNumber';
 // components
 import Label from '../../../../components/label';
 import Image from '../../../../components/image';
+import AirlineLogo from '../../../../components/logo/airlineLogo';
 import Scrollbar from '../../../../components/scrollbar';
 //
 import InvoiceToolbar from './InvoiceToolbar';
+import moment from 'moment';
 
 // ----------------------------------------------------------------------
 
@@ -43,212 +48,260 @@ export default function InvoiceDetails({ invoice }) {
   if (!invoice) {
     return null;
   }
+  console.log('Invoice', invoice);
 
-  const {
-    items,
-    taxes,
-    status,
-    dueDate,
-    discount,
-    invoiceTo,
-    createDate,
-    totalPrice,
-    invoiceFrom,
-    invoiceNumber,
-    subTotalPrice,
-  } = invoice;
+  // const {
+  //   invoiceNumber,
+  //   BookedOn,
+  //   status,
+  //   tripType,
+  //   airline,
+  //   passenger,
+  //   Name,
+  //   Email,
+  //   Mobile,
+  //   Card,
+  //   AdtFare,
+  //   taxes,
+  //   subTotal,
+  //   travellerAssist,
+  //   flightMonitor,
+  //   GrandTotal,
+  //   userStatus,
+  //   createdBy,
+  // } = invoice;
 
   return (
     <>
       <InvoiceToolbar invoice={invoice} />
 
       <Card sx={{ pt: 5, px: 5 }}>
-        <Grid container>
-          <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
-            <Image disabledEffect alt="logo" src="/logo/logo_full.svg" sx={{ maxWidth: 120 }} />
-          </Grid>
-
-          <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
-            <Box sx={{ textAlign: { sm: 'right' } }}>
-              <Label
-                variant="soft"
-                color={
-                  (status === 'paid' && 'success') ||
-                  (status === 'unpaid' && 'warning') ||
-                  (status === 'overdue' && 'error') ||
-                  'default'
-                }
-                sx={{ textTransform: 'uppercase', mb: 1 }}
-              >
-                {status}
-              </Label>
-
-              <Typography variant="h6">{`INV-${invoiceNumber}`}</Typography>
+        <Box className="px-16 pb-52" sx={{paddingBottom:"50px"}}>
+          <Box className="py-10">
+            <Box className="flex justify-between items-center pb-8">
+              {/* <img src="https://static.goindigo.in/content/dam/indigov2/6e-website/downloadapp/Feature-Image.png" className="w-28 rounded-lg h-16" /> */}
+              <img src="https://www.hms-travel.com/images/logo.png" className="w-42  rounded-lg h-16" />
             </Box>
-          </Grid>
-
-          <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
-            <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
-              Invoice from
+            <Typography variant="inherit" fontSize={30} className="font-semibold mt-2">
+              E-Ticket
             </Typography>
-
-            <Typography variant="body2">{invoiceFrom.name}</Typography>
-
-            <Typography variant="body2">{invoiceFrom.address}</Typography>
-
-            <Typography variant="body2">Phone: {invoiceFrom.phone}</Typography>
-          </Grid>
-
-          <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
-            <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
-              Invoice to
+            <Typography variant="inherit" className=" flex items-center font-medium mt-2">
+              Booking ID :<span className="text-sm text-slate-400 ml-2">{invoice.invoiceNumber}</span>
             </Typography>
-
-            <Typography variant="body2">{invoiceTo.name}</Typography>
-
-            <Typography variant="body2">{invoiceTo.address}</Typography>
-
-            <Typography variant="body2">Phone: {invoiceTo.phone}</Typography>
-          </Grid>
-
-          <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
-            <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
-              date create
+            <Typography variant="inherit" className="font-medium mt-2">
+              Booked On :
+              <span className="text-sm text-slate-400 ml-2">
+                {invoice.BookedOn && moment(invoice.BookedOn).format('DD MMM YYYY, h:mm a')}
+              </span>
             </Typography>
+          </Box>
 
-            <Typography variant="body2">{fDate(createDate)}</Typography>
-          </Grid>
-
-          <Grid item xs={12} sm={6} sx={{ mb: 5 }}>
-            <Typography paragraph variant="overline" sx={{ color: 'text.disabled' }}>
-              Due date
+          <Box className="flex justify-between items-center">
+            <Typography variant="inherit" className="justify-start font-medium text-2xl text-black-600">
+              Flight Details
             </Typography>
+          </Box>
+          {[...Array(invoice.airline.length)].map((item, i) => (
+            <>
+              <Box className="flex justify-between items-center border-b-2 py-2 my-10 border-indigo-600">
+                <Box className="flex justify-center items-center">
+                  <FlightTakeoffOutlinedIcon fontSize="large" className="mr-5 text-gray-500" />
+                  <Box>
+                    <Typography variant="inherit" className="font-medium text-slate-400 capitalize">
+                      {invoice.airline[i].flightType}
+                    </Typography>
 
-            <Typography variant="body2">{fDate(dueDate)}</Typography>
-          </Grid>
-        </Grid>
+                    <Typography variant="inherit" className="font-medium text-2xl text-indigo-600 flex items-center">
+                      <span className="pr-2 capitalize">{invoice.airline[i].Onward_Flight_start}</span>
+                      to
+                      <span className="pl-2 capitalize">{invoice.airline[i].Onward_Flight_end}</span>
+                    </Typography>
+                  </Box>
+                </Box>
+              </Box>
 
-        <TableContainer sx={{ overflow: 'unset' }}>
-          <Scrollbar>
-            <Table sx={{ minWidth: 960 }}>
-              <TableHead
-                sx={{
-                  borderBottom: (theme) => `solid 1px ${theme.palette.divider}`,
-                  '& th': { backgroundColor: 'transparent' },
-                }}
-              >
-                <TableRow>
-                  <TableCell width={40}>#</TableCell>
+              <Box className="pt-1">
+                <Box className="flex justify-between">
+                  <Box className="flex items-center">
+                    <AirlineLogo code={invoice.airline[i].airlineCode} type={'_4x'} height={50} />
+                    <Typography variant="inherit" className="font-normal text-slate-400" fontSize={20}>
+                      {invoice.airline[i].airlineName}
+                      <span className="text-slate-400 font-medium mr-2">{invoice.airline[i].flightNo}</span>
+                    </Typography>
+                  </Box>
+                  {/* <Chip label="Partially refundable" variant="outlined" /> */}
+                </Box>
+                <Box className="flex justify-between items-center border-b-2 pb-10">
+                  <Box>
+                    <Box>
+                      <Typography variant="inherit" className=" text-slate-400 font-medium py-1">
+                        <span className="text-slate-400 font-medium mr-2">
+                          {invoice.airline[i].Onward_Flight_start_Code}
+                        </span>
 
-                  <TableCell align="left">Description</TableCell>
+                        <span className="text-slate-400 font-medium mr-2">
+                          {invoice.airline[i].Onward_Flight_start_time &&
+                            moment(invoice.airline[i].Onward_Flight_start_time).format('hh:mm a')}
+                        </span>
+                      </Typography>
 
-                  <TableCell align="left">Qty</TableCell>
+                      <Typography variant="inherit" className="text-slate-400 font-medium">
+                        {invoice.airline[i].Onward_Flight_start_time &&
+                          moment(invoice.airline[i].Onward_Flight_start_time).format('ddd hh MMM, YYYY')}
+                      </Typography>
 
-                  <TableCell align="right">Unit price</TableCell>
+                      <Typography variant="inherit" className="w-56">
+                        {invoice.airline[i].Onward_Flight_start_address}
+                      </Typography>
+                    </Box>
+                  </Box>
+                  <Box className="flex justify-center flex-col items-center">
+                    <HistoryToggleOffOutlinedIcon className="my-2 text-gray-500" />
 
-                  <TableCell align="right">Total</TableCell>
-                </TableRow>
-              </TableHead>
+                    <Typography variant="inherit" className="text-gray-500">
+                      {invoice.airline[i].travel_time}
+                    </Typography>
 
-              <TableBody>
-                {items.map((row, index) => (
-                  <TableRow
-                    key={index}
-                    sx={{
-                      borderBottom: (theme) => `solid 1px ${theme.palette.divider}`,
-                    }}
-                  >
-                    <TableCell>{index + 1}</TableCell>
+                    <Typography variant="inherit" className="text-gray-500 capitalize">
+                      {invoice.airline[i].flight_class}
+                    </Typography>
+                  </Box>
+                  <Box>
+                    <Box className="text-right">
+                      <Typography variant="inherit" className=" text-slate-400 font-medium py-1">
+                        <span className="text-slate-400 font-medium mr-2">
+                          {invoice.airline[i].Onward_Flight_end_time &&
+                            moment(invoice.airline[i].Onward_Flight_end_time).format('hh:mm a')}
+                        </span>
 
-                    <TableCell align="left">
-                      <Box sx={{ maxWidth: 560 }}>
-                        <Typography variant="subtitle2">{row.title}</Typography>
+                        <span className="text-slate-400 font-medium ml-2">
+                          {invoice.airline[i].Onward_Flight_end_Code}
+                        </span>
+                      </Typography>
 
-                        <Typography variant="body2" sx={{ color: 'text.secondary' }} noWrap>
-                          {row.description}
-                        </Typography>
-                      </Box>
-                    </TableCell>
+                      <Typography variant="inherit" className="text-slate-400 font-medium text-indigo-600">
+                        {invoice.airline[i].Onward_Flight_end_time &&
+                          moment(invoice.airline[i].Onward_Flight_end_time).format('ddd hh MMM, YYYY')}
+                      </Typography>
 
-                    <TableCell align="left">{row.quantity}</TableCell>
+                      <Typography variant="inherit" className="w-56">
+                        {invoice.airline[i].Onward_Flight_end_address}
+                      </Typography>
+                    </Box>
+                  </Box>
+                </Box>
+              </Box>
+            </>
+          ))}
 
-                    <TableCell align="right">{fCurrency(row.price)}</TableCell>
-
-                    <TableCell align="right">{fCurrency(row.price * row.quantity)}</TableCell>
-                  </TableRow>
-                ))}
-
-                <StyledRowResult>
-                  <TableCell colSpan={3} />
-
-                  <TableCell align="right" sx={{ typography: 'body1' }}>
-                    <Box sx={{ mt: 2 }} />
-                    Subtotal
-                  </TableCell>
-
-                  <TableCell align="right" width={120} sx={{ typography: 'body1' }}>
-                    <Box sx={{ mt: 2 }} />
-                    {fCurrency(subTotalPrice)}
-                  </TableCell>
-                </StyledRowResult>
-
-                <StyledRowResult>
-                  <TableCell colSpan={3} />
-
-                  <TableCell align="right" sx={{ typography: 'body1' }}>
-                    Discount
-                  </TableCell>
-
-                  <TableCell align="right" width={120} sx={{ color: 'error.main', typography: 'body1' }}>
-                    {discount && fCurrency(-discount)}
-                  </TableCell>
-                </StyledRowResult>
-
-                <StyledRowResult>
-                  <TableCell colSpan={3} />
-
-                  <TableCell align="right" sx={{ typography: 'body1' }}>
-                    Taxes
-                  </TableCell>
-
-                  <TableCell align="right" width={120} sx={{ typography: 'body1' }}>
-                    {taxes && fCurrency(taxes)}
-                  </TableCell>
-                </StyledRowResult>
-
-                <StyledRowResult>
-                  <TableCell colSpan={3} />
-
-                  <TableCell align="right" sx={{ typography: 'h6' }}>
-                    Total
-                  </TableCell>
-
-                  <TableCell align="right" width={140} sx={{ typography: 'h6' }}>
-                    {fCurrency(totalPrice)}
-                  </TableCell>
-                </StyledRowResult>
-              </TableBody>
-            </Table>
-          </Scrollbar>
-        </TableContainer>
-
-        <Divider sx={{ mt: 5 }} />
-
-        <Grid container>
-          <Grid item xs={12} md={9} sx={{ py: 3 }}>
-            <Typography variant="subtitle2">NOTES</Typography>
-
-            <Typography variant="body2">
-              We appreciate your business. Should you need us to add VAT or extra notes let us know!
+          <Box className="flex justify-between items-center mt-10">
+            <Typography variant="inherit" className="justify-start font-medium text-2xl text-black-600">
+              Passenger Info
             </Typography>
-          </Grid>
+          </Box>
+          <span className="text-sm text-slate-400">No of Passenger : {invoice.passenger.length}</span>
+          {[...Array(invoice.passenger.length)].map((item, i) => (
+            <>
+              <Box className="flex justify-around items-center border-b-2 py-2 my-10 border-grey-600">
+                {/* <Box className="flex justify-around items-center w-full"> */}
+                  <Typography variant="inherit" className="text-sm text-slate-400" >
+                    Passenger Name: {invoice.passenger[i].name}{' '}
+                  </Typography>
 
-          <Grid item xs={12} md={3} sx={{ py: 3, textAlign: 'right' }}>
-            <Typography variant="subtitle2">Have a Question?</Typography>
+                  <Typography variant="inherit" className="text-sm text-slate-400" >
+                  Passenger Gender: {invoice.passenger[i].gender}{' '}
+                  </Typography>
 
-            <Typography variant="body2">support@minimals.cc</Typography>
-          </Grid>
-        </Grid>
+                  <Typography variant="inherit" className="text-sm text-slate-400" >
+                  Passenger DOB: {invoice.passenger[i].dob && moment(invoice.passenger[i].dob).format('ddd hh MMM, YYYY')}{' '}
+                  </Typography>
+                {/* </Box> */}
+              </Box>
+            </>
+          ))}
+
+          <Box className="flex justify-between items-center mt-10">
+            <Typography variant="inherit" className="justify-start font-medium text-2xl text-black-600">
+              Billing Info
+            </Typography>
+          </Box>
+          <Box className="flex justify-between items-center px-6 pt-8 pb-8">
+            <Typography variant="inherit" className="font-medium">
+              Name :<span className="text-gray-500 ml-2">{invoice.Name}</span>
+            </Typography>
+            <Typography variant="inherit" className="font-medium">
+              Email :<span className="text-gray-500">{invoice.Email}</span>
+            </Typography>
+            <Typography variant="inherit" className="font-medium">
+              Mobile No :<span className="text-gray-500">{invoice.Mobile}</span>
+            </Typography>
+            <Typography variant="inherit" className=" flex items-center font-medium">
+              Card No :<span className="text-gray-500 ml-2">{invoice.Card}</span>
+            </Typography>
+          </Box>
+          <Box className="px-10 mt-10 pb-10 border-dotted border-2 border-indigo-600">
+            <Box className="flex justify-between items-center border-b-2 mt-10 border-grey-600">
+              <Box>
+                <Typography variant="inherit" className="justify-start font-medium text-base text-slate-500">
+                  ADT Base Fare
+                </Typography>
+              </Box>
+              <Box>
+                <span className="text-gray-500 ml-2">${invoice.AdtFare} USD</span>
+              </Box>
+            </Box>
+            <Box className="flex justify-between mt-7 items-center border-b-2 border-grey-600">
+              <Box>
+                <Typography variant="inherit" className="justify-start font-medium text-base text-slate-500">
+                  Taxes & Fees
+                </Typography>
+              </Box>
+              <Box>
+                <span className="text-gray-500 ml-2">${invoice.taxes} USD</span>
+              </Box>
+            </Box>
+            <Box className="flex justify-between mt-7 items-center border-b-2 border-grey-600">
+              <Box>
+                <Typography variant="inherit" className="justify-start font-medium text-lg text-slate-500">
+                  Sub Total
+                </Typography>
+              </Box>
+              <Box>
+                <span className="text-gray-500 ml-2">${invoice.taxes} USD</span>
+              </Box>
+            </Box>
+            <Box className="flex justify-between items-center border-b-2 mt-7 border-grey-600">
+              <Box>
+                <Typography variant="inherit" className="justify-start font-medium text-base text-slate-500">
+                  Traveller Assist+
+                </Typography>
+              </Box>
+              <Box>
+                <span className="text-gray-500 ml-2">${invoice.travellerAssist} USD</span>
+              </Box>
+            </Box>
+            <Box className="flex justify-between mt-7 items-center border-b-2 border-grey-600">
+              <Box>
+                <Typography variant="inherit" className="justify-start font-medium text-base text-slate-500">
+                  Flight Monitor
+                </Typography>
+              </Box>
+              <Box>
+                <span className="text-gray-500 ml-2">${invoice.flightMonitor} USD</span>
+              </Box>
+            </Box>
+            <Box className="flex justify-between mt-7 items-center border-b-2 border-grey-600">
+              <Box>
+                <Typography variant="inherit" className="justify-start font-medium text-xl text-slate-500">
+                  Grand Total
+                </Typography>
+              </Box>
+              <Box>
+                <span className="text-gray-500 ml-2">${invoice.GrandTotal} USD</span>
+              </Box>
+            </Box>
+          </Box>
+        </Box>
       </Card>
     </>
   );

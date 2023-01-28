@@ -1,5 +1,6 @@
 // next
 import Head from 'next/head';
+import { useState, useEffect } from 'react';
 import { useRouter } from 'next/router';
 // @mui
 import { Container } from '@mui/material';
@@ -14,6 +15,7 @@ import { useSettingsContext } from '../../../../components/settings';
 import CustomBreadcrumbs from '../../../../components/custom-breadcrumbs';
 // sections
 import InvoiceDetails from '../../../../sections/@dashboard/invoice/details';
+import { getInvoiceSingle } from '../../../../functions';
 
 // ----------------------------------------------------------------------
 
@@ -23,12 +25,19 @@ InvoiceDetailsPage.getLayout = (page) => <DashboardLayout>{page}</DashboardLayou
 
 export default function InvoiceDetailsPage() {
   const { themeStretch } = useSettingsContext();
-
+  const [currentInvoice, setCurrentInvoice] = useState()
   const {
     query: { id },
   } = useRouter();
-
-  const currentInvoice = _invoices.find((invoice) => invoice.id === id);
+  useEffect(() => {
+    async function userinfo() {
+      let userData = await getInvoiceSingle(id);
+      // console.log("invoice Single", JSON.stringify(userData));
+      setCurrentInvoice(userData);  
+    };
+    userinfo();
+  },[]);
+  // const currentInvoice = _invoices.find((invoice) => invoice.id === id);
 
   return (
     <>
@@ -45,11 +54,11 @@ export default function InvoiceDetailsPage() {
               name: 'Invoices',
               href: PATH_DASHBOARD.invoice.root,
             },
-            { name: `INV-${currentInvoice?.invoiceNumber}` },
+            { name: `${currentInvoice?.invoiceNumber}` },
           ]}
         />
 
-        <InvoiceDetails invoice={currentInvoice} />
+        <InvoiceDetails invoice={currentInvoice} /> 
       </Container>
     </>
   );

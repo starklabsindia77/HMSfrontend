@@ -1,4 +1,4 @@
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
 import sumBy from 'lodash/sumBy';
 // next
 import Head from 'next/head';
@@ -48,6 +48,7 @@ import {
 // sections
 import InvoiceAnalytic from '../../../sections/@dashboard/invoice/InvoiceAnalytic';
 import { InvoiceTableRow, InvoiceTableToolbar } from '../../../sections/@dashboard/invoice/list';
+import { getInvoiceList } from '../../../functions';
 
 // ----------------------------------------------------------------------
 
@@ -62,11 +63,11 @@ const SERVICE_OPTIONS = [
 
 const TABLE_HEAD = [
   { id: 'invoiceNumber', label: 'Client', align: 'left' },
-  { id: 'createDate', label: 'Create', align: 'left' },
-  { id: 'dueDate', label: 'Due', align: 'left' },
-  { id: 'price', label: 'Amount', align: 'center', width: 140 },
-  { id: 'sent', label: 'Sent', align: 'center', width: 140 },
+  { id: 'BookedOn', label: 'Booked On', align: 'left' },
+  { id: 'GrandTotal', label: 'Amount', align: 'center', width: 140 },
+  { id: 'createdBy', label: 'Created By', align: 'center', width: 140 },
   { id: 'status', label: 'Status', align: 'left' },
+  { id: 'userStatus', label: 'User Status', align: 'left' },
   { id: '' },
 ];
 
@@ -102,7 +103,16 @@ export default function InvoiceListPage() {
     onChangeRowsPerPage,
   } = useTable({ defaultOrderBy: 'createDate' });
 
-  const [tableData, setTableData] = useState(_invoices);
+  // const [tableData, setTableData] = useState(_invoices);
+  const [tableData, setTableData] = useState([]);
+  
+  useEffect(() => {
+    async function userinfo() {
+      let userData = await getInvoiceList();
+      setTableData(userData);  
+    };
+    userinfo();
+  },[])
 
   const [filterName, setFilterName] = useState('');
 
@@ -145,7 +155,7 @@ export default function InvoiceListPage() {
   const getTotalPriceByStatus = (status) =>
     sumBy(
       tableData.filter((item) => item.status === status),
-      'totalPrice'
+      'GrandTotal'
     );
 
   const getPercentByStatus = (status) => (getLengthByStatus(status) / tableData.length) * 100;
@@ -182,7 +192,7 @@ export default function InvoiceListPage() {
   };
 
   const handleDeleteRow = (id) => {
-    const deleteRow = tableData.filter((row) => row.id !== id);
+    const deleteRow = tableData.filter((row) => row._id !== id);
     setSelected([]);
     setTableData(deleteRow);
 
@@ -194,7 +204,7 @@ export default function InvoiceListPage() {
   };
 
   const handleDeleteRows = (selected) => {
-    const deleteRows = tableData.filter((row) => !selected.includes(row.id));
+    const deleteRows = tableData.filter((row) => !selected.includes(row._id));
     setSelected([]);
     setTableData(deleteRows);
 
@@ -268,7 +278,7 @@ export default function InvoiceListPage() {
                 title="Total"
                 total={tableData.length}
                 percent={100}
-                price={sumBy(tableData, 'totalPrice')}
+                price={sumBy(tableData, 'GrandTotal')}
                 icon="ic:round-receipt"
                 color={theme.palette.info.main}
               />
@@ -363,7 +373,7 @@ export default function InvoiceListPage() {
               onSelectAllRows={(checked) =>
                 onSelectAllRows(
                   checked,
-                  tableData.map((row) => row.id)
+                  tableData.map((row) => row._id)
                 )
               }
               action={
@@ -407,7 +417,7 @@ export default function InvoiceListPage() {
                   onSelectAllRows={(checked) =>
                     onSelectAllRows(
                       checked,
-                      tableData.map((row) => row.id)
+                      tableData.map((row) => row._id)
                     )
                   }
                 />
@@ -415,13 +425,13 @@ export default function InvoiceListPage() {
                 <TableBody>
                   {dataFiltered.slice(page * rowsPerPage, page * rowsPerPage + rowsPerPage).map((row) => (
                     <InvoiceTableRow
-                      key={row.id}
+                      key={row._id}
                       row={row}
-                      selected={selected.includes(row.id)}
-                      onSelectRow={() => onSelectRow(row.id)}
-                      onViewRow={() => handleViewRow(row.id)}
-                      onEditRow={() => handleEditRow(row.id)}
-                      onDeleteRow={() => handleDeleteRow(row.id)}
+                      selected={selected.includes(row._id)}
+                      onSelectRow={() => onSelectRow(row._id)}
+                      onViewRow={() => handleViewRow(row._id)}
+                      onEditRow={() => handleEditRow(row._id)}
+                      onDeleteRow={() => handleDeleteRow(row._id)}
                     />
                   ))}
 

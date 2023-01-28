@@ -106,7 +106,7 @@ export default function InvoiceAirline() {
         {fields.map((item, index) => (
           <Stack key={item.id} alignairline="flex-end" spacing={1.5}>
             <Stack spacing={2}>
-              <AirlineLogo code={values.airline[index].airlineCode} />
+              <AirlineLogo code={values.airline[index].airlineCode} type={'_4x'} height={150}/>
               <Box className="flex justify-between items-center border-b-2 py-2 my-10 border-indigo-600">
                 <Box className="flex items-center">
                   <RHFAutocomplete
@@ -164,7 +164,7 @@ export default function InvoiceAirline() {
                   <Box className="flex items-center">
                     <RHFTextField
                       size="small"
-                      name={`airline[${index}].filghtNo`}
+                      name={`airline[${index}].flightNo`}
                       label="Flight No"
                       InputLabelProps={{ shrink: true }}
                     />
@@ -228,7 +228,7 @@ export default function InvoiceAirline() {
                     <RHFTextField
                       size="small"
                       sx={{ marginBottom: '10px', marginTop: '10px' }}
-                      name={`airline[${index}].awaiting_time`}
+                      name={`airline[${index}].travel_time`}
                       label="Travel Time (2h 30m)"
                       InputLabelProps={{ shrink: true }}
                     />

@@ -55,13 +55,15 @@ export default async (req, res) => {
             try{
                 const user = await User.findOne({ email: req.decoded });
                 if (!user) return res.status(400).send('Email or Password is wrong'); 
-                if (user.role.invoice.view){
+                if (user.role.access.invoice.view){
                     const invoice =  await Invoice.find({});
                     res.status(200).send({ success: true, data: invoice});
-                }else if(!user.role.invoice.view && user.role.invoice.viewBy){
+                }else if(!user.role.access.invoice.view && user.role.invoice.viewBy){
                     const invoice =  await Invoice.find({"createdBy.email": user.email});
                     res.status(200).send({ success: true, data: invoice});
-                }              
+                }  
+                // const invoice =  await Invoice.find({});
+                // res.status(200).send({ success: true, data: invoice});            
 
                 
 

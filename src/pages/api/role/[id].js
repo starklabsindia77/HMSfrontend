@@ -38,6 +38,13 @@ export default async (req, res) => {
                     new: true,
                     runValidators: true
                 });
+                const UserWithTheRole = await User.find({"role.roleName": role.roleName});
+                UserWithTheRole.map(async (item) =>{                    
+                    await User.findByIdAndUpdate(item.id, { "role": role }, {
+                        new: true,
+                        runValidators: true
+                    });
+                })
 
                 if (!role) {
                     return res.status(400).json({ success: false });

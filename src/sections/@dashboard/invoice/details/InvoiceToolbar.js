@@ -57,7 +57,7 @@ export default function InvoiceToolbar({ invoice }) {
             </IconButton>
           </Tooltip>
 
-          <PDFDownloadLink
+          {/* <PDFDownloadLink
             document={<InvoicePDF invoice={invoice} />}
             fileName={invoice.invoiceNumber}
             style={{ textDecoration: 'none' }}
@@ -69,7 +69,7 @@ export default function InvoiceToolbar({ invoice }) {
                 </IconButton>
               </Tooltip>
             )}
-          </PDFDownloadLink>
+          </PDFDownloadLink> */}
 
           <Tooltip title="Print">
             <IconButton>
@@ -116,9 +116,9 @@ export default function InvoiceToolbar({ invoice }) {
             </Tooltip>
           </DialogActions>
           <Box sx={{ flexGrow: 1, height: '100%', overflow: 'hidden' }}>
-            <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
+            {/* <PDFViewer width="100%" height="100%" style={{ border: 'none' }}>
               <InvoicePDF invoice={invoice} />
-            </PDFViewer>
+            </PDFViewer> */}
           </Box>
         </Box>
       </Dialog>

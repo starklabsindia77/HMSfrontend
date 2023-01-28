@@ -8,12 +8,12 @@ import { Box, Link } from '@mui/material';
 const base_url = 'https://serkowebtest.blob.core.windows.net/airline-logos';
 // ----------------------------------------------------------------------
 
-const AirlineLogo = forwardRef(({ disabledLink = false, sx, code, ...other }, ref) => {
+const AirlineLogo = forwardRef(({ disabledLink = false, sx, code, type, height, ...other }, ref) => {
   const theme = useTheme();
   const AirlineLogo = (
     <Box
       ref={ref}
-      height={150}
+      height={height}
       component="div"
       sx={{
         display: 'inline-flex',
@@ -25,7 +25,7 @@ const AirlineLogo = forwardRef(({ disabledLink = false, sx, code, ...other }, re
        <img
             alt={code}
             className="rounded-lg mr-2"
-            src={`${base_url}/${code}_4x.png`}
+            src={`${base_url}/${code}${type}.png`}
             // onError={this.handleError}
           />
     </Box>
@@ -45,6 +45,8 @@ const AirlineLogo = forwardRef(({ disabledLink = false, sx, code, ...other }, re
 AirlineLogo.propTypes = {
   sx: PropTypes.object,
   code:PropTypes.string,
+  type: PropTypes.string,
+  height: PropTypes.number,
   disabledLink: PropTypes.bool,
 };
 

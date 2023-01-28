@@ -35,7 +35,23 @@ InvoiceTableRow.propTypes = {
 };
 
 export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow, onEditRow, onDeleteRow }) {
-  const { sent, invoiceNumber, createDate, dueDate, status, invoiceTo, totalPrice } = row;
+  const { invoiceNumber,
+  BookedOn,  
+  status,
+  tripType,
+  airline,
+  passenger,
+  Name,
+  Email,
+  Mobile,
+  Card,
+  AdtFare,
+  taxes,
+  subTotal,
+  travellerAssist,
+  flightMonitor,
+  GrandTotal,
+  userStatus, createdBy } = row;
 
   const [openConfirm, setOpenConfirm] = useState(false);
 
@@ -66,29 +82,24 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
 
         <TableCell>
           <Stack direction="row" alignItems="center" spacing={2}>
-            <CustomAvatar name={invoiceTo.name} />
+            <CustomAvatar name={Name} />
 
             <div>
               <Typography variant="subtitle2" noWrap>
-                {invoiceTo.name}
+                {Name}
               </Typography>
 
               <Link noWrap variant="body2" onClick={onViewRow} sx={{ color: 'text.disabled', cursor: 'pointer' }}>
-                {`INV-${invoiceNumber}`}
+                {`${invoiceNumber}`}
               </Link>
             </div>
           </Stack>
         </TableCell>
 
-        <TableCell align="left">{fDate(createDate)}</TableCell>
+        <TableCell align="left">{fDate(BookedOn)}</TableCell>
+        <TableCell align="center">{fCurrency(GrandTotal)}</TableCell>
 
-        <TableCell align="left">{fDate(dueDate)}</TableCell>
-
-        <TableCell align="center">{fCurrency(totalPrice)}</TableCell>
-
-        <TableCell align="center" sx={{ textTransform: 'capitalize' }}>
-          {sent}
-        </TableCell>
+        <TableCell align="center">{createdBy.displayName}</TableCell>
 
         <TableCell align="left">
           <Label
@@ -101,6 +112,17 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
             }
           >
             {status}
+          </Label>
+        </TableCell>
+        <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
+        <Label
+            variant="soft"
+            color={
+              (userStatus === true && 'success') ||
+              (userStatus === false && 'error') 
+            }
+          >
+            {userStatus ? 'Approve': 'Pending' }
           </Label>
         </TableCell>
 
