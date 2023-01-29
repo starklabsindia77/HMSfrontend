@@ -28,7 +28,7 @@ export default function InvoiceNewEditStatusDate() {
         size="small"
         name="invoiceNumber"
         label="Booking Number"
-        value={`BN-${values.invoiceNumber}`}
+        value={`${values.invoiceNumber}`}
       />
 
       
