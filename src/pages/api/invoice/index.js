@@ -45,7 +45,7 @@ export default async (req, res) => {
                 });
                 const invoiceSaved = await invoice.save();
 
-                res.status(200).send({success: true, message: 'New invoice is created'});
+                res.status(200).send({success: true, message: 'New invoice is created', data: invoiceSaved});
 
             } catch (error) {
                 res.status(400).send(error);

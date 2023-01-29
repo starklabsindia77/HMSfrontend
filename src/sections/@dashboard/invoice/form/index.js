@@ -39,7 +39,7 @@ import InvoiceBilling from './InvoiceBilling';
 import InvoiceTop from './InvoiceTop';
 import InvoicePassenger from './InvoicePassenger';
 import InvoiceAirline from './InvoiceAirline';
-import { insertInvoice, updateInvoice } from '../../../../functions';
+import { insertInvoice, updateInvoice, sendEmail } from '../../../../functions';
 
 
 // ----------------------------------------------------------------------
@@ -152,6 +152,9 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
     try {
       !isEdit ? await insertInvoice(data) : await updateInvoice(data, currentInvoice?._id)
       // await new Promise((resolve) => setTimeout(resolve, 500));
+      // const sendE = await sendEmail(currentInvoice?._id)
+      // console.log("email status",sendE);
+      // enqueueSnackbar('Email send Succesfully!');
       reset();
       setLoadingSend(false);
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');

@@ -1,5 +1,6 @@
 /* eslint-disable import/no-anonymous-default-export */
 import dbConnect from '../../../utils/dbConnect';
+import Invoice from "../../../model/Invoice";
 import verifyTokens from '../middlewares/verify-tokens';
 // import jwt from "jsonwebtoken";
 
@@ -25,8 +26,15 @@ export default async (req, res) => {
           from: 'starklabsindia@gmail.com',
           to: req.body.Email,
           subject: `Message From ${req.body.Name}`,
-          text: req.body.message + ' | Sent from: ' + req.body.Email,
-          html: `<div>${req.body.message}</div><p>Sent from:${req.body.Email}</p>`,
+          // text: req.body.message + ' | Sent from: ' + req.body.Email,
+          html: `<body>
+          <h3>Dear Name,</h3>
+          <p>Congratulations! You have completed your booking with https://www.hms-travel.com/</p>
+          <p>Click on below link to confirm the itinerary.</p>
+          <p>Xyz .com</p>
+          <p>Your Booking ID: </p>
+          <p>For latest updates related to COVID-19 please visit https://www.hms-travel.com/</p>
+        </body>`,
         };
         transporter.sendMail(mailData, function (err, info) {
           if (err) console.log(err);

@@ -11,9 +11,11 @@ import { Box, Stack, Button, Dialog, Tooltip, IconButton, DialogActions, Circula
 import { PATH_DASHBOARD } from '../../../../routes/paths';
 // components
 import Iconify from '../../../../components/iconify';
+import { useSnackbar } from '../../../../components/snackbar';
 //
 import InvoicePDF from './InvoicePDF';
 import moment from 'moment';
+import {sendEmail} from '../../../../functions'
 
 // ----------------------------------------------------------------------
 
@@ -25,6 +27,7 @@ InvoiceToolbar.propTypes = {
 
 export default function InvoiceToolbar({ invoice }) {
   const { push } = useRouter();
+  const { enqueueSnackbar } = useSnackbar();
 
   const [open, setOpen] = useState(false);
 
@@ -37,7 +40,7 @@ export default function InvoiceToolbar({ invoice }) {
   };
 
   const handleEdit = () => {
-    push(PATH_DASHBOARD.invoice.edit(invoice.id));
+    push(PATH_DASHBOARD.invoice.edit(invoice._id));
   };
   const print = () => { 
    //setpdfgenerateDate(moment().format('YYYY-MM-DD'));
@@ -64,6 +67,12 @@ export default function InvoiceToolbar({ invoice }) {
     doc.save(`${invoice.Name}` + moment().format('MM/DD/YYYY') + '.pdf'); });
     //input.style.display = "none"
   };
+
+  const email = async() => {
+    const sendE = await sendEmail(invoice._id)
+    console.log("email status",sendE);
+    enqueueSnackbar('Email send Succesfully!');
+  }
 
   return (
     <>
@@ -108,7 +117,7 @@ export default function InvoiceToolbar({ invoice }) {
           </Tooltip> */}
 
           <Tooltip title="Send">
-            <IconButton>
+            <IconButton onClick={email}>
               <Iconify icon="ic:round-send" />
             </IconButton>
           </Tooltip>
