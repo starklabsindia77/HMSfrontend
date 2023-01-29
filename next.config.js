@@ -14,7 +14,8 @@ module.exports = withTM({
 
   env: {
     // HOST
-    HOST_API_KEY:'https://hmsfrontend.vercel.app',
+    HOST_API_KEY:'https://starklabs.in/',
+    //HOST_API_KEY:'https://hmsfrontend.vercel.app',
     //HOST_API_KEY: 'https://tripdeals.net',
     //HOST_API_KEY: 'http://localhost:3031',
     // MAPBOX
