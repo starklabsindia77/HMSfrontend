@@ -9,7 +9,7 @@ import SvgColor from '../../../components/svg-color';
 // ----------------------------------------------------------------------
 
 const icon = (name) => <SvgColor src={`/assets/icons/navbar/${name}.svg`} sx={{ width: 1, height: 1 }} />;
-const role = localStorage.getItem('role');
+// const role = localStorage.getItem('role');
 const ICONS = {
   blog: icon('ic_blog'),
   cart: icon('ic_cart'),
