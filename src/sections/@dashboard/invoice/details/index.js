@@ -26,6 +26,9 @@ import Label from '../../../../components/label';
 import Image from '../../../../components/image';
 import AirlineLogo from '../../../../components/logo/airlineLogo';
 import Scrollbar from '../../../../components/scrollbar';
+import logo from './logo.png';
+//const logo = require('./logo.png');
+
 //
 import InvoiceToolbar from './InvoiceToolbar';
 import moment from 'moment';
@@ -50,7 +53,7 @@ export default function InvoiceDetails({ invoice }) {
   if (!invoice) {
     return null;
   }
-  console.log('Invoice', invoice);
+  // console.log('Invoice', logo);
 
   // const {
   //   invoiceNumber,
@@ -81,7 +84,7 @@ export default function InvoiceDetails({ invoice }) {
           <Box className="px-16 pb-52" sx={{paddingBottom:"50px"}}>
             <Box className="py-10">
               <Box className="flex justify-between items-center pb-8">
-                <img src="https://www.hms-travel.com/images/logo.png" className="w-40 rounded-lg h-16" />
+                <img src={logo.src} className="w-40 rounded-lg h-16" />
               </Box>
               <Typography variant="inherit" fontSize={30} className="font-semibold mt-2">
                 E-Ticket
@@ -319,7 +322,10 @@ export default function InvoiceDetails({ invoice }) {
                 </Box>
               </Box>
             </Box>
-            <InvoiceTerms />
+            <div id="terms" >
+              <InvoiceTerms />
+            </div>
+            
           </Box>
         </div>
       </div>

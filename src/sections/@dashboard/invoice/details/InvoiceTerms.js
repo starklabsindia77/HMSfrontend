@@ -15,7 +15,7 @@ export default function InvoiceTerms() {
         <Stack
             spacing={2}
             direction={{ xs: 'column', sm: 'row',  }}
-            sx={{ p: 3, mt:3}}
+            sx={{ p: 3, mt:"150px"}}
         >
 
             

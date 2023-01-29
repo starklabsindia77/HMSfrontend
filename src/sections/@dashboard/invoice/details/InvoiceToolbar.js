@@ -59,13 +59,25 @@ export default function InvoiceToolbar({ invoice }) {
     heightLeft -= pageHeight; 
     console.log("heightLeft",heightLeft)
     console.log("imgHeight",imgHeight) 
+    
+    
     while (heightLeft >= 0) { 
       position = heightLeft - imgHeight; 
       doc.addPage(); doc.addImage(imgData, 'PNG', 15, position, imgWidth, imgHeight); 
       heightLeft -= pageHeight;
     }
-    doc.save(`${invoice.Name}` + moment().format('MM/DD/YYYY') + '.pdf'); });
-    //input.style.display = "none"
+    // const terms = document.getElementById('terms');
+    // terms.style.display = "block";
+    // html2canvas(terms).then((imgcanvas) =>{
+    //   var trmsData = imgcanvas.toDataURL('image/png');
+    //   doc.addImage(trmsData, 'PNG', 15, position, imgWidth, imgHeight);
+      
+    // });
+    doc.save(`${invoice.Name}` + moment().format('MM/DD/YYYY') + '.pdf'); 
+    // terms.style.display = "none";
+    });
+    
+    
   };
 
   const email = async() => {

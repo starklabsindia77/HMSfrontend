@@ -23,15 +23,15 @@ export default async (req, res) => {
         let nodemailer = require('nodemailer');
         const transporter = nodemailer.createTransport({
           port: 465,
-          host: 'smtp.gmail.com',
+          host: 'premium233.web-hosting.com',
           auth: {
-            user: 'varunps191@gmail.com',
-            pass: 'khqfvgihajpfsapw',
+            user: 'info@tripdeals.net',
+            pass: 'Noki@lumi@52',
           },
           secure: true,
         });
         const mailData = {
-          from: 'varunps191@gmail.com',
+          from: 'info@tripdeals.net',
           to: invoice.Email,
           subject: `Booking Confirmation to ${invoice.Name}`,
           // text: req.body.message + ' | Sent from: ' + req.body.Email,
