@@ -103,7 +103,7 @@ export default function ThankYouPage() {
                 Flight Details
               </Typography>
             </Box>
-            {[...Array(invoice.airline.length)].map((item, i) => (
+            {[...Array(invoice.airline)].map((item, i) => (
               <>
                 {invoice.airline[i].layover_status && 
                   <Box className="flex justify-center font-medium">
@@ -219,7 +219,7 @@ export default function ThankYouPage() {
               </Typography>
             </Box>
             <span className="text-sm text-slate-400">No of Passenger : {invoice.passenger.length}</span>
-            {[...Array(invoice.passenger.length)].map((item, i) => (
+            {[...Array(invoice.passenger)].map((item, i) => (
               <>
                 <Box className="flex justify-around items-center border-b-2 py-2 my-10 border-grey-600">
                   {/* <Box className="flex justify-around items-center w-full"> */}
