@@ -14,19 +14,19 @@ export default async (req, res) => {
     await dbConnect();
    
     switch (method) {
-        // case 'GET':
-        //     try {
-        //         const invoice = await Invoice.findById(id);
+        case 'GET':
+            try {
+                const invoice = await Invoice.findById(id);
 
-        //         if (!invoice) {
-        //             return res.status(400).json({ success: false });
-        //         }
+                if (!invoice) {
+                    return res.status(400).json({ success: false });
+                }
 
-        //         res.status(200).json({ success: true, data: invoice });
-        //     } catch (error) {
-        //         res.status(400).json({ success: false });
-        //     }
-        //     break;
+                res.status(200).json({ success: true, data: invoice });
+            } catch (error) {
+                res.status(400).json({ success: false });
+            }
+            break;
         case 'PUT':
             try {
                 // const userEmail = await User.findOne({ email: req.decoded });

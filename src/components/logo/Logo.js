@@ -81,7 +81,7 @@ const Logo = forwardRef(({ disabledLink = false, sx, ...other }, ref) => {
   }
 
   return (
-    <NextLink href="/" passHref>
+    <NextLink href="#" passHref>
       <Link sx={{ display: 'contents' }}>{logo}</Link>
     </NextLink>
   );

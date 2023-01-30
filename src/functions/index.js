@@ -83,6 +83,10 @@ export const updateInvoiceStatus = async (id) =>{
     const response = await axios.put(HOST_API_KEY + '/api/invoicestatus/'+ id);
     return response.data.data;
 }
+export const updateInvoiceSingle = async (id) =>{    
+    const response = await axios.get(HOST_API_KEY + '/api/invoicestatus/'+ id);
+    return response.data.data;
+}
 
 
 // Send Email 
@@ -90,3 +94,4 @@ export const sendEmail = async (id) =>{
     const response = await axios.post(HOST_API_KEY + '/api/sendemail/'+ id, config);
     return response.data;
 }
+

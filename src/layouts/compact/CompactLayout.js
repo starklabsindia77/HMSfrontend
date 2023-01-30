@@ -28,9 +28,9 @@ export default function CompactLayout({ children }) {
           sx={{
             py: 12,
             m: 'auto',
-            maxWidth: 400,
+            // maxWidth: 400,
             minHeight: '100vh',
-            textAlign: 'center',
+            // textAlign: 'center',
             justifyContent: 'center',
           }}
         >
