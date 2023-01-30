@@ -93,12 +93,12 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
       Email:currentInvoice?.Email || '',
       Mobile: currentInvoice?.Mobile ||'',
       Card: currentInvoice?.Card || '',
-      AdtFare: currentInvoice?.AdtFare || '',
-      taxes: currentInvoice?.taxes || '',
-      subTotal: currentInvoice?.subTotal || '',
-      travellerAssist: currentInvoice?.travellerAssist || '',
-      flightMonitor: currentInvoice?.flightMonitor || '',
-      GrandTotal: currentInvoice?.GrandTotal || '',
+      AdtFare: currentInvoice?.AdtFare || 0,
+      taxes: currentInvoice?.taxes || 0,
+      subTotal: currentInvoice?.subTotal || 0,
+      travellerAssist: currentInvoice?.travellerAssist || 0,
+      flightMonitor: currentInvoice?.flightMonitor || 0,
+      GrandTotal: currentInvoice?.GrandTotal || 0 ,
       userStatus: false,
     }),
     [currentInvoice]
@@ -191,7 +191,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
           loading={loadingSend && isSubmitting}
           onClick={handleSubmit(handleCreateAndSend)}
         >
-          {isEdit ? 'Update' : 'Create'} & Send
+          {isEdit ? 'Update' : 'Save'} 
         </LoadingButton>
       </Stack>
     </FormProvider>
