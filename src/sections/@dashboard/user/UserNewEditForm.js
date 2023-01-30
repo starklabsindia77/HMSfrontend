@@ -115,7 +115,11 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
         isVerified: data.isVerified,
         isPublic: true
       }
-      !isEdit ? await insertUser(NewUser) : await updateUser(NewUser, currentUser?._id) 
+      
+      !isEdit ? 
+        await insertUser(NewUser) 
+      : await updateUser(NewUser, currentUser?._id)
+
       reset();
       enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
       push(PATH_DASHBOARD.user.list);
