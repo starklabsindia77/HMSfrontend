@@ -13,30 +13,30 @@ import Iconify from '../../components/iconify';
 
 // ----------------------------------------------------------------------
 
-const LINKS = [
-  {
-    headline: 'Minimal',
-    children: [
-      { name: 'About us', href: PATH_PAGE.about },
-      { name: 'Contact us', href: PATH_PAGE.contact },
-      { name: 'FAQs', href: PATH_PAGE.faqs },
-    ],
-  },
-  {
-    headline: 'Legal',
-    children: [
-      { name: 'Terms and Condition', href: '#' },
-      { name: 'Privacy Policy', href: '#' },
-    ],
-  },
-  {
-    headline: 'Contact',
-    children: [
-      { name: 'support@minimals.cc', href: '#' },
-      { name: 'Los Angeles, 359  Hidden Valley Road', href: '#' },
-    ],
-  },
-];
+// const LINKS = [
+//   {
+//     headline: 'Minimal',
+//     children: [
+//       { name: 'About us', href: PATH_PAGE.about },
+//       { name: 'Contact us', href: PATH_PAGE.contact },
+//       { name: 'FAQs', href: PATH_PAGE.faqs },
+//     ],
+//   },
+//   {
+//     headline: 'Legal',
+//     children: [
+//       { name: 'Terms and Condition', href: '#' },
+//       { name: 'Privacy Policy', href: '#' },
+//     ],
+//   },
+//   {
+//     headline: 'Contact',
+//     children: [
+//       { name: 'support@minimals.cc', href: '#' },
+//       { name: 'Los Angeles, 359  Hidden Valley Road', href: '#' },
+//     ],
+//   },
+// ];
 
 // ----------------------------------------------------------------------
 
@@ -124,7 +124,7 @@ export default function Footer() {
               justifyContent="space-between"
               direction={{ xs: 'column', md: 'row' }}
             >
-              {LINKS.map((list) => (
+              {/* {LINKS.map((list) => (
                 <Stack
                   key={list.headline}
                   spacing={2}
@@ -142,7 +142,7 @@ export default function Footer() {
                     </NextLink>
                   ))}
                 </Stack>
-              ))}
+              ))} */}
             </Stack>
           </Grid>
         </Grid>

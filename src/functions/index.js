@@ -79,6 +79,11 @@ export const deleteInvoice = async (data, id) =>{
     return response.data;
 }
 
+export const updateInvoiceStatus = async (id) =>{    
+    const response = await axios.put(HOST_API_KEY + '/api/invoicestatus/'+ id);
+    return response.data.data;
+}
+
 
 // Send Email 
 export const sendEmail = async (id) =>{    
