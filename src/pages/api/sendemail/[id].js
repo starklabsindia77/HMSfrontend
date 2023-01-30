@@ -3,6 +3,7 @@ import dbConnect from '../../../utils/dbConnect';
 import Invoice from '../../../model/Invoice';
 import User from '../../../model/User';
 import verifyTokens from '../middlewares/verify-tokens';
+import { HOST_API_KEY } from '../../../config';
 
 export default async (req, res) => {
   const {
@@ -39,7 +40,7 @@ export default async (req, res) => {
                 <h3>Dear ${invoice.Name},</h3>
                 <p>Congratulations! You have completed your booking with https://www.hms-travel.com/</p>
                 <p>Click on below link to confirm the itinerary.</p>
-                <p>Xyz .com</p>
+                <p><a href="${HOST_API_KEY}/confirmation/${invoice._id}/thank-you">${HOST_API_KEY}/confirmation/${invoice._id}/thank-you</a></p>
                 <p>Your Booking ID: ${invoice.invoiceNumber}</p>
                 <p>For latest updates related to COVID-19 please visit https://www.hms-travel.com/</p>
                 </body>`,
