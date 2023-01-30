@@ -27,6 +27,7 @@ import AirplaneTicketOutlinedIcon from '@mui/icons-material/AirplaneTicketOutlin
 import HistoryToggleOffOutlinedIcon from '@mui/icons-material/HistoryToggleOffOutlined';
 // utils
 import CompactLayout from '../../../layouts/compact';
+import SimpleLayout from '../../../layouts/simple';
 import { fDate } from '../../../utils/formatTime';
 import { fCurrency } from '../../../utils/formatNumber';
 // components
@@ -41,7 +42,7 @@ import logo from '../../../sections/@dashboard/invoice/details/logo.png';
 import InvoiceToolbar from '../../../sections/@dashboard/invoice/details/InvoiceToolbar';
 import moment from 'moment';
 import InvoiceTerms from '../../../sections/@dashboard/invoice/details/InvoiceTerms';
-import { updateInvoiceStatus, getInvoiceSingle } from '../../../functions';
+import { updateInvoiceStatus, updateInvoiceSingle } from '../../../functions';
 
 
 // ----------------------------------------------------------------------
@@ -54,19 +55,22 @@ export default function ThankYouPage() {
   const {
     query: { name },
   } = useRouter();
-  const [currentInvoice, setCurrentInvoice] = useState()
-  const [ invoice, setInvoiceInfo] = useState({});
+  const [invoice, setCurrentInvoice] = useState()
+  const [ invoiceInfo, setInvoiceInfo] = useState({});
+  
+  
   useEffect(() =>{
     async function userinfo() {
-      let userData = await getInvoiceSingle(name);
+      let userData = await updateInvoiceSingle(name);
+      // console.log("response", userData);
       const statusUpdate = await updateInvoiceStatus(name);
       setInvoiceInfo(statusUpdate);
       // console.log("invoice Single", JSON.stringify(userData));
       setCurrentInvoice(userData);  
     };
     userinfo();
-    
-  },[])
+  }, [name])
+
   // const { days, hours, minutes, seconds } = useCountdown(new Date('07/07/2024 21:30'));
 
   return (
@@ -77,23 +81,23 @@ export default function ThankYouPage() {
 
       
 
-      <div id="page">
+      <div id="page" >
         <div sx={{ pt: 5, px: 5 }}>
           <Box className="px-16 pb-52" sx={{paddingBottom:"50px"}}>
             <Box className="py-10">
               <Box className="flex justify-between items-center pb-8">
-                <img src={logo.src} className="w-40 rounded-lg h-16" />
+                {/* <img src={logo.src} className="w-40 rounded-lg h-16" /> */}
               </Box>
               <Typography variant="inherit" fontSize={30} className="font-semibold mt-2">
                 E-Ticket
               </Typography>
               <Typography variant="inherit" className=" flex items-center font-medium mt-2">
-                Booking ID :<span className="text-sm text-slate-400 ml-2">{invoice.invoiceNumber}</span>
+                Booking ID :<span className="text-sm text-slate-400 ml-2">{invoice?.invoiceNumber}</span>
               </Typography>
               <Typography variant="inherit" className="font-medium mt-2">
                 Booked On :
                 <span className="text-sm text-slate-400 ml-2">
-                  {invoice.BookedOn && moment(invoice.BookedOn).format('DD MMM YYYY, h:mm a')}
+                  {invoice?.BookedOn && moment(invoice?.BookedOn).format('DD MMM YYYY, h:mm a')}
                 </span>
               </Typography>
             </Box>
@@ -103,12 +107,13 @@ export default function ThankYouPage() {
                 Flight Details
               </Typography>
             </Box>
-            {[...Array(invoice.airline)].map((item, i) => (
+            {[...Array(invoice?.airline)].map((item, i) => 
+            (
               <>
-                {invoice.airline[i].layover_status && 
+                {invoice?.airline[i]?.layover_status && 
                   <Box className="flex justify-center font-medium">
                     <Typography variant="inherit" className="font-normal text-slate-400" fontSize={20}>
-                      Layover Time: <span className="text-slate-400 font-medium mr-2">{invoice.airline[i].layover_time}</span>
+                      Layover Time: <span className="text-slate-400 font-medium mr-2">{invoice?.airline[i]?.layover_time}</span>
                     </Typography>
                   </Box>
                 }         
@@ -117,13 +122,13 @@ export default function ThankYouPage() {
                     <FlightTakeoffOutlinedIcon fontSize="large" className="mr-5 text-gray-500" />
                     <Box>
                       <Typography variant="inherit" className="font-medium text-slate-400 capitalize">
-                        {invoice.airline[i].flightType}
+                        {invoice?.airline[i]?.flightType}
                       </Typography>
 
                       <Typography variant="inherit" className="font-medium text-2xl text-indigo-600 flex items-center">
-                        <span className="pr-2 capitalize">{invoice.airline[i].Onward_Flight_start}</span>
+                        <span className="pr-2 capitalize">{invoice?.airline[i]?.Onward_Flight_start}</span>
                         to
-                        <span className="pl-2 capitalize">{invoice.airline[i].Onward_Flight_end}</span>
+                        <span className="pl-2 capitalize">{invoice?.airline[i]?.Onward_Flight_end}</span>
                       </Typography>
                     </Box>
                   </Box>
@@ -132,31 +137,31 @@ export default function ThankYouPage() {
                 <Box className="pt-1">
                   <Box className="flex justify-between">
                     <Box className="flex items-center">
-                      <AirlineLogo code={invoice.airline[i].airlineCode} type={'_4x'} height={50} />
+                      <AirlineLogo code={invoice?.airline[i]?.airlineCode} type={'_4x'} height={50} />
                       <Typography variant="inherit" className="font-normal text-slate-400" fontSize={20}>
-                        {invoice.airline[i].airlineName}
-                        <span className="text-slate-400 font-medium mr-2">{invoice.airline[i].flightNo}</span>
+                        {invoice?.airline[i]?.airlineName}
+                        <span className="text-slate-400 font-medium mr-2">{invoice?.airline[i]?.flightNo}</span>
                       </Typography>
                     </Box>
-                    {/* <Chip label="Partially refundable" variant="outlined" /> */}
+                    
                   </Box>
                   <Box className="flex justify-between items-center border-b-2 pt-2 pb-10">
                     <Box>
                       <Box>
                         <Typography variant="inherit" className=" text-slate-400 font-medium py-1">
                           <span className="text-slate-400 font-medium mr-2">
-                            {invoice.airline[i].Onward_Flight_start_Code}
+                            {invoice?.airline[i]?.Onward_Flight_start_Code}
                           </span>
 
                           <span className="text-slate-400 font-medium mr-2">
-                            {invoice.airline[i].Onward_Flight_start_time &&
-                              moment(invoice.airline[i].Onward_Flight_start_time).format('hh:mm a')}
+                            {invoice?.airline[i]?.Onward_Flight_start_time &&
+                              moment(invoice?.airline[i]?.Onward_Flight_start_time).format('hh:mm a')}
                           </span>
                         </Typography>
 
                         <Typography variant="inherit" className="text-slate-400 font-medium">
-                          {invoice.airline[i].Onward_Flight_start_time &&
-                            moment(invoice.airline[i].Onward_Flight_start_time).format('ddd hh MMM, YYYY')}
+                          {invoice?.airline[i]?.Onward_Flight_start_time &&
+                            moment(invoice?.airline[i]?.Onward_Flight_start_time).format('ddd hh MMM, YYYY')}
                         </Typography>
 
                         <Typography variant="inherit" className="w-56" sx={{
@@ -165,7 +170,7 @@ export default function ThankYouPage() {
                             overflowWrap: "anywhere",
                             inlineSize: 300,
                           }} >
-                          {invoice.airline[i].Onward_Flight_start_address}
+                          {invoice?.airline[i]?.Onward_Flight_start_address}
                         </Typography>
                       </Box>
                     </Box>
@@ -173,29 +178,29 @@ export default function ThankYouPage() {
                       <HistoryToggleOffOutlinedIcon className="my-2 text-gray-500" />
 
                       <Typography variant="inherit" className="text-gray-500">
-                        {invoice.airline[i].travel_time}
+                        {invoice?.airline[i]?.travel_time}
                       </Typography>
 
                       <Typography variant="inherit" className="text-gray-500 capitalize">
-                        {invoice.airline[i].flight_class}
+                        {invoice?.airline[i]?.flight_class}
                       </Typography>
                     </Box>
                     <Box>
                       <Box className="text-right">
                         <Typography variant="inherit" className=" text-slate-400 font-medium py-1">
                           <span className="text-slate-400 font-medium mr-2">
-                            {invoice.airline[i].Onward_Flight_end_time &&
-                              moment(invoice.airline[i].Onward_Flight_end_time).format('hh:mm a')}
+                            {invoice?.airline[i]?.Onward_Flight_end_time &&
+                              moment(invoice?.airline[i]?.Onward_Flight_end_time).format('hh:mm a')}
                           </span>
 
                           <span className="text-slate-400 font-medium ml-2">
-                            {invoice.airline[i].Onward_Flight_end_Code}
+                            {invoice?.airline[i]?.Onward_Flight_end_Code}
                           </span>
                         </Typography>
 
                         <Typography variant="inherit" className="text-slate-400 font-medium text-indigo-600">
-                          {invoice.airline[i].Onward_Flight_end_time &&
-                            moment(invoice.airline[i].Onward_Flight_end_time).format('ddd hh MMM, YYYY')}
+                          {invoice?.airline[i]?.Onward_Flight_end_time &&
+                            moment(invoice?.airline[i]?.Onward_Flight_end_time).format('ddd hh MMM, YYYY')}
                         </Typography>
 
                         <Typography variant="inherit" className="w-56" sx={{
@@ -204,7 +209,7 @@ export default function ThankYouPage() {
                             overflowWrap: "anywhere",
                             inlineSize: 300,
                           }} >
-                          {invoice.airline[i].Onward_Flight_end_address}
+                          {invoice?.airline[i]?.Onward_Flight_end_address}
                         </Typography>
                       </Box>
                     </Box>
@@ -218,23 +223,23 @@ export default function ThankYouPage() {
                 Passenger Info
               </Typography>
             </Box>
-            <span className="text-sm text-slate-400">No of Passenger : {invoice.passenger.length}</span>
-            {[...Array(invoice.passenger)].map((item, i) => (
+            <span className="text-sm text-slate-400">No of Passenger : {invoice?.passenger.length}</span>
+            {[...Array(invoice?.passenger)].map((item, i) => (
               <>
                 <Box className="flex justify-around items-center border-b-2 py-2 my-10 border-grey-600">
-                  {/* <Box className="flex justify-around items-center w-full"> */}
+                  
                     <Typography variant="inherit" className="text-sm text-slate-400" >
-                      Passenger Name: {invoice.passenger[i].name}{' '}
+                      Passenger Name: {invoice?.passenger[i]?.name}{' '}
                     </Typography>
 
                     <Typography variant="inherit" className="text-sm text-slate-400" >
-                    Passenger Gender: {invoice.passenger[i].gender}{' '}
+                    Passenger Gender: {invoice?.passenger[i]?.gender}{' '}
                     </Typography>
 
                     <Typography variant="inherit" className="text-sm text-slate-400" >
-                    Passenger DOB: {invoice.passenger[i].dob && moment(invoice.passenger[i].dob).format('ddd hh MMM, YYYY')}{' '}
+                    Passenger DOB: {invoice?.passenger[i]?.dob && moment(invoice?.passenger[i]?.dob).format('ddd hh MMM, YYYY')}{' '}
                     </Typography>
-                  {/* </Box> */}
+                  
                 </Box>
               </>
             ))}
@@ -246,16 +251,16 @@ export default function ThankYouPage() {
             </Box>
             <Box className="flex justify-between items-center px-6 pt-8 pb-8">
               <Typography variant="inherit" className="font-medium">
-                Name :<span className="text-gray-500 ml-2">{invoice.Name}</span>
+                Name :<span className="text-gray-500 ml-2">{invoice?.Name}</span>
               </Typography>
               <Typography variant="inherit" className="font-medium">
-                Email :<span className="text-gray-500">{invoice.Email}</span>
+                Email :<span className="text-gray-500">{invoice?.Email}</span>
               </Typography>
               <Typography variant="inherit" className="font-medium">
-                Mobile No :<span className="text-gray-500">{invoice.Mobile}</span>
+                Mobile No :<span className="text-gray-500">{invoice?.Mobile}</span>
               </Typography>
               <Typography variant="inherit" className=" flex items-center font-medium">
-                Card No :<span className="text-gray-500 ml-2">{invoice.Card}</span>
+                Card No :<span className="text-gray-500 ml-2">{invoice?.Card}</span>
               </Typography>
             </Box>
             <Box className="px-10 mt-10 pb-10 border-dotted border-2 border-indigo-600">
@@ -266,7 +271,7 @@ export default function ThankYouPage() {
                   </Typography>
                 </Box>
                 <Box>
-                  <span className="text-gray-500 ml-2">${invoice.AdtFare} USD</span>
+                  <span className="text-gray-500 ml-2">${invoice?.AdtFare} USD</span>
                 </Box>
               </Box>
               <Box className="flex justify-between mt-7 items-center border-b-2 border-grey-600">
@@ -276,7 +281,7 @@ export default function ThankYouPage() {
                   </Typography>
                 </Box>
                 <Box>
-                  <span className="text-gray-500 ml-2">${invoice.taxes} USD</span>
+                  <span className="text-gray-500 ml-2">${invoice?.taxes} USD</span>
                 </Box>
               </Box>
               <Box className="flex justify-between mt-7 items-center border-b-2 border-grey-600">
@@ -286,7 +291,7 @@ export default function ThankYouPage() {
                   </Typography>
                 </Box>
                 <Box>
-                  <span className="text-gray-500 ml-2">${invoice.taxes} USD</span>
+                  <span className="text-gray-500 ml-2">${invoice?.taxes} USD</span>
                 </Box>
               </Box>
               <Box className="flex justify-between items-center border-b-2 mt-7 border-grey-600">
@@ -296,7 +301,7 @@ export default function ThankYouPage() {
                   </Typography>
                 </Box>
                 <Box>
-                  <span className="text-gray-500 ml-2">${invoice.travellerAssist} USD</span>
+                  <span className="text-gray-500 ml-2">${invoice?.travellerAssist} USD</span>
                 </Box>
               </Box>
               <Box className="flex justify-between mt-7 items-center border-b-2 border-grey-600">
@@ -306,7 +311,7 @@ export default function ThankYouPage() {
                   </Typography>
                 </Box>
                 <Box>
-                  <span className="text-gray-500 ml-2">${invoice.flightMonitor} USD</span>
+                  <span className="text-gray-500 ml-2">${invoice?.flightMonitor} USD</span>
                 </Box>
               </Box>
               <Box className="flex justify-between mt-7 items-center border-b-2 border-grey-600">
@@ -316,7 +321,7 @@ export default function ThankYouPage() {
                   </Typography>
                 </Box>
                 <Box>
-                  <span className="text-gray-500 ml-2">${invoice.GrandTotal} USD</span>
+                  <span className="text-gray-500 ml-2">${invoice?.GrandTotal} USD</span>
                 </Box>
               </Box>
             </Box>
