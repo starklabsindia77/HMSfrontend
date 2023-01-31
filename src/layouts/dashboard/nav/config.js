@@ -33,7 +33,12 @@ const ICONS = {
   analytics: icon('ic_analytics'),
   dashboard: icon('ic_dashboard'),
 };
-const userRole = JSON.parse(localStorage.getItem('user'));
+let userRole  = ''
+if (typeof window !== 'undefined') {
+  // Perform localStorage action
+  userRole = JSON.parse(localStorage.getItem('user'));
+}
+
 const role = userRole?.role?.access;
 console.log("user role", role);
 
