@@ -33,7 +33,9 @@ const ICONS = {
   analytics: icon('ic_analytics'),
   dashboard: icon('ic_dashboard'),
 };
-// const userRole = JSON.parse(localStorage.getItem('user')).role;
+const userRole = JSON.parse(localStorage.getItem('user'));
+const role = userRole?.role?.access;
+console.log("user role", role);
 
 const navConfig = [
   // GENERAL
@@ -51,27 +53,40 @@ const navConfig = [
     subheader: 'management',
     items: [
       // USER
-      {
-        title: 'user',
-        path: PATH_DASHBOARD.user.list,
-        icon: ICONS.user,
-      },
-      {
-        title: 'role',
-        path: PATH_DASHBOARD.role.list,
-        icon: ICONS.lock,
-      },  
+      
 
       // INVOICE
-      {
-        title: 'invoice',
-        path: PATH_DASHBOARD.invoice.list,
-        icon: ICONS.invoice,
-       
-      },
+    
     
     ],
   },
 ];
+if(role?.user?.viewBy && role?.user?.view){
+  navConfig[1]?.items?.push(
+    {
+      title: 'user',
+      path: PATH_DASHBOARD.user.list,
+      icon: ICONS.user,
+    })
+};
+
+if(role?.role?.view && role?.role?.viewBy){
+  navConfig[1]?.items?.push(
+    {
+      title: 'role',
+      path: PATH_DASHBOARD.role.list,
+      icon: ICONS.lock,
+    })
+}
+
+if(role?.invoice?.viewBy){
+  navConfig[1]?.items?.push(
+    {
+      title: 'invoice',
+      path: PATH_DASHBOARD.invoice.list,
+      icon: ICONS.invoice,
+     
+    })
+}
 
 export default navConfig;
