@@ -8,6 +8,7 @@ import {
   Grid,
   Table,
   Divider,
+  Stack,
   TableRow,
   TableBody,
   TableHead,
@@ -18,6 +19,7 @@ import {
 import FlightTakeoffOutlinedIcon from '@mui/icons-material/FlightTakeoffOutlined';
 import AirplaneTicketOutlinedIcon from '@mui/icons-material/AirplaneTicketOutlined';
 import HistoryToggleOffOutlinedIcon from '@mui/icons-material/HistoryToggleOffOutlined';
+import LuggageIcon from '@mui/icons-material/Luggage';
 // utils
 import { fDate } from '../../../../utils/formatTime';
 import { fCurrency } from '../../../../utils/formatNumber';
@@ -236,10 +238,44 @@ export default function InvoiceDetails({ invoice }) {
                     <Typography variant="inherit" className="text-sm text-slate-400" >
                     Passenger DOB: {invoice.passenger[i].dob && moment(invoice.passenger[i].dob).format('ddd hh MMM, YYYY')}{' '}
                     </Typography>
+
+                    <Typography variant="inherit" className="text-sm text-slate-400" >
+                      E-Ticket Number: {invoice.passenger[i]?.eticketNumber}{' '}
+                    </Typography>
+
+                    <Typography variant="inherit" className="text-sm text-slate-400" >
+                      Special Request: {invoice.passenger[i]?.specialRequest}{' '}
+                    </Typography>
                   {/* </Box> */}
                 </Box>
               </>
             ))}
+
+        <Box className="flex justify-between items-center mt-10">
+          <Typography variant="inherit" className="justify-start font-medium text-2xl text-black-600">
+            Baggage Details:
+          </Typography>
+        </Box>
+        <Stack
+          spacing={2}
+          sx={{ mt: 3 }}
+          direction={{ xs: 'column-reverse', md: 'row' }}
+          alignItems={{ xs: 'flex-center', md: 'center' }}
+          justifyContent="space-between"
+        >
+          <Typography variant="inherit" className="flex items-center font-medium">
+            <LuggageIcon color="primary" fontSize="large" />
+            Personal Item: <span className="text-gray-500 ml-2">{invoice?.baggage?.personalItem}</span>
+          </Typography>
+          <Typography variant="inherit" className="flex items-center font-medium">
+            <LuggageIcon  color="primary" fontSize="large" />
+            Carry On Bag: <span className="text-gray-500 ml-2">{invoice?.baggage?.carryOnBag}</span>
+          </Typography>
+          <Typography variant="inherit" className="flex items-center font-medium">
+            <LuggageIcon color="primary" fontSize="large" />
+            Checked In Bag: <span className="text-gray-500 ml-2">{invoice?.baggage?.checkedInBag}</span>
+          </Typography>
+        </Stack>
 
             <Box className="flex justify-between items-center mt-10">
               <Typography variant="inherit" className="justify-start font-medium text-2xl text-black-600">

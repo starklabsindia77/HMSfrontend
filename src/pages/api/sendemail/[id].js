@@ -38,11 +38,11 @@ export default async (req, res) => {
           // text: req.body.message + ' | Sent from: ' + req.body.Email,
           html: `<body>
                 <h3>Dear ${invoice.Name},</h3>
-                <p>Congratulations! You have completed your booking with https://www.hms-travel.com/</p>
+                <p>Congratulations! You have completed your booking with https://hmstravelsllc.com/</p>
                 <p>Click on below link to confirm the itinerary.</p>
                 <p><a href="${HOST_API_KEY}/confirmation/${invoice._id}/thank-you">${HOST_API_KEY}/confirmation/${invoice._id}/thank-you</a></p>
                 <p>Your Booking ID: ${invoice.invoiceNumber}</p>
-                <p>For latest updates related to COVID-19 please visit https://www.hms-travel.com/</p>
+                <p>For latest updates related to COVID-19 please visit https://hmstravelsllc.com/</p>
                 </body>`,
         };
         transporter.sendMail(mailData, function (err, info) {

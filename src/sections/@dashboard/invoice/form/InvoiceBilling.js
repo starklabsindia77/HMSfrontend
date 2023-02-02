@@ -18,17 +18,12 @@ import { RHFSelect, RHFTextField } from '../../../../components/hook-form';
 export default function InvoiceBilling() {
   const { control, setValue, watch, resetField } = useFormContext();
 
-  const { fields, append, remove } = useFieldArray({
-    control,
-    name: 'items',
-  });
-
   const values = watch();
 
   return (
     <Box sx={{ p: 3 }}>
       {/* <Divider sx={{ my: 3, borderStyle: 'dashed' }} /> */}
-      <Typography variant="h4" gutterBottom>
+      <Typography variant="h6" sx={{ color: 'text.disabled', mb: 1 }}>
         Billing Info
       </Typography>
       <Stack

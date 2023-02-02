@@ -28,6 +28,9 @@ const invoiceSchema = mongoose.Schema({
   passenger: {
     type: Array,
   },
+  baggage: {
+    type: Object,
+  },
   Name: {
     type: String,
     required: true,
