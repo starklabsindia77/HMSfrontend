@@ -10,6 +10,7 @@ const base_url = 'https://serkowebtest.blob.core.windows.net/airline-logos';
 
 const AirlineLogo = forwardRef(({ disabledLink = false, sx, code, type, height, ...other }, ref) => {
   const theme = useTheme();
+  
   const AirlineLogo = (
     <Box
       ref={ref}
@@ -21,11 +22,11 @@ const AirlineLogo = forwardRef(({ disabledLink = false, sx, code, type, height, 
       }}
       {...other}
     >
-
+      
        <img
             alt={code}
             className="rounded-lg mr-2"
-            src={`${base_url}/${code}${type}.png`}
+            src={ code.length > 2 ? `${code}`: `${base_url}/${code}${type}.png`}
             // onError={this.handleError}
           />
     </Box>

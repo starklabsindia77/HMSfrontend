@@ -134,9 +134,10 @@ export default function InvoiceDetails({ invoice }) {
                 </Box>
 
                 <Box className="pt-1">
+                  <AirlineLogo code={invoice.airline[i].airlineCode} type={'_4x'} height={50} />
                   <Box className="flex justify-between">
                     <Box className="flex items-center">
-                      <AirlineLogo code={invoice.airline[i].airlineCode} type={'_4x'} height={50} />
+                      
                       <Typography variant="inherit" className="font-normal text-slate-400" fontSize={20}>
                         {invoice.airline[i].airlineName}
                         <span className="text-slate-400 font-medium mr-2">{invoice.airline[i].flightNo}</span>
