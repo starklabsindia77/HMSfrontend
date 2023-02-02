@@ -26,7 +26,7 @@ const AirlineLogo = forwardRef(({ disabledLink = false, sx, code, type, height, 
        <img
             alt={code}
             className="rounded-lg mr-2"
-            src={ code.length > 2 ? `${code}`: `${base_url}/${code}${type}.png`}
+            src={ code?.length > 2 ? `${code}`: `${base_url}/${code}${type}.png`}
             // onError={this.handleError}
           />
     </Box>
