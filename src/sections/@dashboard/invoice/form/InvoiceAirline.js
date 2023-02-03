@@ -29,20 +29,12 @@ import { fNumber, fCurrency } from '../../../../utils/formatNumber';
 import Iconify from '../../../../components/iconify';
 import { RHFSelect, RHFTextField, RHFInput, RHFSwitch, RHFAutocomplete } from '../../../../components/hook-form';
 import airlineCode from '../../../../data/airline';
+import airlineAirportCode from '../../../../data/airportCode';
 import AirlineLogo from '../../../../components/logo/airlineLogo';
 // @mui
 
 // ----------------------------------------------------------------------
 
-const SERVICE_OPTIONS = [
-  { id: 1, name: 'Male' },
-  { id: 2, name: 'Female' },
-  { id: 3, name: 'Other' },
-  //   { id: 4, name: 'ui/ux design', price: 60.99 },
-  //   { id: 5, name: 'front end development', price: 40.99 },
-];
-
-const ariaLabel = { 'aria-label': 'description' };
 
 // ----------------------------------------------------------------------
 
@@ -106,14 +98,14 @@ export default function InvoiceAirline() {
         {fields.map((item, index) => (
           <Stack key={item.id} alignairline="flex-end" spacing={1.5}>
             <Stack spacing={2}>
-              <AirlineLogo code={values.airline[index].airlineCode} type={'_4x'} height={150}/>
+              <AirlineLogo code={values.airline[index]?.airlineCode} type={'_4x'} height={150}/>
               <Box className="flex justify-between items-center border-b-2 py-2 my-10 border-indigo-600">
                 <Box className="flex items-center">
                   <RHFAutocomplete
                     name={`airline[${index}].airlineName`}
                     onChange={(event, newValue) => {
-                      setValue(`airline[${index}].airlineCode`, newValue.code), 
-                      setValue(`airline[${index}].airlineName`, newValue.label)
+                      setValue(`airline[${index}].airlineCode`, newValue?.code), 
+                      setValue(`airline[${index}].airlineName`, newValue?.label)
                     }}
                     sx={{ width: 300 }}
                     options={airlineCode}
@@ -172,7 +164,7 @@ export default function InvoiceAirline() {
                   <RHFSwitch name={`airline[${index}].layover_status`} label="Layover" />
                   {/* <Chip label="Partially refundable" variant="outlined" /> */}
                 </Box>
-                {values.airline[index].layover_status && (
+                {values?.airline[index]?.layover_status && (
                   <Box className="flex justify-end mt-2">
                     <Box className="flex items-end">
                       <RHFTextField
@@ -187,11 +179,22 @@ export default function InvoiceAirline() {
                 <Box className="flex justify-between items-center border-b-2 pb-10">
                   <Box>
                     <div className=" text-xl text-slate-400 py-1 mt-7">
-                      <RHFTextField
+                      {/* <RHFTextField
                         size="small"
                         name={`airline[${index}].Onward_Flight_start_Code`}
                         label="Departure Airport Code"
                         InputLabelProps={{ shrink: true }}
+                      /> */}
+
+                      <RHFAutocomplete
+                        name={`airline[${index}].Onward_Flight_start_Code`}
+                        onChange={(event, newValue) => {
+                          setValue(`airline[${index}].Onward_Flight_start_Code`, newValue?.label), 
+                          setValue(`airline[${index}].Onward_Flight_start_address`, newValue?.code)
+                        }}
+                        sx={{ width: 300 }}
+                        options={airlineAirportCode}
+                        renderInput={(params) => <TextField size="small" label="Departure Airport Code" {...params} />}
                       />
                     </div>
 
@@ -213,13 +216,14 @@ export default function InvoiceAirline() {
                     />
 
                     <div className=" text-xl text-slate-400 py-1 mt-2">
-                      <RHFTextField
+                      {values?.airline[index]?.Onward_Flight_start_address}
+                      {/* <RHFTextField
                         size="small"
                         name={`airline[${index}].Onward_Flight_start_address`}
                         rows={5}
                         label="Departure Address"
                         InputLabelProps={{ shrink: true }}
-                      />
+                      /> */}
                     </div>
                   </Box>
 
@@ -251,12 +255,22 @@ export default function InvoiceAirline() {
                   <Box>
                     <Box className="text-right">
                       <div className=" text-xl text-slate-400 py-1 mt-7">
-                        <RHFTextField
+                        {/* <RHFTextField
                           size="small"
                           name={`airline[${index}].Onward_Flight_end_Code`}
                           label="Arrival Airport Code"
                           InputLabelProps={{ shrink: true }}
-                        />
+                        /> */}
+                         <RHFAutocomplete
+                            name={`airline[${index}].Onward_Flight_end_Code`}
+                            onChange={(event, newValue) => {
+                              setValue(`airline[${index}].Onward_Flight_end_Code`, newValue?.label), 
+                              setValue(`airline[${index}].Onward_Flight_start_address`, newValue?.code)
+                            }}
+                            sx={{ width: 300 }}
+                            options={airlineAirportCode}
+                            renderInput={(params) => <TextField size="small" label="Arrival Airport Code" {...params} />}
+                          />
                       </div>
 
                       <Controller
@@ -283,13 +297,14 @@ export default function InvoiceAirline() {
                       />
 
                       <div className=" text-xl text-slate-400 py-1 mt-2">
-                        <RHFTextField
+                        {/* <RHFTextField
                           size="small"
                           name={`airline[${index}].Onward_Flight_end_address`}
                           rows={5}
                           label="Arrival Address"
                           InputLabelProps={{ shrink: true }}
-                        />
+                        /> */}
+                        {values?.airline[index]?.Onward_Flight_end_address}
                       </div>
                     </Box>
                   </Box>
