@@ -125,6 +125,7 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
             {userStatus ? 'Approve': 'Pending' }
           </Label>
         </TableCell>
+        <TableCell align="center">{row?.userIPData?.IP}</TableCell>
 
         <TableCell align="right">
           <IconButton color={openPopover ? 'inherit' : 'default'} onClick={handleOpenPopover}>

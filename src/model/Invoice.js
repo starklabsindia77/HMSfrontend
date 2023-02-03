@@ -73,6 +73,9 @@ const invoiceSchema = mongoose.Schema({
   GrandTotal: {
     type: Number,
   },
+  userIPData:{
+    type: Object,
+  },
   userStatus: {
     type: Boolean,
   },

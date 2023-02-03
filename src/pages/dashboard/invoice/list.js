@@ -68,6 +68,7 @@ const TABLE_HEAD = [
   { id: 'createdBy', label: 'Created By', align: 'center', width: 140 },
   { id: 'status', label: 'Status', align: 'left' },
   { id: 'userStatus', label: 'User Status', align: 'left' },
+  { id: 'userIPData', label: 'User IP', align: 'left' },
   { id: '' },
 ];
 
