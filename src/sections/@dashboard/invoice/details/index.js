@@ -160,8 +160,9 @@ export default function InvoiceDetails({ invoice }) {
                         </Typography>
 
                         <Typography variant="inherit" className="text-slate-400 font-medium">
-                          {invoice.airline[i].Onward_Flight_start_time &&
-                            moment(invoice.airline[i].Onward_Flight_start_time).format('ddd hh MMM, YYYY')}
+                          {invoice.airline[i].Onward_Flight_start_time 
+                            && moment(invoice.airline[i].Onward_Flight_start_time).format('DD MMM, YYYY')
+                          }
                         </Typography>
 
                         <Typography variant="inherit" className="w-56" sx={{
@@ -200,7 +201,7 @@ export default function InvoiceDetails({ invoice }) {
 
                         <Typography variant="inherit" className="text-slate-400 font-medium text-indigo-600">
                           {invoice.airline[i].Onward_Flight_end_time &&
-                            moment(invoice.airline[i].Onward_Flight_end_time).format('ddd hh MMM, YYYY')}
+                            moment(invoice.airline[i].Onward_Flight_end_time).format('DD MMM, YYYY')}
                         </Typography>
 
                         <Typography variant="inherit" className="w-56" sx={{

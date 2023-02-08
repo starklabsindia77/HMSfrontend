@@ -265,7 +265,7 @@ export default function InvoiceAirline() {
                             name={`airline[${index}].Onward_Flight_end_Code`}
                             onChange={(event, newValue) => {
                               setValue(`airline[${index}].Onward_Flight_end_Code`, newValue?.label), 
-                              setValue(`airline[${index}].Onward_Flight_start_address`, newValue?.code)
+                              setValue(`airline[${index}].Onward_Flight_end_address`, newValue?.code)
                             }}
                             sx={{ width: 300 }}
                             options={airlineAirportCode}
