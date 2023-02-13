@@ -350,7 +350,7 @@ export default function InvoiceListPage() {
 
           <Divider />
 
-          {/* <InvoiceTableToolbar
+          <InvoiceTableToolbar
             isFiltered={isFiltered}
             filterName={filterName}
             filterService={filterService}
@@ -366,7 +366,7 @@ export default function InvoiceListPage() {
             onFilterEndDate={(newValue) => {
               setFilterEndDate(newValue);
             }}
-          /> */}
+          />
 
           <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
             <TableSelectedAction

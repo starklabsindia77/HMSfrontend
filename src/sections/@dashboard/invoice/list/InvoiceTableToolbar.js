@@ -45,7 +45,7 @@ export default function InvoiceTableToolbar({
       }}
       sx={{ px: 2.5, py: 3 }}
     >
-      <TextField
+      {/* <TextField
         fullWidth
         select
         label="Service type"
@@ -80,10 +80,10 @@ export default function InvoiceTableToolbar({
             {option}
           </MenuItem>
         ))}
-      </TextField>
+      </TextField> */}
 
       <DatePicker
-        label="Start date"
+        label="Invoice Date"
         value={filterStartDate}
         onChange={onFilterStartDate}
         renderInput={(params) => (
@@ -97,7 +97,7 @@ export default function InvoiceTableToolbar({
         )}
       />
 
-      <DatePicker
+      {/* <DatePicker
         label="End date"
         value={filterEndDate}
         onChange={onFilterEndDate}
@@ -110,7 +110,7 @@ export default function InvoiceTableToolbar({
             }}
           />
         )}
-      />
+      /> */}
 
       <TextField
         fullWidth

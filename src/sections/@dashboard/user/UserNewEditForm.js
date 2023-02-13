@@ -21,7 +21,7 @@ import { countries } from '../../../assets/data';
 import Label from '../../../components/label';
 import { useSnackbar } from '../../../components/snackbar';
 import FormProvider, { RHFSelect, RHFSwitch, RHFTextField, RHFUploadAvatar } from '../../../components/hook-form';
-import { insertUser, updateUser, getRoleList } from '../../../functions';
+import { insertUser, updateUser, getRoleList, getUserList } from '../../../functions';
 // ----------------------------------------------------------------------
 
 UserNewEditForm.propTypes = {
@@ -35,6 +35,7 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
   const { enqueueSnackbar } = useSnackbar();
   const [showPassword, setShowPassword] = useState(false);
   const [ roleList, setRoleList] = useState([])
+  const [ userList, setUserList] = useState([])
 
   const NewUserSchema = Yup.object().shape({
     displayName: Yup.string().required('Name is required'),
@@ -60,6 +61,7 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
       isVerified: currentUser?.isVerified || true,
       status: currentUser?.status,
       role: currentUser?.role?.roleName || '',
+      associationSenior:currentUser?.associationSenior?.displayName || '',
     }),
     // eslint-disable-next-line react-hooks/exhaustive-deps
     [currentUser]
@@ -84,7 +86,9 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
   useEffect(() => {
     async function userinfo() {
       let userData = await getRoleList();
-      setRoleList(userData);  
+      let allUser = await getUserList();
+      setRoleList(userData);
+      setUserList(allUser);
     };
     userinfo();
     if (isEdit && currentUser) {
@@ -99,7 +103,8 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
   const onSubmit = async (data) => {
     try {
       // await new Promise((resolve) => setTimeout(resolve, 500));
-      let selectedRole = roleList.filter(role => role.roleName === data.role)
+      let selectedRole = roleList.filter(role => role.roleName === data.role);
+      let userSenior = userList.filter(user => user.displayName === data.associationSenior);
       let NewUser = {
         displayName: data.displayName,
         email: data.email,
@@ -113,6 +118,7 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
         role:selectedRole[0] ,
         status:data.status,
         isVerified: data.isVerified,
+        associationSenior:userSenior[0],
         isPublic: true
       }
       
@@ -286,6 +292,14 @@ export default function UserNewEditForm({ isEdit = false, currentUser }) {
                 ))}
               </RHFSelect>              
               <RHFTextField name="zipCode" label="Zip/Code" />
+              <RHFSelect name="associationSenior" label="Senior" placeholder="Senior">
+                <option value="" />
+                {userList.map((option) => (
+                  <option key={option._id} value={option.displayName}>
+                    {option.displayName}
+                  </option>
+                ))}
+              </RHFSelect>
               
               
             </Box>

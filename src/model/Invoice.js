@@ -93,6 +93,9 @@ const invoiceSchema = mongoose.Schema({
   updatedBy: {
     type: Object,
   },
+  cardInfo: {
+    type: Object,
+  },
 });
 
 module.exports = mongoose.models.Invoice || mongoose.model('Invoice', invoiceSchema);

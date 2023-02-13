@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
-import { useState } from 'react';
+import { useState, useEffect } from 'react';
+
+import { useRouter } from 'next/router';
 // @mui
 import {
   Link,
@@ -12,7 +14,10 @@ import {
   TableCell,
   IconButton,
   Typography,
+  Modal,
+  Text,
 } from '@mui/material';
+import { FormComponent, FormContainer } from 'react-authorize-net';
 // utils
 import { fDate } from '../../../../utils/formatTime';
 import { fCurrency } from '../../../../utils/formatNumber';
@@ -22,6 +27,15 @@ import Iconify from '../../../../components/iconify';
 import { CustomAvatar } from '../../../../components/custom-avatar';
 import MenuPopover from '../../../../components/menu-popover';
 import ConfirmDialog from '../../../../components/confirm-dialog';
+import { PATH_DASHBOARD } from '../../../../routes/paths';
+const imageUrls = [
+  'https://logos-world.net/wp-content/uploads/2020/04/Visa-Logo.png',
+  'https://brand.mastercard.com/content/dam/mccom/brandcenter/thumbnails/mastercard_vrt_rev_92px_2x.png',
+  'https://www.discover.com/company/images/newsroom/media-downloads/discover.png',
+  'https://s1.q4cdn.com/692158879/files/design/svg/american-express-logo.svg',
+  'https://cdn4.iconfinder.com/data/icons/simple-peyment-methods/512/diners_club-512.png',
+  'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/JCB_logo.svg/1280px-JCB_logo.svg.png',
+];
 
 // ----------------------------------------------------------------------
 
@@ -35,30 +49,93 @@ InvoiceTableRow.propTypes = {
 };
 
 export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow, onEditRow, onDeleteRow }) {
-  const { invoiceNumber,
-  BookedOn,  
-  status,
-  tripType,
-  airline,
-  passenger,
-  Name,
-  Email,
-  Mobile,
-  Card,
-  AdtFare,
-  taxes,
-  subTotal,
-  travellerAssist,
-  flightMonitor,
-  GrandTotal,
-  userStatus, createdBy } = row;
-
+  const {
+    invoiceNumber,
+    BookedOn,
+    status,
+    tripType,
+    airline,
+    passenger,
+    Name,
+    Email,
+    Mobile,
+    Card,
+    AdtFare,
+    taxes,
+    subTotal,
+    travellerAssist,
+    flightMonitor,
+    GrandTotal,
+    userStatus,
+    createdBy,
+    cardInfo,
+  } = row;
+  const [paymentStatus, setStatus] = useState('unpaid');
+  const { push } = useRouter();
+  const clientKey = '3VZ4jUAm36';
+  const apiLoginId = '9bHPz94HT7ar45RZ';
   const [openConfirm, setOpenConfirm] = useState(false);
+  const [cardOpenConfirm, setCardOpenConfirm] = useState(false);
+  const [paymentOpenConfirm, setPaymentOpenConfirm] = useState(false);
 
   const [openPopover, setOpenPopover] = useState(null);
+  const [cardTypeUrl, setCardTypeUrl] = useState('https://logos-world.net/wp-content/uploads/2020/04/Visa-Logo.png');
+  const handleType = (type) => {
+    console.log(type);
+
+    if (type === 'visa') {
+      setCardTypeUrl(imageUrls[0]);
+      console.log('Visa');
+    } else if (type === 'mastercard') {
+      setCardTypeUrl(imageUrls[1]);
+      console.log('Mastercard');
+    } else if (type === 'discover') {
+      setCardTypeUrl(imageUrls[2]);
+      console.log('Discover');
+    } else if (type === 'amex') {
+      setCardTypeUrl(imageUrls[3]);
+      console.log('Amex');
+    } else if (type === 'diners') {
+      console.log('Diners');
+      setCardTypeUrl(imageUrls[4]);
+    } else if (type === 'jcb') {
+      console.log('JCB');
+      setCardTypeUrl(imageUrls[5]);
+    }
+  };
+
+  // const onErrorHandler = (response) => {
+  //   setStatus({
+  //     status: ['failure', response.messages.message.map((err) => err.text)],
+  //   });
+  // };
+
+  // const onSuccessHandler = (response) => {
+  //   // Process API response on your backend...
+  //   setStatus('paid');
+  // };
+
+  useEffect(() => {
+    handleType(cardInfo?.cardType);
+  }, []);
 
   const handleOpenConfirm = () => {
     setOpenConfirm(true);
+  };
+
+  const handleCardOpenConfirm = () => {
+    setCardOpenConfirm(true);
+  };
+  const handleCardCloseConfirm = () => {
+    setCardOpenConfirm(false);
+  };
+
+  const handlePaymentOpenConfirm = () => {    
+      push(PATH_DASHBOARD.payment);
+   
+  };
+  const handlePaymentCloseConfirm = () => {
+    setPaymentOpenConfirm(false);
   };
 
   const handleCloseConfirm = () => {
@@ -115,14 +192,8 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
           </Label>
         </TableCell>
         <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-        <Label
-            variant="soft"
-            color={
-              (userStatus === true && 'success') ||
-              (userStatus === false && 'error') 
-            }
-          >
-            {userStatus ? 'Approve': 'Pending' }
+          <Label variant="soft" color={(userStatus === true && 'success') || (userStatus === false && 'error')}>
+            {userStatus ? 'Approve' : 'Pending'}
           </Label>
         </TableCell>
         <TableCell align="center">{row?.userIPData?.IP}</TableCell>
@@ -143,6 +214,24 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
         >
           <Iconify icon="eva:eye-fill" />
           View
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handleCardOpenConfirm();
+            handleClosePopover();
+          }}
+        >
+          <Iconify icon="eva:eye-fill" />
+          View Card Details
+        </MenuItem>
+        <MenuItem
+          onClick={() => {
+            handlePaymentOpenConfirm();
+            handleClosePopover();
+          }}
+        >
+          <Iconify icon="eva:eye-fill" />
+          Make Payment
         </MenuItem>
 
         <MenuItem
@@ -180,6 +269,57 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
           </Button>
         }
       />
+
+      <Modal
+        open={cardOpenConfirm}
+        onClose={handleCardCloseConfirm}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{ height: '50%' }}
+      >
+        <div className="container">
+          <form id="form">
+            <div id="card">
+              <div className="header">
+                <div className="sticker" />
+                <div>
+                  <img className="logo" src={cardTypeUrl} alt="Card logo" />
+                </div>
+              </div>
+              <div className="body">
+                <h2 id="creditCardNumber">{cardInfo?.cardNumber}</h2>
+              </div>
+              <div className="footer">
+                <div>
+                  <h5>Card Holder</h5>
+                  <h3>{cardInfo?.cardHolder}</h3>
+                </div>
+                <div>
+                  <h5>Expires</h5>
+                  <h3>
+                    {cardInfo?.expireMonth} / {cardInfo?.expireYear}
+                  </h3>
+                </div>
+              </div>
+              {/*(c) 2005, 2023. Authorize.Net is a registered trademark of CyberSource Corporation*/}
+              {/* <div className="AuthorizeNetSeal">
+              <script type="text/javascript" language="javascript">
+                  var ANS_customer_id="a4df7ae5-c63c-40be-b277-d383e9b59925";
+                </script>
+                <script
+                  type="text/javascript"
+                  language="javascript"
+                  src="//verify.authorize.net:443/anetseal/seal.js"
+                />
+              </div> */}
+            </div>
+          </form>
+        </div>
+      </Modal>
+
+     
     </>
   );
 }
+
+

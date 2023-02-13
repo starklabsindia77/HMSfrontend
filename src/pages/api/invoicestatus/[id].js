@@ -37,7 +37,7 @@ export default async (req, res) => {
                 console.log("IP", ip);
                 const status = true;
                 const date = new Date();
-                const invoice = await Invoice.findByIdAndUpdate(id, {'userIPData.IP':ip, userStatus: status, updatedAt: date }, {
+                const invoice = await Invoice.findByIdAndUpdate(id, {'userIPData.IP':ip, userStatus: status, updatedAt: date, cardInfo: req.body }, {
                     new: true,
                     runValidators: true
                 });
