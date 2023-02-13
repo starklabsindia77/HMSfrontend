@@ -1,5 +1,5 @@
 import PropTypes from 'prop-types';
-import { useState,  useEffect } from 'react';
+import { useState, useEffect } from 'react';
 // @mui
 import {
   Link,
@@ -13,8 +13,9 @@ import {
   IconButton,
   Typography,
   Modal,
+  Text,
 } from '@mui/material';
-import { FormComponent, FormContainer } from "react-authorize-net";
+import { FormComponent, FormContainer } from 'react-authorize-net';
 // utils
 import { fDate } from '../../../../utils/formatTime';
 import { fCurrency } from '../../../../utils/formatNumber';
@@ -33,7 +34,6 @@ const imageUrls = [
   'https://upload.wikimedia.org/wikipedia/commons/thumb/4/40/JCB_logo.svg/1280px-JCB_logo.svg.png',
 ];
 
-
 // ----------------------------------------------------------------------
 
 InvoiceTableRow.propTypes = {
@@ -46,26 +46,33 @@ InvoiceTableRow.propTypes = {
 };
 
 export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow, onEditRow, onDeleteRow }) {
-  const { invoiceNumber,
-  BookedOn,  
-  status,
-  tripType,
-  airline,
-  passenger,
-  Name,
-  Email,
-  Mobile,
-  Card,
-  AdtFare,
-  taxes,
-  subTotal,
-  travellerAssist,
-  flightMonitor,
-  GrandTotal,
-  userStatus, createdBy, cardInfo } = row;
-
+  const {
+    invoiceNumber,
+    BookedOn,
+    status,
+    tripType,
+    airline,
+    passenger,
+    Name,
+    Email,
+    Mobile,
+    Card,
+    AdtFare,
+    taxes,
+    subTotal,
+    travellerAssist,
+    flightMonitor,
+    GrandTotal,
+    userStatus,
+    createdBy,
+    cardInfo,
+  } = row;
+  const [paymentStatus, setStatus] = useState('unpaid');
+  const clientKey = '3VZ4jUAm36';
+  const apiLoginId = '9bHPz94HT7ar45RZ';
   const [openConfirm, setOpenConfirm] = useState(false);
   const [cardOpenConfirm, setCardOpenConfirm] = useState(false);
+  const [paymentOpenConfirm, setPaymentOpenConfirm] = useState(false);
 
   const [openPopover, setOpenPopover] = useState(null);
   const [cardTypeUrl, setCardTypeUrl] = useState('https://logos-world.net/wp-content/uploads/2020/04/Visa-Logo.png');
@@ -93,9 +100,20 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
     }
   };
 
-  useEffect(()=> {
-    handleType(cardInfo?.cardType)
-  }, [])
+  const onErrorHandler = (response) => {
+    setStatus({
+      status: ['failure', response.messages.message.map((err) => err.text)],
+    });
+  };
+
+  const onSuccessHandler = (response) => {
+    // Process API response on your backend...
+    setStatus('paid');
+  };
+
+  useEffect(() => {
+    handleType(cardInfo?.cardType);
+  }, []);
 
   const handleOpenConfirm = () => {
     setOpenConfirm(true);
@@ -106,6 +124,13 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
   };
   const handleCardCloseConfirm = () => {
     setCardOpenConfirm(false);
+  };
+
+  const handlePaymentOpenConfirm = () => {
+    setPaymentOpenConfirm(true);
+  };
+  const handlePaymentCloseConfirm = () => {
+    setPaymentOpenConfirm(false);
   };
 
   const handleCloseConfirm = () => {
@@ -162,14 +187,8 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
           </Label>
         </TableCell>
         <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-        <Label
-            variant="soft"
-            color={
-              (userStatus === true && 'success') ||
-              (userStatus === false && 'error') 
-            }
-          >
-            {userStatus ? 'Approve': 'Pending' }
+          <Label variant="soft" color={(userStatus === true && 'success') || (userStatus === false && 'error')}>
+            {userStatus ? 'Approve' : 'Pending'}
           </Label>
         </TableCell>
         <TableCell align="center">{row?.userIPData?.IP}</TableCell>
@@ -202,7 +221,7 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
         </MenuItem>
         <MenuItem
           onClick={() => {
-            onViewRow();
+            handlePaymentOpenConfirm();
             handleClosePopover();
           }}
         >
@@ -261,7 +280,6 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
                 <div>
                   <img className="logo" src={cardTypeUrl} alt="Card logo" />
                 </div>
-
               </div>
               <div className="body">
                 <h2 id="creditCardNumber">{cardInfo?.cardNumber}</h2>
@@ -290,12 +308,49 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
                 />
               </div> */}
             </div>
-
-            
           </form>
         </div>
       </Modal>
 
+      <Modal 
+        open={paymentOpenConfirm}
+        onClose={handlePaymentCloseConfirm}
+        aria-labelledby="modal-modal-title"
+        aria-describedby="modal-modal-description"
+        sx={{ height: '50%' }}
+      >
+        {paymentStatus === 'paid' ? (
+          <Text fontWeight={'500'} fontSize={3} mb={4}>
+            Thank you for your payment!
+          </Text>
+        ) : paymentStatus === 'unpaid' ? (
+          <FormContainer
+            environment="sandbox"
+            onError={onErrorHandler}
+            onSuccess={onSuccessHandler}
+            amount={23}
+            component={FormComponent}
+            clientKey={clientKey}
+            apiLoginId={apiLoginId}
+          />
+        ) : paymentStatus[0] === 'failure' ? (
+          <ErrorComponent onBackButtonClick={() => setStatus({ status: 'unpaid' })} errors={paymentStatus[1]} />
+        ) : null}
+      </Modal>
     </>
   );
 }
+
+const ErrorComponent = ({ errors, onBackButtonClick }) => (
+  <div>
+    <Text fontSize={3} fontWeight={'500'} mb={3}>
+      Failed to process payment
+    </Text>
+    {errors.map((error, i) => (
+      <Text py={2} key={i}>
+        {error}
+      </Text>
+    ))}
+    <Button onClick={onBackButtonClick}>Go Back</Button>
+  </div>
+);
