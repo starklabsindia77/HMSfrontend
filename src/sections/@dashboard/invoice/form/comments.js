@@ -1,4 +1,5 @@
 import React, { useEffect, useRef, useState } from "react";
+import { useFormContext, useFieldArray, Controller } from 'react-hook-form';
 import {
     Box,
     FormControl,
@@ -26,6 +27,7 @@ import {
     Input,
 } from "@mui/material";
 import SaveIcon from "@mui/icons-material/Save";
+import { useAuthContext } from '../../../../auth/useAuthContext';
 
 import moment from "moment";
 
@@ -55,9 +57,20 @@ const styleedit = {
     boxShadow: 24,
     p: 4,
 };
-const Comments = ({ row, ModalVal, setModalVal, path }) => {
+const Comments = ({ ModalVal, setModalVal, path }) => {
+
+    const { control, setValue, watch, resetField } = useFormContext();
+    const { user } = useAuthContext();
+
+    const { fields, append, remove } = useFieldArray({
+      control,
+      name: 'noteComments',
+    });
+  
+    const values = watch();
+  
     const [commentsVal, setCommentsVal] = React.useState("");
-    const pData = JSON.parse(localStorage.getItem("personData"));
+    
     const [openEdit, setOpenEdit] = useState(false);
 
     const handleCloseEditModal = () => {
@@ -69,11 +82,11 @@ const Comments = ({ row, ModalVal, setModalVal, path }) => {
         let obj = {
             name: commentsVal,
             date: new Date(),
-            createdBy: pData.fname + " " + pData.lname,
+            createdBy: user?.displayName
         };
         let Arrdata = [obj];
-        if (row.noteComments) {
-            row.noteComments.push(obj);
+        if (values.noteComments) {
+            values.noteComments.push(obj);
         }
         setCommentsVal("");
     };
@@ -94,7 +107,7 @@ const Comments = ({ row, ModalVal, setModalVal, path }) => {
                 >
                     &times;
                 </div>
-                {path == "Task" && (<>
+                
                     <Grid container spacing={2}>
                         <Grid item xs={6}>
                             <Typography
@@ -103,7 +116,7 @@ const Comments = ({ row, ModalVal, setModalVal, path }) => {
                                 component="h2"
                                 style={{ marginBottom: "20px" }}
                             >
-                                Discussion
+                                Invoice Comments
                             </Typography>
                         </Grid>
                         <Grid item xs={6}>
@@ -136,11 +149,10 @@ const Comments = ({ row, ModalVal, setModalVal, path }) => {
                             />
                         </Grid>
                     </Grid>
-                </>)
-                }
-                {row.noteComments &&
-                    row.noteComments.length > 0 &&
-                    row.noteComments
+              
+                {values.noteComments &&
+                    values.noteComments.length > 0 &&
+                    values.noteComments
                         .sort((a, b) => b.date - a.date)
                         .map((x, i) => (
                             <Grid key={i} container spacing={2} style={{ marginTop: 10 }}>
@@ -169,7 +181,7 @@ const Comments = ({ row, ModalVal, setModalVal, path }) => {
                                                 fontWeight: "bold",
                                             }}
                                         >
-                                            commented {moment(x.date).format("MM/DD/YYYY hh:mm")}
+                                            commented {moment(x.date).format("DD/MM/YYYY hh:mm")}
                                         </span>
                                         <br />
                                         <br />

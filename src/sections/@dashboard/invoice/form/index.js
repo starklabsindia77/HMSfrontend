@@ -35,6 +35,7 @@ import { useSnackbar } from '../../../../components/snackbar';
 import InvoiceNewEditDetails from './InvoiceNewEditDetails';
 import InvoiceNewEditAddress from './InvoiceNewEditAddress';
 import InvoiceNewEditStatusDate from './InvoiceNewEditStatusDate';
+import Comments from './comments';
 import InvoiceBilling from './InvoiceBilling';
 import InvoiceTop from './InvoiceTop';
 import InvoicePassenger from './InvoicePassenger';
@@ -107,6 +108,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
       travellerAssist: currentInvoice?.travellerAssist || 0,
       flightMonitor: currentInvoice?.flightMonitor || 0,
       GrandTotal: currentInvoice?.GrandTotal || 0 ,
+      noteComments: currentInvoice?.noteComments || [],
       userStatus: false,
     }),
     [currentInvoice]
@@ -140,38 +142,47 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
     setLoadingSave(true);
     // console.log('invoice data', JSON.stringify(data));
     data.status = 'draft';
-    try {
-      // await new Promise((resolve) => setTimeout(resolve, 500));
-      !isEdit ? await insertInvoice(data) : await updateInvoice(data, currentInvoice?._id)
-      reset();
-      setLoadingSave(false);
-      enqueueSnackbar('Save Invoice Draft Success!');
-      push(PATH_DASHBOARD.invoice.list);
-      console.log('DATA', JSON.stringify(data, null, 2));
-    } catch (error) {
-      console.error(error);
-      setLoadingSave(false);
+    if(data.noteComments?.length > 0){
+      try {
+        // await new Promise((resolve) => setTimeout(resolve, 500));
+        !isEdit ? await insertInvoice(data) : await updateInvoice(data, currentInvoice?._id)
+        reset();
+        setLoadingSave(false);
+        enqueueSnackbar('Save Invoice Draft Success!');
+        push(PATH_DASHBOARD.invoice.list);
+        console.log('DATA', JSON.stringify(data, null, 2));
+      } catch (error) {
+        console.error(error);
+        setLoadingSave(false);
+      }
+    }else{
+      alert("Add Comments before saving the invoice");
     }
+    
   };
 
   const handleCreateAndSend = async (data) => {
     setLoadingSend(true);
-
-    try {
-      !isEdit ? await insertInvoice(data) : await updateInvoice(data, currentInvoice?._id)
-      // await new Promise((resolve) => setTimeout(resolve, 500));
-      // const sendE = await sendEmail(currentInvoice?._id)
-      // console.log("email status",sendE);
-      // enqueueSnackbar('Email send Succesfully!');
-      reset();
-      setLoadingSend(false);
-      enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
-      push(PATH_DASHBOARD.invoice.list);
-      console.log('DATA', JSON.stringify(data, null, 2));
-    } catch (error) {
-      console.error(error);
-      setLoadingSend(false);
+    if(data.noteComments?.length > 0){
+      try {
+        !isEdit ? await insertInvoice(data) : await updateInvoice(data, currentInvoice?._id)
+        // await new Promise((resolve) => setTimeout(resolve, 500));
+        // const sendE = await sendEmail(currentInvoice?._id)
+        // console.log("email status",sendE);
+        // enqueueSnackbar('Email send Succesfully!');
+        reset();
+        setLoadingSend(false);
+        enqueueSnackbar(!isEdit ? 'Create success!' : 'Update success!');
+        push(PATH_DASHBOARD.invoice.list);
+        console.log('DATA', JSON.stringify(data, null, 2));
+      } catch (error) {
+        console.error(error);
+        setLoadingSend(false);
+      }
+    }else{
+      alert("Add Comments before saving the invoice");
     }
+    
   };
 
   return (
@@ -185,7 +196,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
         
       </Card>
       <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ mt: 3 }}>
-      {/* {ModalVal&&<NotesModal row={row} ModalVal={ModalVal} setModalVal={setModalVal} path="Task"/>} */}
+      {ModalVal&&<Comments  ModalVal={ModalVal} setModalVal={setModalVal} />} 
       <LoadingButton
           color="inherit"
           size="large"
