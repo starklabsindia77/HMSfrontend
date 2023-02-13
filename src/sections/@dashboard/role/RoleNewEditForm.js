@@ -53,6 +53,7 @@ export default function RoleNewEditForm({ isEdit = false, currentRole }) {
       usercreate: currentRole?.access?.user?.create || '',
       useredit: currentRole?.access?.user?.edit || '',
       userdelete: currentRole?.access?.user?.delete || '',
+      invoiceviewAll: currentRole?.access?.invoice?.viewAll || '',
       invoiceview: currentRole?.access?.invoice?.view || '',
       invoiceviewBy: currentRole?.access?.invoice?.viewBy || '',
       invoicecreate: currentRole?.access?.invoice?.create || '',
@@ -112,6 +113,7 @@ export default function RoleNewEditForm({ isEdit = false, currentRole }) {
           invoice: {
             create: data.invoicecreate,
             view: data.invoiceview,
+            viewAll: data.invoiceviewAll,
             viewBy: data.invoiceviewBy,
             edit: data.invoiceedit,
             delete: data.invoicedelete
@@ -177,6 +179,7 @@ export default function RoleNewEditForm({ isEdit = false, currentRole }) {
                   Invoice Management
                 </Typography>
                 <Grid container spacing={2}>
+                  <RHFSwitch name="invoiceviewAll" label="ViewAll" />
                   <RHFSwitch name="invoiceview" label="View" />
                   <RHFSwitch name="invoiceviewBy" label="View By" />
                   <RHFSwitch name="invoicecreate" label="Create" />

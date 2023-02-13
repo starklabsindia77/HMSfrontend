@@ -55,9 +55,21 @@ export default async (req, res) => {
             try{
                 const user = await User.findOne({ email: req.decoded });
                 if (!user) return res.status(400).send('Email or Password is wrong'); 
-                if (user.role.access.invoice.view){
+                if (user.role.access.invoice.viewAll){
                     const invoice =  await Invoice.find({});
                     res.status(200).send({ success: true, data: invoice});
+                }else if (!user.role.access.invoice.viewAll && user.role.access.invoice.view){
+                    const juniorUser = await User.find({'associationSenior.email':req.decoded})
+                    let invoiceData = [];
+                    Promise.all(
+                        juniorUser.map(async (item) => {
+                            const invoice =  await Invoice.find({"createdBy.email": item.email});
+                            invoiceData = [...invoice, ...invoiceData];
+                        })
+                    );
+                    const invoice2 =  await Invoice.find({"createdBy.email": user.email});
+                    invoiceData = [...invoiceData, ...invoice2];                    
+                    res.status(200).send({ success: true, data: invoiceData});
                 }else if(!user.role.access.invoice.view && user.role.invoice.viewBy){
                     const invoice =  await Invoice.find({"createdBy.email": user.email});
                     res.status(200).send({ success: true, data: invoice});
