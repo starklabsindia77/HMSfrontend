@@ -223,8 +223,8 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
           <Iconify icon="eva:eye-fill" />
           View
         </MenuItem>
-        {role === 'admin' && (
-          <>
+        {/* {role === 'admin' && (
+          <> */}
             <MenuItem
               onClick={() => {
                 handleCardOpenConfirm();
@@ -243,8 +243,8 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
               <Iconify icon="eva:eye-fill" />
               Make Payment
             </MenuItem>
-          </>
-        )}
+          {/* </>
+        )} */}
 
         <MenuItem
           onClick={() => {
