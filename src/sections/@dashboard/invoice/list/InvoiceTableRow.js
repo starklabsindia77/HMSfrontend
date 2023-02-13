@@ -223,7 +223,7 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
           <Iconify icon="eva:eye-fill" />
           View
         </MenuItem>
-        {role === 'Admin' && (
+        {role === 'admin' && (
           <>
             <MenuItem
               onClick={() => {
