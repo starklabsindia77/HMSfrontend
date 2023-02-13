@@ -6553,6 +6553,11 @@
   "resolved" "https://registry.npmjs.org/ramda/-/ramda-0.26.1.tgz"
   "version" "0.26.1"
 
+"react-acceptjs@^0.3.0":
+  "integrity" "sha512-7Seo4xTsKfIQt6ZCdU3Hbh0wG1akaGficXB7cTJf4s+nlVfvyroB2Irwjz9jPKmzZj6ovHTb3PtXgA5PORYLlA=="
+  "resolved" "https://registry.npmjs.org/react-acceptjs/-/react-acceptjs-0.3.0.tgz"
+  "version" "0.3.0"
+
 "react-apexcharts@^1.4.0":
   "integrity" "sha512-DrcMV4aAMrUG+n6412yzyATWEyCDWlpPBBhVbpzBC4PDeuYU6iF84SmExbck+jx5MUm4U5PM3/T307Mc3kzc9Q=="
   "resolved" "https://registry.npmjs.org/react-apexcharts/-/react-apexcharts-1.4.0.tgz"

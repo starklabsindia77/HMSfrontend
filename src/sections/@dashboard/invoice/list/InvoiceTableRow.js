@@ -1,5 +1,7 @@
 import PropTypes from 'prop-types';
 import { useState, useEffect } from 'react';
+
+import { useRouter } from 'next/router';
 // @mui
 import {
   Link,
@@ -25,6 +27,7 @@ import Iconify from '../../../../components/iconify';
 import { CustomAvatar } from '../../../../components/custom-avatar';
 import MenuPopover from '../../../../components/menu-popover';
 import ConfirmDialog from '../../../../components/confirm-dialog';
+import { PATH_DASHBOARD } from '../../../../routes/paths';
 const imageUrls = [
   'https://logos-world.net/wp-content/uploads/2020/04/Visa-Logo.png',
   'https://brand.mastercard.com/content/dam/mccom/brandcenter/thumbnails/mastercard_vrt_rev_92px_2x.png',
@@ -68,6 +71,7 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
     cardInfo,
   } = row;
   const [paymentStatus, setStatus] = useState('unpaid');
+  const { push } = useRouter();
   const clientKey = '3VZ4jUAm36';
   const apiLoginId = '9bHPz94HT7ar45RZ';
   const [openConfirm, setOpenConfirm] = useState(false);
@@ -100,16 +104,16 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
     }
   };
 
-  const onErrorHandler = (response) => {
-    setStatus({
-      status: ['failure', response.messages.message.map((err) => err.text)],
-    });
-  };
+  // const onErrorHandler = (response) => {
+  //   setStatus({
+  //     status: ['failure', response.messages.message.map((err) => err.text)],
+  //   });
+  // };
 
-  const onSuccessHandler = (response) => {
-    // Process API response on your backend...
-    setStatus('paid');
-  };
+  // const onSuccessHandler = (response) => {
+  //   // Process API response on your backend...
+  //   setStatus('paid');
+  // };
 
   useEffect(() => {
     handleType(cardInfo?.cardType);
@@ -126,8 +130,9 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
     setCardOpenConfirm(false);
   };
 
-  const handlePaymentOpenConfirm = () => {
-    setPaymentOpenConfirm(true);
+  const handlePaymentOpenConfirm = () => {    
+      push(PATH_DASHBOARD.payment);
+   
   };
   const handlePaymentCloseConfirm = () => {
     setPaymentOpenConfirm(false);
@@ -312,45 +317,9 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
         </div>
       </Modal>
 
-      <Modal 
-        open={paymentOpenConfirm}
-        onClose={handlePaymentCloseConfirm}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        sx={{ height: '50%' }}
-      >
-        {paymentStatus === 'paid' ? (
-          <Text fontWeight={'500'} fontSize={3} mb={4}>
-            Thank you for your payment!
-          </Text>
-        ) : paymentStatus === 'unpaid' ? (
-          <FormContainer
-            environment="sandbox"
-            onError={onErrorHandler}
-            onSuccess={onSuccessHandler}
-            amount={23}
-            component={FormComponent}
-            clientKey={clientKey}
-            apiLoginId={apiLoginId}
-          />
-        ) : paymentStatus[0] === 'failure' ? (
-          <ErrorComponent onBackButtonClick={() => setStatus({ status: 'unpaid' })} errors={paymentStatus[1]} />
-        ) : null}
-      </Modal>
+     
     </>
   );
 }
 
-const ErrorComponent = ({ errors, onBackButtonClick }) => (
-  <div>
-    <Text fontSize={3} fontWeight={'500'} mb={3}>
-      Failed to process payment
-    </Text>
-    {errors.map((error, i) => (
-      <Text py={2} key={i}>
-        {error}
-      </Text>
-    ))}
-    <Button onClick={onBackButtonClick}>Go Back</Button>
-  </div>
-);
+
