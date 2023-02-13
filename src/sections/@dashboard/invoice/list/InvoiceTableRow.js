@@ -15,7 +15,13 @@ import {
   IconButton,
   Typography,
   Modal,
+  Dialog,
+  Box,
+  DialogContent,
+  DialogTitle,
+  DialogActions,
   Text,
+  Grid,
 } from '@mui/material';
 import { FormComponent, FormContainer } from 'react-authorize-net';
 // utils
@@ -77,6 +83,10 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
   const [openConfirm, setOpenConfirm] = useState(false);
   const [cardOpenConfirm, setCardOpenConfirm] = useState(false);
   const [paymentOpenConfirm, setPaymentOpenConfirm] = useState(false);
+  let userRole = JSON.parse(localStorage.getItem('user'));
+
+  const role = userRole?.roleName;
+  console.log('user role', role);
 
   const [openPopover, setOpenPopover] = useState(null);
   const [cardTypeUrl, setCardTypeUrl] = useState('https://logos-world.net/wp-content/uploads/2020/04/Visa-Logo.png');
@@ -130,9 +140,8 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
     setCardOpenConfirm(false);
   };
 
-  const handlePaymentOpenConfirm = () => {    
-      push(PATH_DASHBOARD.payment);
-   
+  const handlePaymentOpenConfirm = () => {
+    push(PATH_DASHBOARD.payment);
   };
   const handlePaymentCloseConfirm = () => {
     setPaymentOpenConfirm(false);
@@ -215,24 +224,28 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
           <Iconify icon="eva:eye-fill" />
           View
         </MenuItem>
-        <MenuItem
-          onClick={() => {
-            handleCardOpenConfirm();
-            handleClosePopover();
-          }}
-        >
-          <Iconify icon="eva:eye-fill" />
-          View Card Details
-        </MenuItem>
-        <MenuItem
-          onClick={() => {
-            handlePaymentOpenConfirm();
-            handleClosePopover();
-          }}
-        >
-          <Iconify icon="eva:eye-fill" />
-          Make Payment
-        </MenuItem>
+        {role === 'Admin' && (
+          <>
+            <MenuItem
+              onClick={() => {
+                handleCardOpenConfirm();
+                handleClosePopover();
+              }}
+            >
+              <Iconify icon="eva:eye-fill" />
+              View Card Details
+            </MenuItem>
+            <MenuItem
+              onClick={() => {
+                handlePaymentOpenConfirm();
+                handleClosePopover();
+              }}
+            >
+              <Iconify icon="eva:eye-fill" />
+              Make Payment
+            </MenuItem>
+          </>
+        )}
 
         <MenuItem
           onClick={() => {
@@ -270,56 +283,33 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
         }
       />
 
-      <Modal
-        open={cardOpenConfirm}
-        onClose={handleCardCloseConfirm}
-        aria-labelledby="modal-modal-title"
-        aria-describedby="modal-modal-description"
-        sx={{ height: '50%' }}
-      >
-        <div className="container">
-          <form id="form">
-            <div id="card">
-              <div className="header">
-                <div className="sticker" />
-                <div>
-                  <img className="logo" src={cardTypeUrl} alt="Card logo" />
-                </div>
-              </div>
-              <div className="body">
-                <h2 id="creditCardNumber">{cardInfo?.cardNumber}</h2>
-              </div>
-              <div className="footer">
-                <div>
-                  <h5>Card Holder</h5>
-                  <h3>{cardInfo?.cardHolder}</h3>
-                </div>
-                <div>
-                  <h5>Expires</h5>
-                  <h3>
-                    {cardInfo?.expireMonth} / {cardInfo?.expireYear}
-                  </h3>
-                </div>
-              </div>
-              {/*(c) 2005, 2023. Authorize.Net is a registered trademark of CyberSource Corporation*/}
-              {/* <div className="AuthorizeNetSeal">
-              <script type="text/javascript" language="javascript">
-                  var ANS_customer_id="a4df7ae5-c63c-40be-b277-d383e9b59925";
-                </script>
-                <script
-                  type="text/javascript"
-                  language="javascript"
-                  src="//verify.authorize.net:443/anetseal/seal.js"
-                />
-              </div> */}
-            </div>
-          </form>
-        </div>
-      </Modal>
-
-     
+      <Dialog fullWidth open={cardOpenConfirm} onClose={handleCardCloseConfirm}>
+        <DialogTitle sx={{ pb: 2 }}>{'Card Detials'}</DialogTitle>
+        <DialogContent>
+          <Box>
+            <Grid item xs={12} sm={12} md={12}>
+              <Typography> Card Number: {cardInfo?.cardNumber}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12}>
+              <Typography> Card Holder Name: {cardInfo?.cardHolder}</Typography>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12}>
+              <Typography>
+                {' '}
+                Card Expiry Month/ Year: {cardInfo?.expireMonth} / {cardInfo?.expireYear}
+              </Typography>
+            </Grid>
+            <Grid item xs={12} sm={12} md={12}>
+              <Typography> Card CVV: {cardInfo?.cvvNumber}</Typography>
+            </Grid>
+          </Box>
+        </DialogContent>
+        <DialogActions>
+          <Button variant="outlined" color="inherit" onClick={handleCardCloseConfirm}>
+            Cancel
+          </Button>
+        </DialogActions>
+      </Dialog>
     </>
   );
 }
-
-
