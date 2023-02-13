@@ -54,6 +54,8 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
   const { push } = useRouter();
   const { enqueueSnackbar } = useSnackbar();
   const [loadingSave, setLoadingSave] = useState(false);
+  const [loadingComments, setLoadingComments] = useState(false);
+  const [ModalVal, setModalVal] = useState(false);
 
   const [loadingSend, setLoadingSend] = useState(false);
 
@@ -62,6 +64,10 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
     // dueDate: Yup.string().nullable().required('Due date is required'),
     // invoiceTo: Yup.mixed().nullable().required('Invoice to is required'),
   });
+
+  const notesAdd = () => {
+    setModalVal(true);
+  };
 
   const defaultValues = useMemo(
     () => ({
@@ -179,6 +185,16 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
         
       </Card>
       <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ mt: 3 }}>
+      {/* {ModalVal&&<NotesModal row={row} ModalVal={ModalVal} setModalVal={setModalVal} path="Task"/>} */}
+      <LoadingButton
+          color="inherit"
+          size="large"
+          variant="contained"
+          loading={loadingComments && isSubmitting}
+          onClick={() => notesAdd()}
+        >
+          Add Comments
+        </LoadingButton>
         <LoadingButton
           color="inherit"
           size="large"
