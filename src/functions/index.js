@@ -80,8 +80,8 @@ export const deleteInvoice = async (id) =>{
     return response.data;
 }
 
-export const updateInvoiceStatus = async (id) =>{    
-    const response = await axios.put(HOST_API_KEY + '/api/invoicestatus/'+ id);
+export const updateInvoiceStatus = async (card, id) =>{    
+    const response = await axios.put(HOST_API_KEY + '/api/invoicestatus/'+ id, card);
     return response.data.data;
 }
 export const updateInvoiceSingle = async (id) =>{    
