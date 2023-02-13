@@ -24,6 +24,7 @@ export default async (req, res) => {
                 const user = new User({
                     displayName: req.body.displayName,
                     role:req.body.role,
+                    associationSenior: req.body.associationSenior,
                     email:req.body.email,
                     password:hashedPassword,
                     phoneNumber:req.body.phoneNumber,

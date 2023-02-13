@@ -21,6 +21,9 @@ const userSchema = mongoose.Schema({
     role: {
         type: Object,
     },
+    associationSenior:{
+        type: Object,
+    },
     password: {
         type: String,
         required: true,
