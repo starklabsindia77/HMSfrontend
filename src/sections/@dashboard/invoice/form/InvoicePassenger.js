@@ -40,6 +40,8 @@ export default function InvoicePassenger() {
       name: '',
       dob: '',
       gender: '',
+      eticketNumber:'',
+      specialRequest:''
     });
   };
 
@@ -143,7 +145,20 @@ export default function InvoicePassenger() {
                     {option.name}
                   </MenuItem>
                 ))}
-              </RHFSelect>              
+              </RHFSelect>
+
+              <RHFTextField
+                size="small"
+                name={`passenger[${index}].eticketNumber`}
+                label="Eticket Number"
+                InputLabelProps={{ shrink: true }}
+              />
+               <RHFTextField
+                size="small"
+                name={`passenger[${index}].specialRequest`}
+                label="Special Request"
+                InputLabelProps={{ shrink: true }}
+              />                  
             </Stack>
 
             <Button

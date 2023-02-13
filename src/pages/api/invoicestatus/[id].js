@@ -6,12 +6,15 @@ import User from "../../../model/User";
 
 
 
+
 export default async (req, res) => {
     const {
         query: { id },
         method
     } = req;
     await dbConnect();
+    const ip = req.headers["x-real-ip"] || req.connection.remoteAddress;
+    
    
     switch (method) {
         case 'GET':
@@ -31,10 +34,10 @@ export default async (req, res) => {
             try {
                 // const userEmail = await User.findOne({ email: req.decoded });
                 // if (!userEmail) return res.status(400).send('Email or Password is wrong');
-                
+                console.log("IP", ip);
                 const status = true;
                 const date = new Date();
-                const invoice = await Invoice.findByIdAndUpdate(id, {userStatus: status, updatedAt: date }, {
+                const invoice = await Invoice.findByIdAndUpdate(id, {'userIPData.IP':ip, userStatus: status, updatedAt: date }, {
                     new: true,
                     runValidators: true
                 });

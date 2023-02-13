@@ -48,7 +48,7 @@ import {
 // sections
 import InvoiceAnalytic from '../../../sections/@dashboard/invoice/InvoiceAnalytic';
 import { InvoiceTableRow, InvoiceTableToolbar } from '../../../sections/@dashboard/invoice/list';
-import { getInvoiceList } from '../../../functions';
+import { getInvoiceList, deleteInvoice } from '../../../functions';
 
 // ----------------------------------------------------------------------
 
@@ -68,6 +68,7 @@ const TABLE_HEAD = [
   { id: 'createdBy', label: 'Created By', align: 'center', width: 140 },
   { id: 'status', label: 'Status', align: 'left' },
   { id: 'userStatus', label: 'User Status', align: 'left' },
+  { id: 'userIPData', label: 'User IP', align: 'left' },
   { id: '' },
 ];
 
@@ -191,7 +192,8 @@ export default function InvoiceListPage() {
     setFilterService(event.target.value);
   };
 
-  const handleDeleteRow = (id) => {
+  const handleDeleteRow = async (id) => {
+    await deleteInvoice(id);
     const deleteRow = tableData.filter((row) => row._id !== id);
     setSelected([]);
     setTableData(deleteRow);
@@ -204,6 +206,7 @@ export default function InvoiceListPage() {
   };
 
   const handleDeleteRows = (selected) => {
+    selected.map(async (item) => await deleteInvoice(item))
     const deleteRows = tableData.filter((row) => !selected.includes(row._id));
     setSelected([]);
     setTableData(deleteRows);
@@ -347,7 +350,7 @@ export default function InvoiceListPage() {
 
           <Divider />
 
-          <InvoiceTableToolbar
+          {/* <InvoiceTableToolbar
             isFiltered={isFiltered}
             filterName={filterName}
             filterService={filterService}
@@ -363,7 +366,7 @@ export default function InvoiceListPage() {
             onFilterEndDate={(newValue) => {
               setFilterEndDate(newValue);
             }}
-          />
+          /> */}
 
           <TableContainer sx={{ position: 'relative', overflow: 'unset' }}>
             <TableSelectedAction

@@ -40,6 +40,7 @@ import InvoiceTop from './InvoiceTop';
 import InvoicePassenger from './InvoicePassenger';
 import InvoiceAirline from './InvoiceAirline';
 import { insertInvoice, updateInvoice, sendEmail } from '../../../../functions';
+import InvoiceBaggage from './invoiceBaggage';
 
 
 // ----------------------------------------------------------------------
@@ -88,17 +89,18 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
           layover_time:""
         }
       ],
-      passenger: currentInvoice?.passenger || [{ name: '', dob: '', gender: ''}],
+      passenger: currentInvoice?.passenger || [{ name: '', dob: '', gender: '', eticketNumber:'', specialRequest:''}],
+      baggage: currentInvoice?.baggage || {},
       Name:currentInvoice?.Name || '',
       Email:currentInvoice?.Email || '',
       Mobile: currentInvoice?.Mobile ||'',
       Card: currentInvoice?.Card || '',
-      AdtFare: currentInvoice?.AdtFare || '',
-      taxes: currentInvoice?.taxes || '',
-      subTotal: currentInvoice?.subTotal || '',
-      travellerAssist: currentInvoice?.travellerAssist || '',
-      flightMonitor: currentInvoice?.flightMonitor || '',
-      GrandTotal: currentInvoice?.GrandTotal || '',
+      AdtFare: currentInvoice?.AdtFare || 0,
+      taxes: currentInvoice?.taxes || 0,
+      subTotal: currentInvoice?.subTotal || 0,
+      travellerAssist: currentInvoice?.travellerAssist || 0,
+      flightMonitor: currentInvoice?.flightMonitor || 0,
+      GrandTotal: currentInvoice?.GrandTotal || 0 ,
       userStatus: false,
     }),
     [currentInvoice]
@@ -172,7 +174,9 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
         <InvoiceNewEditStatusDate />
         <InvoiceAirline />
         <InvoicePassenger />
+        <InvoiceBaggage />
         <InvoiceBilling />
+        
       </Card>
       <Stack justifyContent="flex-end" direction="row" spacing={2} sx={{ mt: 3 }}>
         <LoadingButton
@@ -191,7 +195,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
           loading={loadingSend && isSubmitting}
           onClick={handleSubmit(handleCreateAndSend)}
         >
-          {isEdit ? 'Update' : 'Create'} & Send
+          {isEdit ? 'Update' : 'Save'} 
         </LoadingButton>
       </Stack>
     </FormProvider>

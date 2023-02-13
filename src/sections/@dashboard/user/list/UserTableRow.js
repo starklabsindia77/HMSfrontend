@@ -61,7 +61,7 @@ export default function UserTableRow({ row, selected, onEditRow, onSelectRow, on
         <TableCell align="left">{email}</TableCell>
 
         <TableCell align="left" sx={{ textTransform: 'capitalize' }}>
-          {role.roleName}
+          {role?.roleName}
         </TableCell>
 
         <TableCell align="center">

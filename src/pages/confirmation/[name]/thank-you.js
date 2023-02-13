@@ -223,7 +223,7 @@ export default function ThankYouPage() {
                 Passenger Info
               </Typography>
             </Box>
-            <span className="text-sm text-slate-400">No of Passenger : {invoice?.passenger.length}</span>
+            <span className="text-sm text-slate-400">No of Passenger : {invoice?.passenger?.length}</span>
             {[...Array(invoice?.passenger)].map((item, i) => (
               <>
                 <Box className="flex justify-around items-center border-b-2 py-2 my-10 border-grey-600">

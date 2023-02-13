@@ -34,7 +34,7 @@ export default async (req, res) => {
                 if (!userEmail) return res.status(400).send('Email or Password is wrong');
                 
                 req.body={updatedBy:userEmail, ...req.body}
-                if(req.body.password.length > 0){
+                if(req.body.password?.length > 0){
                     const salt = await bcrypt.genSalt(10);
                     const hashedPassword = await bcrypt.hash(req.body.password, salt)
                     req.body.password = hashedPassword;
@@ -52,7 +52,7 @@ export default async (req, res) => {
 
                 res.status(200).json({ success: true, data: user });
             } catch (error) {
-                res.status(400).json({ success: false });
+                res.status(400).json({ success: false, data: error.message });
             }
             break;
         case 'DELETE':

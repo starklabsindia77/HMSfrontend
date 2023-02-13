@@ -28,6 +28,7 @@ export default async (req, res) => {
                     tripType: req.body.tripType,
                     airline: req.body.airline,
                     passenger: req.body.passenger,
+                    baggage: req.body.baggage,
                     Name: req.body.Name,
                     Email: req.body.Email,
                     Mobile: req.body.Mobile,

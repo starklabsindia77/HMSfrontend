@@ -8,6 +8,7 @@ import {
   Grid,
   Table,
   Divider,
+  Stack,
   TableRow,
   TableBody,
   TableHead,
@@ -18,6 +19,7 @@ import {
 import FlightTakeoffOutlinedIcon from '@mui/icons-material/FlightTakeoffOutlined';
 import AirplaneTicketOutlinedIcon from '@mui/icons-material/AirplaneTicketOutlined';
 import HistoryToggleOffOutlinedIcon from '@mui/icons-material/HistoryToggleOffOutlined';
+import LuggageIcon from '@mui/icons-material/Luggage';
 // utils
 import { fDate } from '../../../../utils/formatTime';
 import { fCurrency } from '../../../../utils/formatNumber';
@@ -132,9 +134,10 @@ export default function InvoiceDetails({ invoice }) {
                 </Box>
 
                 <Box className="pt-1">
+                  <AirlineLogo code={invoice.airline[i].airlineCode} type={'_4x'} height={50} />
                   <Box className="flex justify-between">
                     <Box className="flex items-center">
-                      <AirlineLogo code={invoice.airline[i].airlineCode} type={'_4x'} height={50} />
+                      
                       <Typography variant="inherit" className="font-normal text-slate-400" fontSize={20}>
                         {invoice.airline[i].airlineName}
                         <span className="text-slate-400 font-medium mr-2">{invoice.airline[i].flightNo}</span>
@@ -157,8 +160,9 @@ export default function InvoiceDetails({ invoice }) {
                         </Typography>
 
                         <Typography variant="inherit" className="text-slate-400 font-medium">
-                          {invoice.airline[i].Onward_Flight_start_time &&
-                            moment(invoice.airline[i].Onward_Flight_start_time).format('ddd hh MMM, YYYY')}
+                          {invoice.airline[i].Onward_Flight_start_time 
+                            && moment(invoice.airline[i].Onward_Flight_start_time).format('DD MMM, YYYY')
+                          }
                         </Typography>
 
                         <Typography variant="inherit" className="w-56" sx={{
@@ -197,7 +201,7 @@ export default function InvoiceDetails({ invoice }) {
 
                         <Typography variant="inherit" className="text-slate-400 font-medium text-indigo-600">
                           {invoice.airline[i].Onward_Flight_end_time &&
-                            moment(invoice.airline[i].Onward_Flight_end_time).format('ddd hh MMM, YYYY')}
+                            moment(invoice.airline[i].Onward_Flight_end_time).format('DD MMM, YYYY')}
                         </Typography>
 
                         <Typography variant="inherit" className="w-56" sx={{
@@ -220,7 +224,7 @@ export default function InvoiceDetails({ invoice }) {
                 Passenger Info
               </Typography>
             </Box>
-            <span className="text-sm text-slate-400">No of Passenger : {invoice.passenger.length}</span>
+            <span className="text-sm text-slate-400">No of Passenger : {invoice?.passenger?.length}</span>
             {[...Array(invoice.passenger)].map((item, i) => (
               <>
                 <Box className="flex justify-around items-center border-b-2 py-2 my-10 border-grey-600">
@@ -236,10 +240,44 @@ export default function InvoiceDetails({ invoice }) {
                     <Typography variant="inherit" className="text-sm text-slate-400" >
                     Passenger DOB: {invoice.passenger[i].dob && moment(invoice.passenger[i].dob).format('ddd hh MMM, YYYY')}{' '}
                     </Typography>
+
+                    <Typography variant="inherit" className="text-sm text-slate-400" >
+                      E-Ticket Number: {invoice.passenger[i]?.eticketNumber}{' '}
+                    </Typography>
+
+                    <Typography variant="inherit" className="text-sm text-slate-400" >
+                      Special Request: {invoice.passenger[i]?.specialRequest}{' '}
+                    </Typography>
                   {/* </Box> */}
                 </Box>
               </>
             ))}
+
+        <Box className="flex justify-between items-center mt-10">
+          <Typography variant="inherit" className="justify-start font-medium text-2xl text-black-600">
+            Baggage Details:
+          </Typography>
+        </Box>
+        <Stack
+          spacing={2}
+          sx={{ mt: 3 }}
+          direction={{ xs: 'column-reverse', md: 'row' }}
+          alignItems={{ xs: 'flex-center', md: 'center' }}
+          justifyContent="space-between"
+        >
+          <Typography variant="inherit" className="flex items-center font-medium">
+            <LuggageIcon color="primary" fontSize="large" />
+            Personal Item: <span className="text-gray-500 ml-2">{invoice?.baggage?.personalItem}</span>
+          </Typography>
+          <Typography variant="inherit" className="flex items-center font-medium">
+            <LuggageIcon  color="primary" fontSize="large" />
+            Carry On Bag: <span className="text-gray-500 ml-2">{invoice?.baggage?.carryOnBag}</span>
+          </Typography>
+          <Typography variant="inherit" className="flex items-center font-medium">
+            <LuggageIcon color="primary" fontSize="large" />
+            Checked In Bag: <span className="text-gray-500 ml-2">{invoice?.baggage?.checkedInBag}</span>
+          </Typography>
+        </Stack>
 
             <Box className="flex justify-between items-center mt-10">
               <Typography variant="inherit" className="justify-start font-medium text-2xl text-black-600">

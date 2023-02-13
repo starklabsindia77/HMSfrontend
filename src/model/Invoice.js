@@ -28,6 +28,9 @@ const invoiceSchema = mongoose.Schema({
   passenger: {
     type: Array,
   },
+  baggage: {
+    type: Object,
+  },
   Name: {
     type: String,
     required: true,
@@ -53,40 +56,25 @@ const invoiceSchema = mongoose.Schema({
     min: 6,
   },
   AdtFare: {
-    type: String,
-    required: true,
-    max: 255,
-    min: 6,
+    type: Number,
   },
   taxes: {
-    type: String,
-    required: true,
-    max: 255,
-    min: 6,
+    type: Number,
   },
   subTotal: {
-    type: String,
-    required: true,
-    max: 255,
-    min: 6,
+    type: Number,
   },
   travellerAssist: {
-    type: String,
-    required: true,
-    max: 255,
-    min: 6,
+    type: Number,
   },
   flightMonitor: {
-    type: String,
-    required: true,
-    max: 255,
-    min: 6,
+    type: Number,
   },
   GrandTotal: {
-    type: String,
-    required: true,
-    max: 255,
-    min: 6,
+    type: Number,
+  },
+  userIPData:{
+    type: Object,
   },
   userStatus: {
     type: Boolean,

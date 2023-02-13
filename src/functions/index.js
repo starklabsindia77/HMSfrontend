@@ -17,8 +17,8 @@ export const getUserList = async () =>{
     const response = await axios.get(HOST_API_KEY + '/api/user', config);
     return response.data.data;
 }
-export const deleteUser = async (data, id) =>{    
-    const response = await axios.put(HOST_API_KEY + '/api/user/'+ id, config);
+export const deleteUser = async (id) =>{    
+    const response = await axios.delete(HOST_API_KEY + '/api/user/'+ id, config);
     return response.data;
 }
 export const getUserSingle = async (id) =>{    
@@ -31,7 +31,8 @@ export const insertUser = async (data) =>{
 }
 export const updateUser = async (data, id) =>{    
     const response = await axios.put(HOST_API_KEY + '/api/user/'+ id, data, config);
-    return response.data;
+    // console.log("error data", response.data);
+    return response.data.data;
 }
 
 // Role Function
@@ -51,8 +52,8 @@ export const updateRole = async (data, id) =>{
     const response = await axios.put(HOST_API_KEY + '/api/role/'+ id, data, config);
     return response.data;
 }
-export const deleteRole = async (data, id) =>{    
-    const response = await axios.put(HOST_API_KEY + '/api/role/'+ id, config);
+export const deleteRole = async (id) =>{    
+    const response = await axios.delete(HOST_API_KEY + '/api/role/'+ id, config);
     return response.data;
 }
 
@@ -74,8 +75,8 @@ export const updateInvoice = async (data, id) =>{
     const response = await axios.put(HOST_API_KEY + '/api/invoice/'+ id, data, config);
     return response.data;
 }
-export const deleteInvoice = async (data, id) =>{    
-    const response = await axios.put(HOST_API_KEY + '/api/invoice/'+ id, config);
+export const deleteInvoice = async (id) =>{    
+    const response = await axios.delete(HOST_API_KEY + '/api/invoice/'+ id, config);
     return response.data;
 }
 
