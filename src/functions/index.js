@@ -61,7 +61,8 @@ export const deleteRole = async (id) =>{
 // Invoice Function
 export const getInvoiceList = async () =>{    
     const response = await axios.get(HOST_API_KEY + '/api/invoice', config);
-    return response.data.data;
+    console.log("Api Response", response.data);
+    return response.data;
 }
 export const getInvoiceSingle = async (id) =>{    
     const response = await axios.get(HOST_API_KEY + '/api/invoice/'+ id, config);

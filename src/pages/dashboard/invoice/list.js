@@ -110,7 +110,8 @@ export default function InvoiceListPage() {
   useEffect(() => {
     async function userinfo() {
       let userData = await getInvoiceList();
-      setTableData(userData);  
+      console.log("list", userData);
+      setTableData(userData.data);  
     };
     userinfo();
   },[])

@@ -29,6 +29,7 @@ import {
   Modal,
   Button,
 } from '@mui/material';
+import { useForm } from 'react-hook-form';
 import FlightTakeoffOutlinedIcon from '@mui/icons-material/FlightTakeoffOutlined';
 import AirplaneTicketOutlinedIcon from '@mui/icons-material/AirplaneTicketOutlined';
 import HistoryToggleOffOutlinedIcon from '@mui/icons-material/HistoryToggleOffOutlined';
@@ -105,6 +106,23 @@ export default function ThankYouPage() {
   const {
     query: { name },
   } = useRouter();
+  const defaultValues = {
+    creditCardNum: '',
+    cardType:'',
+    cardHolder: '',
+    expireMonth:'',
+    expireYear:'',
+  };
+
+  const methods = useForm({
+    defaultValues,
+  });
+  const {
+    reset,
+    setError,
+    handleSubmit,
+    formState: { errors, isSubmitting, isSubmitSuccessful },
+  } = methods;
   const [invoice, setCurrentInvoice] = useState();
   const [invoiceInfo, setInvoiceInfo] = useState({});
   const [loadingSend, setLoadingSend] = useState(false);
@@ -120,7 +138,7 @@ export default function ThankYouPage() {
   // const [flip, setFlip] = useState(null);
 
   const handleNum = (e) => {
-    setCreditCardNum(e.target.rawValue);
+    setCreditCardNum(e.target.value);
     // console.log(e.target.value);
   };
 
@@ -179,7 +197,7 @@ export default function ThankYouPage() {
     userinfo();
   }, [name]);
 
-  const updatePyament = async () => {
+  const updatePayment = async () => {
     const card = {
       cardNumber: creditCardNum,
       cardType: cardType,
@@ -188,9 +206,11 @@ export default function ThankYouPage() {
       expireMonth: expireMonth,
       expireYear: expireYear,
     };
+    console.log("card info", card)
     try {
       const statusUpdate = await updateInvoiceStatus(card, name);
       setInvoiceInfo(statusUpdate);
+      setModalVal(false);
     } catch (err) {
       alert(err.message);
     }
@@ -213,10 +233,10 @@ export default function ThankYouPage() {
                 {/* <img src={logo.src} className="w-40 rounded-lg h-16" /> */}
                 <Box>
                   <Typography variant="inherit" fontSize={30} className="font-semibold mt-2">
-                    E-Ticket
+                   Itenary
                   </Typography>
                   <Typography variant="inherit" className=" flex items-center font-medium mt-2">
-                    Booking ID :<span className="text-sm text-slate-400 ml-2">{invoice?.invoiceNumber}</span>
+                    Booking ID :<span className="text-sm text-slate-400 ml-2">HMS-{invoice?.invoiceNumber}</span>
                   </Typography>
                   <Typography variant="inherit" className="font-medium mt-2">
                     Booked On :
@@ -475,7 +495,7 @@ export default function ThankYouPage() {
         sx={{ height: '50%' }}
       >
         <div className="container">
-          <form id="form">
+          <form id="form" methods={methods} onSubmit={handleSubmit(updatePayment)}>
             <div id="card">
               <div className="header">
                 <div className="sticker" />
@@ -514,7 +534,7 @@ export default function ThankYouPage() {
 
             <div className="input-container mt">
               <h4>Enter card number</h4>
-              <Cleave
+              {/* <Cleave
                 delimiter="-"
                 options={{
                   creditCard: true,
@@ -522,7 +542,8 @@ export default function ThankYouPage() {
                 }}
                 onChange={handleNum}
                 placeholder="Please enter your credit card number"
-              />
+              /> */}
+              <input onChange={handleNum} type="text" placeholder="Please enter your credit card number" required />
             </div>
 
             <div className="input-container">
@@ -533,7 +554,7 @@ export default function ThankYouPage() {
             <div className="input-grp">
               <div className="input-container">
                 <h4>Expiration Year</h4>
-                <select value={expireYear} onChange={handleExpYear}>
+                <select value={expireMonth} onChange={handleExpMonth}>
                   <option value="01">January</option>
                   <option value="02">February</option>
                   <option value="03">March</option>
@@ -550,7 +571,7 @@ export default function ThankYouPage() {
               </div>
               <div className="input-container">
                 <h4>Month</h4>
-                <select value={expireMonth} onChange={handleExpMonth}>
+                <select value={expireYear} onChange={handleExpYear}>
                   <option value="2021">2021</option>
                   <option value="2022">2022</option>
                   <option value="2023">2023</option>
@@ -564,11 +585,11 @@ export default function ThankYouPage() {
               </div>
               <div className="input-container">
                 <h4>CVV</h4>
-                <input type="password" placeholder="CVV" required />
+                <input onChange={handleCvv} type="password" placeholder="CVV" required />
               </div>
             </div>
 
-            <button>{`Submit ${cardType} payment`}</button>
+            <button onClick={() => updatePayment}>{`Submit Payment`}</button>
           </form>
         </div>
       </Modal>

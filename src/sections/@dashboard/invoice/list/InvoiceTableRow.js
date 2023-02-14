@@ -84,8 +84,8 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
   const [paymentOpenConfirm, setPaymentOpenConfirm] = useState(false);
   let userRole = JSON.parse(localStorage.getItem('user'));
 
-  const role = userRole?.roleName;
-  console.log('user role', role);
+  const role = userRole?.role?.roleName;
+  // console.log('user role', role);
 
   const [openPopover, setOpenPopover] = useState(null);
   const [cardTypeUrl, setCardTypeUrl] = useState('https://logos-world.net/wp-content/uploads/2020/04/Visa-Logo.png');

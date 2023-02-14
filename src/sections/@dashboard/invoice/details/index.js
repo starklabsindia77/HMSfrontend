@@ -89,10 +89,10 @@ export default function InvoiceDetails({ invoice }) {
                 <img src={logo.src} className="w-40 rounded-lg h-16" />
               </Box>
               <Typography variant="inherit" fontSize={30} className="font-semibold mt-2">
-                E-Ticket
+                Itenary
               </Typography>
               <Typography variant="inherit" className=" flex items-center font-medium mt-2">
-                Booking ID :<span className="text-sm text-slate-400 ml-2">{invoice.invoiceNumber}</span>
+                Booking ID :<span className="text-sm text-slate-400 ml-2">HMS-{invoice.invoiceNumber}</span>
               </Typography>
               <Typography variant="inherit" className="font-medium mt-2">
                 Booked On :

@@ -2,6 +2,7 @@
 import dbConnect from "../../../utils/dbConnect";
 import User from "../../../model/User";
 import Invoice from "../../../model/Invoice";
+import InvoiceCounter from "../../../model/InvoiceCounter";
 import verifyTokens from "../middlewares/verify-tokens";
 // import jwt from "jsonwebtoken";
 
@@ -14,15 +15,37 @@ export default async (req, res) => {
     switch (method) {
         case 'POST':
             try {
+                let InvoiceNumber;
                
                 const user = await User.findOne({ email: req.decoded });
                 if (!user) return res.status(400).send('Email or Password is wrong');
+
+                const Counter = await InvoiceCounter.findOneAndUpdate(
+                    {id:"autoVal"},
+                    {"$inc": {"seq": 1}},
+                    {new: true}, async (err, cd) => {
+                        if(cd == null){
+                            const newVal = new InvoiceCounter({
+                                id: "autoVal",
+                                seq: 2000, 
+                            })
+
+                            const newValSaved = await newVal.save();
+                            InvoiceNumber = 2000;
+                        }else{
+                            InvoiceNumber= cd.seq;
+                        }
+
+                    }
+                
+                )
                 
                 const invoiceExit = await Invoice.findOne({ invoiceNumber:req.body.invoiceNumber });
                 if (invoiceExit) return res.status(400).send('Invoice Already Exist');   
 
                 const invoice = new Invoice({
-                    invoiceNumber: req.body.invoiceNumber,
+                    // invoiceNumber: req.body.invoiceNumber,
+                    invoiceNumber: InvoiceNumber,
                     BookedOn: req.body.BookedOn,
                     status: req.body.status,
                     tripType: req.body.tripType,
@@ -55,6 +78,8 @@ export default async (req, res) => {
             try{
                 const user = await User.findOne({ email: req.decoded });
                 if (!user) return res.status(400).send('Email or Password is wrong'); 
+
+                console.log("role value", user.role.access.invoice)
                 if (user.role.access.invoice.viewAll){
                     const invoice =  await Invoice.find({});
                     res.status(200).send({ success: true, data: invoice});
@@ -70,7 +95,7 @@ export default async (req, res) => {
                     const invoice2 =  await Invoice.find({"createdBy.email": user.email});
                     invoiceData = [...invoiceData, ...invoice2];                    
                     res.status(200).send({ success: true, data: invoiceData});
-                }else if(!user.role.access.invoice.view && user.role.invoice.viewBy){
+                }else {
                     const invoice =  await Invoice.find({"createdBy.email": user.email});
                     res.status(200).send({ success: true, data: invoice});
                 }  
@@ -80,7 +105,7 @@ export default async (req, res) => {
                 
 
             }catch(error){
-                res.status(400).send(error);
+                res.status(200).send({ success: false, data: error.message});
             }
             break;
         default:

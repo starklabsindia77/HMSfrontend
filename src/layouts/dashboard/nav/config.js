@@ -40,7 +40,7 @@ if (typeof window !== 'undefined') {
 }
 
 const role = userRole?.role?.access;
-console.log("user role", role);
+// console.log("user role", role);
 
 const navConfig = [
   // GENERAL

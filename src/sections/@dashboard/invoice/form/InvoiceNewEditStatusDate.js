@@ -24,12 +24,12 @@ export default function InvoiceNewEditStatusDate() {
       direction={{ xs: 'column', sm: 'row' }}
       sx={{ p: 3, bgcolor: 'background.neutral', marginTop:"20px" }}
     >
-      <RHFTextField
+      {/* <RHFTextField
         size="small"
         name="invoiceNumber"
         label="Booking Number"
         value={`${values.invoiceNumber}`}
-      />
+      /> */}
 
       
       

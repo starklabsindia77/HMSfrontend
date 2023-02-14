@@ -72,7 +72,7 @@ export default function InvoiceNewEditForm({ isEdit, currentInvoice }) {
 
   const defaultValues = useMemo(
     () => ({
-      invoiceNumber: currentInvoice?.invoiceNumber || '',
+      // invoiceNumber: currentInvoice?.invoiceNumber || '',
       BookedOn: currentInvoice?.BookedOn || new Date(),  
       status: currentInvoice?.status || 'draft',
       tripType: currentInvoice?.tripType || '',
