@@ -42,6 +42,7 @@ export default async (req, res) => {
                 <p>Click on below link to confirm the itinerary.</p>
                 <p><a href="${HOST_API_KEY}/confirmation/${invoice._id}/thank-you">${HOST_API_KEY}/confirmation/${invoice._id}/thank-you</a></p>
                 <p>Your Booking ID: ${invoice.invoiceNumber}</p>
+                <p> Toll Free No:1800-360-2301</p> 
                 <p>For latest updates related to COVID-19 please visit https://hmstravelsllc.com/</p>
                 </body>`,
         };
