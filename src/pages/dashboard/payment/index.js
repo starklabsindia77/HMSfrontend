@@ -44,8 +44,20 @@ export default function Index() {
   const { themeStretch } = useSettingsContext();
   const handleSubmit = (response) => {
     console.log('Received response:', response);
-    enqueueSnackbar('Payment Done Successfully');
-    push(PATH_DASHBOARD.general.app);
+    if (response.messages.resultCode === "Error") {
+      var i = 0;
+      while (i < response.messages.message.length) {
+          console.log(
+              response.messages.message[i].code + ": " +
+              response.messages.message[i].text
+          );
+          i = i + 1;
+      }
+    } else {
+      enqueueSnackbar('Payment Done Successfully');
+      push(PATH_DASHBOARD.general.app);
+    }
+    
   };
   // return (
   //   <HostedForm authData={authData} onSubmit={handleSubmit} />
