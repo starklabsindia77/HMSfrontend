@@ -77,8 +77,8 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
   } = row;
   const [paymentStatus, setStatus] = useState('unpaid');
   const { push } = useRouter();
-  const clientKey = '3VZ4jUAm36';
-  const apiLoginId = '9bHPz94HT7ar45RZ';
+  // const clientKey = '3VZ4jUAm36';
+  // const apiLoginId = '9bHPz94HT7ar45RZ';
   const [openConfirm, setOpenConfirm] = useState(false);
   const [cardOpenConfirm, setCardOpenConfirm] = useState(false);
   const [paymentOpenConfirm, setPaymentOpenConfirm] = useState(false);
@@ -223,8 +223,8 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
           <Iconify icon="eva:eye-fill" />
           View
         </MenuItem>
-        {/* {role === 'admin' && (
-          <> */}
+        {role === 'admin' && (
+          <>
             <MenuItem
               onClick={() => {
                 handleCardOpenConfirm();
@@ -243,8 +243,8 @@ export default function InvoiceTableRow({ row, selected, onSelectRow, onViewRow,
               <Iconify icon="eva:eye-fill" />
               Make Payment
             </MenuItem>
-          {/* </>
-        )} */}
+          </>
+        )}
 
         <MenuItem
           onClick={() => {

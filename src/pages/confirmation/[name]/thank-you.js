@@ -42,6 +42,7 @@ import { fCurrency } from '../../../utils/formatNumber';
 // components
 import Label from '../../../components/label';
 import Image from '../../../components/image';
+import CustomDialog from '../../../components/custom-dialog';
 import AirlineLogo from '../../../components/logo/airlineLogo';
 import Scrollbar from '../../../components/scrollbar';
 import logo from '../../../sections/@dashboard/invoice/details/logo.png';
@@ -126,6 +127,7 @@ export default function ThankYouPage() {
   const [invoice, setCurrentInvoice] = useState();
   const [invoiceInfo, setInvoiceInfo] = useState({});
   const [loadingSend, setLoadingSend] = useState(false);
+  const [openConfirm, setOpenConfirm] = useState(false);
   const [ModalVal, setModalVal] = useState(false);
   const [commentsVal, setCommentsVal] = useState('');
   const [creditCardNum, setCreditCardNum] = useState('#### #### #### ####');
@@ -166,7 +168,9 @@ export default function ThankYouPage() {
       setCardTypeUrl(imageUrls[5]);
     }
   };
-
+  const handleCloseConfirm = () => {
+    setOpenConfirm(false);
+  };
   const handleCardHolder = (e) => {
     setCardHolder(e.target.value);
   };
@@ -211,6 +215,7 @@ export default function ThankYouPage() {
       const statusUpdate = await updateInvoiceStatus(card, name);
       setInvoiceInfo(statusUpdate);
       setModalVal(false);
+      setOpenConfirm(true)
     } catch (err) {
       alert(err.message);
     }
@@ -593,6 +598,13 @@ export default function ThankYouPage() {
           </form>
         </div>
       </Modal>
+
+      <CustomDialog
+        open={openConfirm}
+        onClose={handleCloseConfirm}
+        title="Thank you for submitting your payment"
+        content="Thank you for submitting your payment,you will get your etickets in next 30 min (Please note in case of verification oir billing team will call you to verify the details)"
+      />
     </>
   );
 }
