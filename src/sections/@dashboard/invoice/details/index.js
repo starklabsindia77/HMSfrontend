@@ -238,7 +238,7 @@ export default function InvoiceDetails({ invoice }) {
                     </Typography>
 
                     <Typography variant="inherit" className="text-sm text-slate-400" >
-                    Passenger DOB: {invoice.passenger[i].dob && moment(invoice.passenger[i].dob).format('ddd hh MMM, YYYY')}{' '}
+                    Passenger DOB: {invoice.passenger[i].dob && moment(invoice.passenger[i].dob).format('DD MMM, YYYY')}{' '}
                     </Typography>
 
                     <Typography variant="inherit" className="text-sm text-slate-400" >
