@@ -6568,10 +6568,10 @@
   dependencies:
     "prop-types" "^15.5.7"
 
-"react-authorize-net@^0.5.7":
-  "integrity" "sha512-s48YK+Arn6ThhvpX88KCDScR5+t67P7SWTaXF0Gyll+JrQOthzBDHbsEwHGmrzTAVTU9vhAP7wvW0KY9gBWgJg=="
-  "resolved" "https://registry.npmjs.org/react-authorize-net/-/react-authorize-net-0.5.7.tgz"
-  "version" "0.5.7"
+"react-authorize-net@^0.5.6":
+  "integrity" "sha512-WUP1CTvJrmxGjlemxK2jPvgJeSnixnd8MpcC4LPb6loOgm8fPF6RmjGy+uj54bwpDHg5MLuLEq5dCoZUJcGBDA=="
+  "resolved" "https://registry.npmjs.org/react-authorize-net/-/react-authorize-net-0.5.6.tgz"
+  "version" "0.5.6"
   dependencies:
     "@babel/runtime" "^7.7.7"
     "prop-types" "^15.7.2"
