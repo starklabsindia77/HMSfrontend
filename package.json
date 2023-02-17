@@ -4,6 +4,7 @@
   "version": "4.0.0",
   "description": "Next.Js Javascript Version",
   "private": true,
+  "type":"module",
   "scripts": {
     "lint": "next lint",
     "lint:es": "eslint --ext .js,.jsx .",
