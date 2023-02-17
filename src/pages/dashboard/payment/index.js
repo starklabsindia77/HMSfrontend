@@ -1,6 +1,7 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { HostedForm } from 'react-acceptjs';
+import { AcceptHosted, FormComponent, FormContainer } from 'react-authorize-net';
+// import { HostedForm } from 'react-acceptjs';
 import Head from 'next/head';
 import {
   Tab,
@@ -31,7 +32,7 @@ import { RHFSelect, RHFTextField, RHFInput } from '../../../components/hook-form
 import { useTheme } from '@mui/material/styles';
 // layouts
 import DashboardLayout from '../../../layouts/dashboard';
-import { AcceptHosted, FormComponent, FormContainer } from 'react-authorize-net';
+
 
 // const authData = {
 //   apiLoginID: '3wqD5GMEy3xQ',
