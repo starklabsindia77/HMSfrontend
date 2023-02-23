@@ -46,10 +46,13 @@ export default function Index() {
   const { enqueueSnackbar } = useSnackbar();
   const theme = useTheme();
   const [amount, setAmount]= React.useState();
-
+ // trancastion pin 546AJxhPu2MV48Pz
+  // const clientKey =
+  //   "3f954d242gFcjc2yHRaQ4hbZ8YdmKtL7gWnTzFAdWLx8SbeHp3KejbFX927vgSFw";
+  // const apiLoginId = "3wqD5GMEy3xQ";
   const clientKey =
-    "3f954d242gFcjc2yHRaQ4hbZ8YdmKtL7gWnTzFAdWLx8SbeHp3KejbFX927vgSFw";
-  const apiLoginId = "3wqD5GMEy3xQ";
+    "6jCyT6Puw89uWnuSP6kHNcu95t5T8hr746cJRg45U6vGAsPt4cC8H8Ush6dqLuNP";
+  const apiLoginId = "3VZ4jUAm36";
   const HandleAmount = (e) =>{
     console.log("value", e.target.value)
     setAmount(e.target.value);
