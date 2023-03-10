@@ -1,6 +1,6 @@
 import React from 'react';
 import { useRouter } from 'next/router';
-import { AcceptHosted, FormComponent, FormContainer } from 'react-authorize-net';
+// import { AcceptHosted, FormComponent, FormContainer } from 'react-authorize-net';
 // import { HostedForm } from 'react-acceptjs';
 import Head from 'next/head';
 import {
@@ -139,7 +139,7 @@ export default function Index() {
           </Box>
 
         
-          <FormContainer
+          {/* <FormContainer
             environment="sandbox"
             onError={onErrorHandler}
             onSuccess={handleSubmit}
@@ -148,7 +148,7 @@ export default function Index() {
             clientKey={clientKey}
             apiLoginId={apiLoginId}
             
-          />
+          /> */}
           {/* <HostedForm authData={authData} onSubmit={handleSubmit} environment={'SANDBOX'} /> */}
         </Card>
       </Container>
