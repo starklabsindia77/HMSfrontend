@@ -81,7 +81,7 @@ export default async (req, res) => {
 
                 console.log("role value", user.role.access.invoice)
                 if (user.role.access.invoice.viewAll){
-                    const invoice =  await Invoice.find({});
+                    const invoice =  await Invoice.find({}).limit(25);
                     res.status(200).send({ success: true, data: invoice});
                 }else if (!user.role.access.invoice.viewAll && user.role.access.invoice.view){
                     const juniorUser = await User.find({'associationSenior.email':req.decoded})
