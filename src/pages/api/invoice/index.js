@@ -53,10 +53,12 @@ export default async (req, res) => {
             break;
         case 'GET':
             try{
+                console.log("api hit");
                 const user = await User.findOne({ email: req.decoded });
                 if (!user) return res.status(400).send('Email or Password is wrong'); 
                 if (user.role.access.invoice.viewAll){
                     const invoice =  await Invoice.find({});
+                    console.log(invoice);
                     res.status(200).send({ success: true, data: invoice});
                 }else if (!user.role.access.invoice.viewAll && user.role.access.invoice.view){
                     const juniorUser = await User.find({'associationSenior.email':req.decoded})
